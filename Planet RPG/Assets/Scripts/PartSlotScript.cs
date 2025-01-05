@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class PartSlotScript : MonoBehaviour
+{
+    public GameObject part, station;
+    public int part_min;
+    public List<GameObject> parts = new List<GameObject>();
+    public List<GameObject> weapon_parts = new List<GameObject>();
+    public TextMeshProUGUI desc_text, cost_text;
+    private float cost, part_time = 60f;
+    private string desc;
+    public int part_numb;
+    public GameObject part_button;
+    private bool did;
+    [Header("For weapon---------")]
+    public bool isWeapon;
+    // Start is called before the first frame update
+    void Start()
+    {
+        station = transform.parent.GetComponent<MenuScript>().station;
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!did)
+        {
+            var key = station.GetComponent<ShipSpawner>().savekey;
+            if (PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), 0) != parts.Count - 1 && PlayerPrefs.GetInt(key + "empty" + transform.GetSiblingIndex(), 0) == 0)
+                ChooseNewPart();
+            did = true;
+        }
+        if (part != null)
+        {
+            desc_text.text = desc;
+            cost_text.text = cost.ToString() + " photons";
+        }
+        else
+        {
+            var key = station.GetComponent<ShipSpawner>().savekey;
+            PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), parts.Count - 1);
+            PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 1);
+            desc_text.text = "Restocking...";
+            cost_text.text = Mathf.Round(part_time).ToString();
+            part_time -= Time.deltaTime;
+            if (part_time < 0 )
+            {
+                PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
+                ChooseNewPart();
+                PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 0);
+                part_time = 60;
+            }
+        }
+
+
+
+    }
+
+    private void ChooseNewPart()
+    {
+        var key = station.GetComponent<ShipSpawner>().savekey;
+        if (!isWeapon) part_numb = PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
+        else part_numb = PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, weapon_parts.Count));
+        PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), part_numb);
+        GameObject p = null;
+        if (!isWeapon) p = Instantiate(parts[part_numb], transform.position, Quaternion.identity, transform);
+        else p = Instantiate(weapon_parts[part_numb], transform.position, Quaternion.identity, transform);
+        p.transform.parent = transform.parent;
+        p.GetComponent<AppearTextOnHover>().texts.Add(desc_text);
+        p.GetComponent<AppearTextOnHover>().texts.Add(cost_text);
+        p.GetComponent<PartScript>().came_from = gameObject;
+        part = p;
+        cost = part.GetComponent<PartScript>().cost;
+        desc = part.GetComponent<PartScript>().description;
+        if (part_button != null) { part_button.GetComponent<MenuButton>().show.Add(p); }
+    }
+}

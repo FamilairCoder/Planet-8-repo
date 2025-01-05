@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MenuScript : MonoBehaviour
+{
+    public bool active;
+    public Vector2 away_pos, active_pos, circuit_view_pos;
+    public GameObject station;
+    private GameObject player;
+    public bool dontSpawnCV;
+    public bool isOutpost;
+    // Start is called before the first frame update
+    void Start()
+    {
+        player = FindObjectOfType<PlayerMining>().gameObject;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (active)
+        {
+            //GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, active_pos, .1f);
+            GetComponent<RectTransform>().localPosition = active_pos;
+            if (Input.GetKeyDown(KeyCode.Escape) || Vector2.Distance(station.transform.position, player.transform.position) > 150)
+            {
+                active = false;
+            }
+        }
+        else
+        {
+            //GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, away_pos, .1f);
+            GetComponent<RectTransform>().localPosition = away_pos;
+        }
+    }
+}
