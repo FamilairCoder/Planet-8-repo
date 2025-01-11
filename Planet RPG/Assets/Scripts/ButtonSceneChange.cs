@@ -22,7 +22,7 @@ public class ButtonSceneChange : MonoBehaviour
         {
             camera.GetComponent<Camera>().orthographicSize -= 2 * Time.deltaTime;
             darkOverlay.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, .8f) * Time.deltaTime;
-            if (darkOverlay.GetComponent<SpriteRenderer>().color.a >= 1f) SceneManager.LoadScene(2);
+            if (darkOverlay.GetComponent<SpriteRenderer>().color.a >= 1f) SceneManager.LoadScene(1);
         }
     }
     private void OnMouseDown()

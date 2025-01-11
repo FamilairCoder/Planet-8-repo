@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
+//using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RandomSprite : MonoBehaviour
 {
     public List<Sprite> sprites = new List<Sprite>();
-    public List<AnimatorController> anim_sprites = new List<AnimatorController>();
+    public List<RuntimeAnimatorController> anim_sprites = new List<RuntimeAnimatorController>();
     public GameObject same_as;
     public bool animated, sprite, dont_set_polygon_collider;
     

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 
 
 public class HUDmanage : MonoBehaviour
