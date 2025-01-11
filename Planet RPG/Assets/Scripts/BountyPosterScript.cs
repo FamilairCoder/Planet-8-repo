@@ -14,7 +14,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
     public bool on_screen;
 
     public bool close;
-    private bool clicked, delayed;
+    private bool clicked, delayed, playerKilled;
     public string key;
     public string keyString;
     public float delayTime;
@@ -54,11 +54,15 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
         }
         if (tied_enemy == null)
         {
-            if (on_screen) { HUDmanage.money += cost; HUDmanage.bountySound.Play(); }
+            
+            if (on_screen || playerKilled) { HUDmanage.money += cost; HUDmanage.bountySound.Play(); }
             else PlayerPrefs.SetInt(key + "taken", 0);
             Destroy(gameObject);
         }
-
+        else
+        {
+            playerKilled = tied_enemy.GetComponent<NPCmovement>().attackedByPlayer;
+        }
         cost_text.GetComponent<TextMeshProUGUI>().text = cost.ToString() + " P";
         picture_obj.GetComponent<Image>().sprite = picture;
         //if (dist_obj != null && tied_enemy != null) 

@@ -32,12 +32,15 @@ public class MapParralax : MonoBehaviour
     void Update()
     {
         GetComponent<SpriteRenderer>().enabled = HUDmanage.on_map;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null) transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = HUDmanage.on_map;
+        }
         if (!HUDmanage.on_map)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null) transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
-                else if (transform.GetChild(i).GetComponent<TextMeshPro>() != null) transform.GetChild(i).GetComponent<TextMeshPro>().enabled = false;
+                if (transform.GetChild(i).GetComponent<TextMeshPro>() != null) transform.GetChild(i).GetComponent<TextMeshPro>().enabled = false;
             }
         }
 
@@ -49,7 +52,12 @@ public class MapParralax : MonoBehaviour
             for (int i = 0; i < transform.childCount; i++)
             {
                 if (transform.GetChild(i).GetComponent<SpriteRenderer>() != null) transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
-                else if (transform.GetChild(i).GetComponent<TextMeshPro>() != null) transform.GetChild(i).GetComponent<TextMeshPro>().enabled = false;
+            }
+
+            for (int i = 0; i < transform.childCount; i++)
+            {
+
+                if (transform.GetChild(i).GetComponent<TextMeshPro>() != null) transform.GetChild(i).GetComponent<TextMeshPro>().enabled = false;
             }
                 
         }
@@ -71,12 +79,14 @@ public class MapParralax : MonoBehaviour
             GetComponent<LineRenderer>().SetPosition(0, player_pos);
             GetComponent<LineRenderer>().SetPosition(1, other_pos);
 
+            if (Vector2.Distance(player_pos, other_pos) < 30) tracking = false;
+
             if (HUDmanage.on_map) track_button.GetComponent<TextMeshPro>().enabled = true;
             track_button.GetComponent<TextMeshPro>().text = "Tracking";
         }
         else if (GetComponent<LineRenderer>() != null && track_button != null)
         {
-            PlayerPrefs.SetInt(savekey + "tracking", 1);
+            PlayerPrefs.SetInt(savekey + "tracking", 0);
             GetComponent<LineRenderer>().enabled = false;
             track_button.GetComponent<TextMeshPro>().text = "Track";
         }

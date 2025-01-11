@@ -39,7 +39,7 @@ public class HUDmanage : MonoBehaviour
     private void Awake()
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         sd = new List<SetDelivery>(FindObjectsOfType<SetDelivery>());
     }
     // Start is called before the first frame update
@@ -47,7 +47,7 @@ public class HUDmanage : MonoBehaviour
     {
         index = 0;
         money = PlayerPrefs.GetFloat("money", 0);
-        money = 0;
+        //money = 0;
 
     }
 

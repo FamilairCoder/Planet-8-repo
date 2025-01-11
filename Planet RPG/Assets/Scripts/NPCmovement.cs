@@ -15,7 +15,7 @@ public class NPCmovement : MonoBehaviour
     public float bounty_cost, detect_radius;
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer;
     private bool basic_laser = true;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;

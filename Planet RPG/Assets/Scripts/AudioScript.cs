@@ -13,6 +13,8 @@ public class AudioScript : MonoBehaviour
     public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery;
     private AudioClip playNext;
     private AudioSource AudioSource;    
+
+    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -74,22 +76,27 @@ public class AudioScript : MonoBehaviour
                     else if (AsteroidSpawner.nearPlayer)
                     {
                         playNext = asteroidField;
+                        time = asteroidFieldTime;
                     }
                     else if (GraveyardRuinSpawner.nearPlayer)
                     {
                         playNext = shipGraveyard;
+                        time = shipGraveyardTime;
                     }
                     else if (stationNumb.Length > 0)
                     {
                         playNext = civilSpace;
+                        time = civilSpaceTime;
                     }
                     else if (ThingSpawner.totalDeliveries > 0)
                     {
                         playNext = delivery;
+                        time = deliveryTime;
                     } 
                     else
                     {
                         playNext = travel;
+                        time = travelTime;
                     }
 
                     if (prev != playNext && !changing)
@@ -106,12 +113,24 @@ public class AudioScript : MonoBehaviour
                 
                 changeTimeleft -= Time.deltaTime;
                 if (changeTimeleft < 0)
-                {
+                {                    
                     AudioSource.clip = playNext;
+                    AudioSource.time = time;
                     AudioSource.Play();
                     changing = false;
                 }
             }
+            if (AudioSource.clip != null)
+            {
+                var clip = AudioSource.clip;
+                if (clip == fighting) fightingTime = AudioSource.time;
+                if (clip == asteroidField) asteroidFieldTime = AudioSource.time;
+                if (clip == shipGraveyard) shipGraveyardTime = AudioSource.time;
+                if (clip == civilSpace) civilSpaceTime = AudioSource.time;
+                if (clip == delivery) deliveryTime = AudioSource.time;
+                if (clip == travel) travelTime = AudioSource.time;
+            }
+
 
         }
         else if (!forMenu)

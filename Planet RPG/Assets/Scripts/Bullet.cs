@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     public GameObject target;
     private Vector3 nextPos;
     private bool collided;
+    public bool playerMade;
     // Start is called before the first frame update
     void Start()
     {
@@ -89,6 +90,10 @@ public class Bullet : MonoBehaviour
             collision.GetComponent<Health>().hp -= dmg;
             if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
             {
+                if (playerMade)
+                {
+                    collision.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                }
                 var chance = Random.Range(0f, 1f);
                 if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
                 {

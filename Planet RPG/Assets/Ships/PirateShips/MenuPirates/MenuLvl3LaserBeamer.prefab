@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 77528076515192248}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.593, y: -1.664, z: -5.125218}
+  m_LocalPosition: {x: -0.593, y: -1.664, z: 0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -251,6 +251,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &8239048481100626688
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -402,6 +403,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!60 &7056978314156137662
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -561,6 +563,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &3199628927250724935
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -734,6 +737,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 6339152709211089640}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &1168366521548404322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -885,6 +889,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!60 &3209741745468496765
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1044,6 +1049,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &7420015322329071197
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1217,6 +1223,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 77528076515192248}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &1337256569308790245
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1368,6 +1375,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &2051354593426622239
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1519,6 +1527,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &6716097606379125691
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1684,6 +1693,7 @@ MonoBehaviour:
   has_bounty: 0
   inhibit: 0
   giveBounty: 0
+  attackedByPlayer: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -6746,6 +6756,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!60 &383138778108242652
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6906,6 +6917,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &4650761178745981306
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7057,6 +7069,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &9011056723239434696
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7211,6 +7224,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &3806662639950910597
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7492,6 +7506,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &8048062570840141911
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7563,7 +7578,7 @@ Transform:
   m_GameObject: {fileID: 6339152709211089640}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.59, y: -1.664, z: -5.125218}
+  m_LocalPosition: {x: 0.59, y: -1.664, z: 0.13000011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7788,6 +7803,7 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  reportDmg: 0
 --- !u!61 &4777185773599029968
 BoxCollider2D:
   m_ObjectHideFlags: 0

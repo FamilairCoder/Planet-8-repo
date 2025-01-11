@@ -38,6 +38,8 @@ public class PartSlotScript : MonoBehaviour
         {
             desc_text.text = desc;
             cost_text.text = cost.ToString() + " photons";
+            if (HUDmanage.money < cost) cost_text.color = new Color(.7f, 0, 0);
+            else if (HUDmanage.money >= cost) cost_text.color = new Color(0, .72f, 0);
         }
         else
         {
@@ -46,6 +48,7 @@ public class PartSlotScript : MonoBehaviour
             PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 1);
             desc_text.text = "Restocking...";
             cost_text.text = Mathf.Round(part_time).ToString();
+            cost_text.color = new Color(.7f, 0, 0);
             part_time -= Time.deltaTime;
             if (part_time < 0 )
             {

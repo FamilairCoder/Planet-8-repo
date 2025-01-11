@@ -174,6 +174,7 @@ public class PlayerWeapon : MonoBehaviour
         var b = Instantiate(bullet, transform.position, rotation);
         b.GetComponent<Bullet>().target_tag = "enemy";
         b.GetComponent<Bullet>().came_from = gameObject;
+        b.GetComponent<Bullet>().playerMade = true;
         b.GetComponent<Bullet>().dmg *= (1 + ship.dmg_bonus);
     }
 }
