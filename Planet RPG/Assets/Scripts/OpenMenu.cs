@@ -9,7 +9,7 @@ public class OpenMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //menu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -23,25 +23,9 @@ public class OpenMenu : MonoBehaviour
             if (!PlayerWeapon.using_weapon && !menu.GetComponent<MenuScript>().active)
             {
                 menu.GetComponent<MenuScript>().active = true;
+                menu.SetActive(true);
             }
         }
     }
 
-    private void OnMouseOver()
-    {
-        //Debug.Log("balls");
-/*        var player_pos = FindObjectOfType<PlayerMovement>().transform.position;
-        if (Vector2.Distance(player_pos, transform.position) < 20)
-        {
-            MouseScript.signal = true;
-
-        }*/
-    }
-    private void OnMouseDown()
-    {
-        //Debug.Log("penis");
-
-        
-        
-    }
 }

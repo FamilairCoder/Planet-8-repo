@@ -57,6 +57,7 @@ public class HUDmanage : MonoBehaviour
     {
 
         //Debug.Log("Framerate: " + (1.0f / Time.deltaTime));
+        Application.targetFrameRate = -1;
 
         foreach ( SetDelivery sds in sd )
         {

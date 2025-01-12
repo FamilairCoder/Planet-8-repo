@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public static float target_zoom, beam_slow;
 
     private float zoom_offset;
-    private bool did_position;
+    private bool did_position, concreteMovement;
     public bool inhibited;
     // Start is called before the first frame update
     void Start()
@@ -41,26 +41,37 @@ public class PlayerMovement : MonoBehaviour
         var rb = GetComponent<Rigidbody2D>();
         if (!dead)
         {
+            //concreteMovement = true;
             if (Input.GetKey(KeyCode.W))
             {
-                rb.AddForce(transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                // rb.AddForce(transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                if (!concreteMovement) Move(transform.up);
+                else if (concreteMovement) Move(new Vector2(0, 1));
             }
 
 
-            if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S))
             {
-                rb.AddForce(-transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                //if (!concreteMovement) rb.AddForce(-transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                if (!concreteMovement) Move(-transform.up);
+                else if (concreteMovement) Move(new Vector2(0, -1));
 
             }
 
 
             if (Input.GetKey(KeyCode.A))
             {
-                rb.AddForce(-transform.right * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                //if (!concreteMovement) rb.AddForce(-transform.right * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+                if (!concreteMovement) Move(-transform.right);
+                else if (concreteMovement) Move(new Vector2(-1, 0));
             }
-            if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D))
             {
-                rb.AddForce(transform.right * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                //if (!concreteMovement) rb.AddForce(transform.right * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+                if (!concreteMovement) Move(transform.right);
+                else if (concreteMovement) Move(new Vector2(1, 0));
             }
 
 
@@ -97,6 +108,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
+        else concreteMovement = false;
+
         if (!did_position)
         {
             transform.position = new Vector2(PlayerPrefs.GetFloat("player positionx", 0), PlayerPrefs.GetFloat("player positiony", 0));
@@ -226,5 +240,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
+    }
+
+    public void Move(Vector2 direction)
+    {
+        GetComponent<Rigidbody2D>().AddForce(direction * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
     }
 }

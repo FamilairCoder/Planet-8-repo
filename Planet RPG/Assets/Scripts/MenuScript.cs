@@ -14,6 +14,7 @@ public class MenuScript : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerMining>().gameObject;
+        StartCoroutine(Delay());
     }
 
     // Update is called once per frame
@@ -26,12 +27,26 @@ public class MenuScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape) || Vector2.Distance(station.transform.position, player.transform.position) > 150)
             {
                 active = false;
+                GetComponent<RectTransform>().localPosition = away_pos;
+                gameObject.SetActive(false);
+
             }
         }
         else
         {
-            //GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, away_pos, .1f);
-            GetComponent<RectTransform>().localPosition = away_pos;
+            GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, away_pos, .1f);
+            
         }
     }
+
+
+    private IEnumerator Delay()
+    {
+
+
+        yield return new WaitForSeconds(.3f);
+
+        gameObject.SetActive(false);
+    }
+
 }
