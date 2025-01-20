@@ -38,6 +38,7 @@ public class NPCweapon : MonoBehaviour
                 {
                     hit = c.point;
                     obj = c.collider.gameObject;
+                    break;
                 }
 
             }

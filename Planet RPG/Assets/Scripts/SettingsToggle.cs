@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SettingsToggle : MonoBehaviour
 {
-    public Color on, off;
+    public Sprite on, off;
     private GameObject indicator;
     public bool forConcreteMovement;
     private bool concreteMovement;
@@ -16,7 +16,7 @@ public class SettingsToggle : MonoBehaviour
         if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1)
         {
             concreteMovement = true;
-            indicator.GetComponent<SpriteRenderer>().color = on;
+            indicator.GetComponent<SpriteRenderer>().sprite = on;
         }
         
     }
@@ -33,14 +33,14 @@ public class SettingsToggle : MonoBehaviour
                 if (concreteMovement)
                 {
                     concreteMovement = false;
-                    indicator.GetComponent<SpriteRenderer>().color = off;
+                    indicator.GetComponent<SpriteRenderer>().sprite = off;
                     PlayerPrefs.SetInt("ConcreteMovement", 0);
                     PlayerPrefs.Save();
                 }
                 else
                 {
                     concreteMovement = true;
-                    indicator.GetComponent<SpriteRenderer>().color = on;
+                    indicator.GetComponent<SpriteRenderer>().sprite = on;
                     PlayerPrefs.SetInt("ConcreteMovement", 1);
                     PlayerPrefs.Save();
                 }

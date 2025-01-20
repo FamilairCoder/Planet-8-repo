@@ -151,7 +151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8e50e5644bd74ba489e990438f034816, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -889,10 +889,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1239326910893213326, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 1774032262774563673, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2434300734825044322, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 3359627081612800559, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -910,9 +918,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: isWeapon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: part_images.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: weaponPart_images.Array.size
       value: 4
@@ -932,7 +948,11 @@ PrefabInstance:
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: weaponPart_images.Array.data[3]
       value: 
-      objectReference: {fileID: 21300000, guid: 8e50e5644bd74ba489e990438f034816, type: 3}
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
+    - target: {fileID: 7616743270318020264, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: cost
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 7616743270318020264, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: slots.Array.size
       value: 9
@@ -973,6 +993,10 @@ PrefabInstance:
       propertyPath: slots.Array.data[8]
       value: 
       objectReference: {fileID: 1630812090358230953}
+    - target: {fileID: 8104072784154376725, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_text
+      value: 2000 P
+      objectReference: {fileID: 0}
     - target: {fileID: 8284277228714299556, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1402,10 +1426,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1239326910893213326, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 1774032262774563673, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2434300734825044322, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 3359627081612800559, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1422,10 +1454,30 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5241541113199496333, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534464903249606119, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534464903249606119, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: isWeapon
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: part_images.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: weaponPart_images.Array.size
       value: 4
@@ -1445,7 +1497,11 @@ PrefabInstance:
     - target: {fileID: 7407116021873864052, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: weaponPart_images.Array.data[3]
       value: 
-      objectReference: {fileID: 21300000, guid: 8e50e5644bd74ba489e990438f034816, type: 3}
+      objectReference: {fileID: 21300000, guid: 07fceb7ba148f0047ad0390734c4fa29, type: 3}
+    - target: {fileID: 7616743270318020264, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: cost
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 7616743270318020264, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: slots.Array.size
       value: 9
@@ -1486,6 +1542,10 @@ PrefabInstance:
       propertyPath: slots.Array.data[8]
       value: 
       objectReference: {fileID: 3451408116341573152}
+    - target: {fileID: 8104072784154376725, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
+      propertyPath: m_text
+      value: 2000 P
+      objectReference: {fileID: 0}
     - target: {fileID: 8284277228714299556, guid: 0ffa04919ddf05647be3d94bd356cfd1, type: 3}
       propertyPath: m_Enabled
       value: 0

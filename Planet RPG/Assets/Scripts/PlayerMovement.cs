@@ -141,7 +141,20 @@ public class PlayerMovement : MonoBehaviour
                     var child = current_ship.transform.GetChild(i).gameObject;
                     if (child.GetComponent<Health>() != null && child.activeSelf) 
                     {
-                        child.GetComponent<Health>().hp = child.GetComponent<Health>().orig_hp; 
+                        var chance = Random.Range(0f, 1f);
+                        if (chance < .6f && current_ship.GetComponent<ShipStats>().core != child && !current_ship.GetComponent<ShipStats>().thrusters.Contains(child))
+                        {
+                            var healthLower = Random.Range(0f, 1f);
+                            if (healthLower < .3f) child.GetComponent<Health>().hp = 0;
+                            else if (healthLower > .3f) child.GetComponent<Health>().hp = child.GetComponent<Health>().orig_hp * Random.Range(.3f, .75f);
+
+
+                        }
+                        else
+                        {
+                            child.GetComponent<Health>().hp = child.GetComponent<Health>().orig_hp;
+                        }
+
                         child.GetComponent<SpriteRenderer>().sprite = child.GetComponent<Health>().orig_sprite;
 
                     }
@@ -172,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                spd = spd_up / 3;
+                spd = spd_up / 1.5f;
                 //if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 5, .1f);                
             }
 

@@ -35,6 +35,7 @@ public class Health : MonoBehaviour
 
             }
             StartCoroutine(saveRoutine());
+            StartCoroutine(healRoutine());
         }        
         else 
         {
@@ -100,6 +101,8 @@ public class Health : MonoBehaviour
                     GetComponent<Animator>().enabled = true;
 
                 spr.sprite = orig_sprite;
+
+
     
             }
         }
@@ -129,5 +132,25 @@ public class Health : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(.5f, 1.5f));
         }
         
+    }
+
+    private IEnumerator healRoutine()
+    {
+        if (GetComponentInParent<NPCmovement>() == null || !GetComponentInParent<NPCmovement>().is_pirate)
+        {
+            yield break;
+        }
+        while (true)
+        {
+
+            if (hp < orig_hp && GetComponentInParent<NPCmovement>().target == null)
+            {
+                hp += Random.Range(0f, 1f);
+                
+            }
+            yield return new WaitForSeconds(1);
+
+        }
+
     }
 }

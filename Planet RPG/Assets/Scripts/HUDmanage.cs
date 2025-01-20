@@ -39,7 +39,7 @@ public class HUDmanage : MonoBehaviour
     private void Awake()
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         sd = new List<SetDelivery>(FindObjectsOfType<SetDelivery>());
     }
     // Start is called before the first frame update
@@ -47,7 +47,7 @@ public class HUDmanage : MonoBehaviour
     {
         index = 0;
         money = PlayerPrefs.GetFloat("money", 0);
-        //money = 0;
+        money = 10000;
 
     }
 
@@ -72,7 +72,7 @@ public class HUDmanage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            var pm = FindObjectOfType<PlayerMovement>().GetComponent<PlayerMovement>();
+            var pm = FindObjectOfType<PlayerMovement>();
             if (!on_map) 
             {
                 if (!did_zoom)
@@ -96,6 +96,20 @@ public class HUDmanage : MonoBehaviour
                 on_map = false;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && on_map)
+        {
+            if (did_zoom)
+            {
+                Camera.main.orthographicSize = 80;
+                PlayerMovement.target_zoom = 10;
+                FindObjectOfType<PlayerMovement>().zoomspd = 4;
+                did_zoom = false;
+            }
+            map.SetActive(false);
+            on_map = false;
+        }
+
+
 
         if (PlayerMining.cargo_amount > 0)
         {

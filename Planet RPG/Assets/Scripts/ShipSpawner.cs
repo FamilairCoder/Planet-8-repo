@@ -216,6 +216,7 @@ public class ShipSpawner : MonoBehaviour
         var a = Instantiate(ship_to_spawn, pos, rot);
         a.GetComponent<NPCmovement>().stay_radius = max_dist;
         a.GetComponent<NPCmovement>().stay_around = gameObject;
+        a.GetComponent<NPCmovement>().key = numb.ToString() + lvl.ToString();
 
         AssignBonuses(a, lvl, numb);
 

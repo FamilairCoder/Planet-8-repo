@@ -31,6 +31,12 @@ public class UnlockParts : MonoBehaviour, IPointerClickHandler
         {
             if (HUDmanage.money < cost) text.GetComponent<TextMeshProUGUI>().color = cantColor;
             else text.GetComponent<TextMeshProUGUI>().color = buyColor;
+
+            if (PlayerPrefs.GetInt(key + transform.GetSiblingIndex() + "bought", 0) == 1)
+            {
+                HUDmanage.lvl++;
+                bought = true;
+            }
         }
         else
         {

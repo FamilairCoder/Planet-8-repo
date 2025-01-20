@@ -5,6 +5,8 @@ using UnityEngine;
 public class ThingSpawner : MonoBehaviour
 {
     public List<GameObject> pirateShips = new List<GameObject>();
+    public List<GameObject> lvl2pirateShips = new List<GameObject>();
+    public List<GameObject> lvl3pirateShips = new List<GameObject>();
     public List<GameObject> ruins = new List<GameObject>();
     public Transform ruinParent;
     public List<GameObject> randObjs = new List<GameObject>();
@@ -86,6 +88,7 @@ public class ThingSpawner : MonoBehaviour
                         if (chance < pirateChance)
                         {
                             var pirateAmount = Mathf.Lerp(1, 5, totalDeliveries / 10);
+                            if (totalDeliveries > 10) pirateAmount += Mathf.Lerp(0, 5, (totalDeliveries - 10) / 5);
                             var amount = Random.Range(0, pirateAmount);
 
                             for (int i = 0; i < amount - 1; i++)
@@ -97,7 +100,22 @@ public class ThingSpawner : MonoBehaviour
                                 var type = PlayerPrefs.GetInt(key + "pirateType" + pirateNumb, Random.Range(0, pirateShips.Count));
                                 PlayerPrefs.SetInt(key + "pirateType" + pirateNumb, type);
 
-                                var p = Spawn(pirateShips[Random.Range(0, pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                GameObject p = null;                                
+                                var lvlchance = Random.Range(0f, 1f);
+
+                                if (totalDeliveries < 5) p = Spawn(pirateShips[Random.Range(0, pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                else if (totalDeliveries < 10)
+                                {
+                                    if (lvlchance < .6f) p = Spawn(pirateShips[Random.Range(0, pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                    else p = Spawn(lvl2pirateShips[Random.Range(0, lvl2pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                }
+                                else
+                                {
+                                    if (lvlchance < .2f) p = Spawn(pirateShips[Random.Range(0, pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                    else if (lvlchance < .6f) p = Spawn(lvl2pirateShips[Random.Range(0, lvl2pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                    else p = Spawn(lvl3pirateShips[Random.Range(0, lvl3pirateShips.Count)], Random.Range(180f, 220f), 15);
+                                }
+
                                 p.GetComponent<NPCmovement>().key = "spawned pirate " + pirateNumb;
                                 p.GetComponent<NPCmovement>().dir = (transform.position - p.transform.position).normalized;
                                 p.GetComponent<NPCmovement>().rand_time = 10;

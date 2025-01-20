@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class PlayerWeapon : MonoBehaviour
@@ -34,15 +35,15 @@ public class PlayerWeapon : MonoBehaviour
 
         if (basic_lasers > 0 && !Weapons.Contains(basic_laser_icon))
         {
-            basic_laser_icon.SetActive(true);
+            basic_laser_icon.GetComponent<Image>().color = new Color(1, 1, 1);
         }
         if (laser_beams > 0 && !Weapons.Contains(laser_beam_icon))
         {
-            laser_beam_icon.SetActive(true);
+            laser_beam_icon.GetComponent<Image>().color = new Color(1, 1, 1);
         }
         if (laser_rods > 0 && !Weapons.Contains(laser_rod_icon))
         {
-            laser_rod_icon.SetActive(true);
+            laser_rod_icon.GetComponent<Image>().color = new Color(1, 1, 1);
         }
         /*        if (transform.childCount == 0)
                 {
@@ -54,7 +55,7 @@ public class PlayerWeapon : MonoBehaviour
         laser_rod_cooldown -= Time.deltaTime;
         ActivateAttack();
         
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !PlayerMovement.dead)
         {
             if (basic_laser && basic_laser_cooldown < 0)
             {

@@ -37,9 +37,9 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
         if (!delayed && delayTime < 0 && station != null)
         {
             key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
-            if (PlayerPrefs.GetInt(key + "taken") == 1 && !clicked)
+            if (PlayerPrefs.GetInt(key + "taken", 0) == 1 && !clicked)
             {
-                
+                //Debug.Log(key);
                 var HUD = FindObjectOfType<HUDmanage>();
                 clicked = true;
                 HUD.picture = picture;
@@ -85,32 +85,36 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
     // This method is called when the UI element is clicked
     public void OnPointerClick(PointerEventData eventData)
     {
-        var HUD = FindObjectOfType<HUDmanage>();
-        if (!clicked && !on_screen)
+        if (eventData.pointerEnter == target_ind || eventData.pointerEnter == gameObject || eventData.pointerEnter == cancel_ind)
         {
-            //key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
-            PlayerPrefs.SetInt(key + "taken", 1);
-            clicked = true;
-            HUD.picture = picture;
-            HUD.cost = cost;
-            HUD.tied_enemy = tied_enemy;
-            HUD.tied_poster = gameObject;
-            HUD.new_bounty = true;
+            var HUD = FindObjectOfType<HUDmanage>();
+            if (!clicked && !on_screen)
+            {
+                //key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
+                PlayerPrefs.SetInt(key + "taken", 1);
+                clicked = true;
+                HUD.picture = picture;
+                HUD.cost = cost;
+                HUD.tied_enemy = tied_enemy;
+                HUD.tied_poster = gameObject;
+                HUD.new_bounty = true;
+            }
+            else if (on_screen)
+            {
+                PlayerPrefs.SetInt(tied_poster.GetComponent<BountyPosterScript>().key + "taken", 0);
+                tied_poster.GetComponent<BountyPosterScript>().clicked = false;
+                tied_poster.GetComponent<BountyPosterScript>().target_ind.SetActive(false);
+                Destroy(gameObject);
+            }
+            else if (clicked && !on_screen)
+            {
+                PlayerPrefs.SetInt(key + "taken", 0);
+                close = true;
+            }
+
+            PlayerPrefs.Save();
         }
-        else if (on_screen)
-        {
-            PlayerPrefs.SetInt(tied_poster.GetComponent<BountyPosterScript>().key + "taken", 0);
-            tied_poster.GetComponent<BountyPosterScript>().clicked = false;
-            tied_poster.GetComponent<BountyPosterScript>().target_ind.SetActive(false);
-            Destroy(gameObject);
-        }
-        else if (clicked && !on_screen)
-        {
-            PlayerPrefs.SetInt(key + "taken", 0);
-            close = true;
-        }
-        
-        PlayerPrefs.Save();
+
         //Debug.Log(PlayerPrefs.GetInt(key + "taken"));
     }
 

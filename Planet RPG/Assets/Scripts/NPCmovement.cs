@@ -151,6 +151,10 @@ public class NPCmovement : MonoBehaviour
                 rand_time = 10;
             }
 
+
+
+
+
         }
         else if (target != null)
         {

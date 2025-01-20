@@ -8,6 +8,7 @@ public class SetBounty : MonoBehaviour
 {
     public GameObject station, menu, bounty_poster;
     public float lvl;
+    private float resolutionTime, scaledX, scaledY;
     public List<GameObject> bounties = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -56,9 +57,9 @@ public class SetBounty : MonoBehaviour
         {
             pos = GetComponent<SubMenuButton>().mainButton.GetComponent<RectTransform>().position;
         }
-        
 
-        for (int i = 0; i < bounties.Count; i++)
+
+/*        for (int i = 0; i < bounties.Count; i++)
         {
             if (bounties[i] == null) 
             { 
@@ -67,12 +68,41 @@ public class SetBounty : MonoBehaviour
                 break; 
             
             }
-            bounties[i].GetComponent<RectTransform>().position = new Vector3(pos.x + 50, pos.y - i * 250 - 250, 0f);
+
+            var widthRatio = Screen.width / 1920;
+            var heightRatio = Screen.height / 1080;
+
+            bounties[i].GetComponent<RectTransform>().position = new Vector3(widthRatio * (pos.x + 50), heightRatio * (pos.y - i * 250 - 250), 0f);
             if (i > 1)
             {
-                bounties[i].GetComponent<RectTransform>().position += new Vector3(220, 500);
+                bounties[i].GetComponent<RectTransform>().position += new Vector3(widthRatio * 220, heightRatio * 500);
             }
-        }
+        }*/
+        for (int i = 0; i < bounties.Count; i++)
+        {
+            if (bounties[i] == null)
+            {
+                bounties.Remove(bounties[i]);
+                break;
+            }
 
+            // Get the RectTransform of the bounty
+            RectTransform rectTransform = bounties[i].GetComponent<RectTransform>();
+
+            // Calculate the base position using relative coordinates
+            float baseX = -35;
+            float baseY = 5 + (-30 * i);
+
+            // Adjust positions for additional rows
+            if (i > 1)
+            {
+                baseX += 20;
+                baseY += 60;
+            }
+
+            // Set the anchoredPosition instead of position
+            rectTransform.anchoredPosition = new Vector2(baseX, baseY);
+
+        }
     }
 }

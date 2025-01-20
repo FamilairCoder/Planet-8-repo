@@ -24,7 +24,7 @@ public class MenuScript : MonoBehaviour
         {
             //GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, active_pos, .1f);
             GetComponent<RectTransform>().localPosition = active_pos;
-            if (Input.GetKeyDown(KeyCode.Escape) || Vector2.Distance(station.transform.position, player.transform.position) > 150)
+            if (Input.GetKeyDown(KeyCode.Escape) || Vector2.Distance(station.transform.position, player.transform.position) > 150 || HUDmanage.on_map)
             {
                 active = false;
                 GetComponent<RectTransform>().localPosition = away_pos;

@@ -45,11 +45,11 @@ public class ShipStats : MonoBehaviour
             //var a = Instantiate(diagnosis, new(0, 0, 0), Quaternion.identity, FindObjectOfType<Canvas>().transform);
             //a.GetComponent<RectTransform>().localPosition = new Vector3(-824, -400);
             //diagnosis = a;
-            for (int i = 0; i < diagnosis.transform.childCount; i++)
-            {
-                var child = diagnosis.transform.GetChild(i);
-                transform.GetChild(i).GetComponent<Health>().linked_diagnosis = child.gameObject;
-            }
+            //for (int i = 0; i < diagnosis.transform.childCount; i++)
+            //{
+            //    var child = diagnosis.transform.GetChild(i);
+            //    transform.GetChild(i).GetComponent<Health>().linked_diagnosis = child.gameObject;
+            //}
 
 
 
@@ -114,7 +114,7 @@ public class ShipStats : MonoBehaviour
                     p.SetActive(true);
                 }
                 lvl2PartsDiagnosis[0].transform.parent.transform.localScale = new Vector2(1.45f, 1.45f);
-                lvl2PartsDiagnosis[0].transform.parent.transform.position += new Vector3(0, -25f);
+                lvl2PartsDiagnosis[0].transform.parent.GetComponent<RectTransform>().anchoredPosition = new Vector2(-824, -426.8f);
 
                 var col = transform.parent.GetComponent<CircleCollider2D>();
                 col.radius = .68f;
