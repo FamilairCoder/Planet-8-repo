@@ -278,7 +278,7 @@ public class ShipSpawner : MonoBehaviour
         for (int i = list.Count - 1; i >= 0; i--)
         {
             var n = list[i];
-            if (n != null)
+            if (n != null && n.GetComponent<NPCmovement>().attackedByPlayer == false)
             {
                 n.SetActive(boolean);
             }

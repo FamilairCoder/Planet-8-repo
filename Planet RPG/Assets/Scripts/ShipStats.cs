@@ -6,11 +6,11 @@ public class ShipStats : MonoBehaviour
 {
     public bool ignore_key, npc;
     public float spd, turning_spd;    
-    private float slow_spd, slow_turning_spd, cvDelay = .05f;
+    private float slow_turning_spd, cvDelay = .05f;
     public GameObject ruin, core, trail, diagnosis, circuit_view;
     public Sprite ruin_sprite;
     public List<GameObject> thrusters = new List<GameObject>();
-    public float total_hp;
+    public float total_hp, origHp;
     private bool madeLvl2, madelvl3, cvDid;
     [Header("Bonus")]
     public float armor_bonus;
@@ -24,6 +24,9 @@ public class ShipStats : MonoBehaviour
     [Header("Dont set---------")]
     public List<int> images = new List<int>();
     public List<int> filled = new List<int>();
+    public float amount_broken, slow_spd;
+    public bool boosting;
+    private float boostspd = 40;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,9 +65,11 @@ public class ShipStats : MonoBehaviour
         {
             if (transform.GetChild(i).GetComponent<Health>() != null && transform.GetChild(i).gameObject.activeSelf)
             {
-                total_hp += transform.GetChild(i).GetComponent<Health>().orig_hp;
+                total_hp += transform.GetChild(i).GetComponent<Health>().hp;
+                origHp += transform.GetChild(i).GetComponent<Health>().hp;
             }
         }
+        StartCoroutine(CalculateHealth());
 
     }
 
@@ -152,7 +157,7 @@ public class ShipStats : MonoBehaviour
         }
 
 
-        var amount_broken = 0;
+        amount_broken = 0;
         var count = 0;
         foreach (var t in thrusters)
         {
@@ -168,6 +173,7 @@ public class ShipStats : MonoBehaviour
         }
         if (amount_broken > 0)
         {
+            
             spd = Mathf.Lerp(spd, slow_spd, amount_broken / count);
             turning_spd = Mathf.Lerp(turning_spd, slow_turning_spd, amount_broken / count);
         }
@@ -176,6 +182,22 @@ public class ShipStats : MonoBehaviour
             spd = slow_spd * 5;
             turning_spd = slow_turning_spd * 5;
         }
+        if (boosting)
+        {
+            spd = slow_spd * boostspd;
+            if (GetComponent<NPCmovement>().lvl == 3 && boostspd > 5) boostspd -= 5 * Time.deltaTime;
+            else if (GetComponent<NPCmovement>().lvl == 2 && boostspd > 10) boostspd -= 10 * Time.deltaTime;
+        }
+        else
+        {
+            if ((boostspd < 40 && GetComponent<NPCmovement>().lvl == 2) || (boostspd < 50 && GetComponent<NPCmovement>().lvl == 3))
+            {
+                boostspd += Time.deltaTime;
+            }
+    
+        }
+            
+
 
 
         if (core != null && core.GetComponent<Health>() != null && core.GetComponent<Health>().hp <= 0)
@@ -190,6 +212,7 @@ public class ShipStats : MonoBehaviour
                 a.AddComponent<PolygonCollider2D>();
                 Instantiate(core.GetComponent<Health>().death_explosion, transform.position, Quaternion.identity);
 
+                if (GetComponent<NPCmovement>().retreat) PlayerBash.bash = false;
                 PlayerPrefs.SetFloat(GetComponent<NPCmovement>().key + "alive", 0);
 
                 if (GetComponent<NPCmovement>().giveBounty) HUDmanage.money += GetComponent<NPCmovement>().bounty_cost / 4;
@@ -199,5 +222,22 @@ public class ShipStats : MonoBehaviour
         }
         
 
+    }
+
+    private IEnumerator CalculateHealth()
+    {
+        while (true)
+        {
+            var h = 0f;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).GetComponent<Health>() != null && transform.GetChild(i).gameObject.activeSelf)
+                {
+                    h += transform.GetChild(i).GetComponent<Health>().hp;
+                }
+            }
+            total_hp = h;
+            yield return new WaitForSeconds(Random.Range(.25f, .75f));
+        }
     }
 }

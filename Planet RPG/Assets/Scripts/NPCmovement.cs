@@ -9,20 +9,22 @@ public class NPCmovement : MonoBehaviour
 {
     public bool is_pirate, is_npc, for_menu;
     public float lvl;
+    public ParticleSystem boostParticles;
     //public GameObject basic_laser_bullet;
     [Header("Unique Variables")]
     public List<GameObject> weapons = new List<GameObject>();
-    public float bounty_cost, detect_radius;
+    public float bounty_cost, detect_radius, attackDistance;
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty, attackedByPlayer;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat;
     private bool basic_laser = true;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
-    private float turning_spd, spd, delay_time = .1f, beam_slow, saveTime, origSpd;
-    private bool did, found_danger;
+    private float turning_spd, spd, delay_time = .1f, beam_slow, saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
+    private bool did, found_danger, boost = false;
     public float rand_time;
     public Vector3 dir;
+    private Vector3 movedir;
     private Vector3 offset, target_point;
     public string key;
     private ShipStats ship;
@@ -36,12 +38,15 @@ public class NPCmovement : MonoBehaviour
         ship = GetComponent<ShipStats>();
         rb = GetComponent<Rigidbody2D>();
         origSpd = ship.spd * (1 + ship.thrust_bonus);
+
         /*        var weapon_chance = Random.Range(0f, 1f);
                 if (weapon_chance < 1)
                 {
                     basic_laser = true;
                     atk_spd = Random.Range(.2f, .4f);
                 }*/
+        retreatThreshold = Random.Range(.1f, .5f);
+        if (retreatThreshold < .25f) retreatThreshold = 0f;
     }
 
     // Update is called once per frame
@@ -55,7 +60,7 @@ public class NPCmovement : MonoBehaviour
         }
         else if (target != null)
         {
-            rb.AddForce(transform.up * spd * beam_slow * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            rb.AddForce(movedir * beam_slow * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
 
         
@@ -73,6 +78,8 @@ public class NPCmovement : MonoBehaviour
             {
                 transform.position = new Vector2(FloatSaveKey("positionx", transform.position.x), FloatSaveKey("positiony", transform.position.y));
                 did = true;
+                //Debug.Log(ship.total_hp);
+                origHealth = ship.total_hp;
             }
             if (did && saveTime < 0)
             {
@@ -93,128 +100,176 @@ public class NPCmovement : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * Time.deltaTime);
 
-
-        if (target == null)
+        if (!retreat)
         {
-            beam_slow = 1f;
 
-            rand_time -= Time.deltaTime;
-            if (rand_time < 0)
+            ship.boosting = false;
+            if (boostParticles != null) boostParticles.Stop();
+           
+
+            if (target == null)
             {
-                dir = (Random.insideUnitCircle + new Vector2(transform.position.x, transform.position.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
-                rand_time = Random.Range(0f, 30f);
-                target_point = new(0, 0);
                 beam_slow = 1f;
-                if (is_npc && stay_around != null && Random.Range(0f, 1f) < .1f)
-                {
-                    target_point = new Vector2(stay_around.transform.position.x + Random.Range(-10f, 10f), stay_around.transform.position.y + Random.Range(-10f, 10f));
-                    rand_time = Random.Range(30f, 60f);
-                }
-            }
 
-            if (target_point.x != 0 && !found_danger)
-            {
-                dir = (target_point - new Vector3(transform.position.x, transform.position.y)).normalized;
-                if (Vector2.Distance(transform.position, target_point) < 10)
+                rand_time -= Time.deltaTime;
+                if (rand_time < 0)
                 {
                     dir = (Random.insideUnitCircle + new Vector2(transform.position.x, transform.position.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
-                    beam_slow = .1f;
+                    rand_time = Random.Range(0f, 30f);
+                    target_point = new(0, 0);
+                    beam_slow = 1f;
+                    if (is_npc && stay_around != null && Random.Range(0f, 1f) < .1f)
+                    {
+                        target_point = new Vector2(stay_around.transform.position.x + Random.Range(-10f, 10f), stay_around.transform.position.y + Random.Range(-10f, 10f));
+                        rand_time = Random.Range(30f, 60f);
+                    }
                 }
-            }
 
-            if (squadPoint != null)
-            {
-                var dist = Vector2.Distance(squadPoint.transform.position, transform.position);
-                dir = squadLeader.transform.up;
-
-                spd = Mathf.Lerp(0, origSpd, dist / 2);
-            }
-
-
-            if (is_pirate)
-            {
-                FindTarget("player_station", detect_radius);
-                if (target == null)
+                if (target_point.x != 0 && !found_danger)
                 {
-                    FindTarget("player", detect_radius);
+                    dir = (target_point - new Vector3(transform.position.x, transform.position.y)).normalized;
+                    if (Vector2.Distance(transform.position, target_point) < 10)
+                    {
+                        dir = (Random.insideUnitCircle + new Vector2(transform.position.x, transform.position.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
+                        beam_slow = .1f;
+                    }
+                }
+
+                if (squadPoint != null)
+                {
+                    var dist = Vector2.Distance(squadPoint.transform.position, transform.position);
+                    dir = squadLeader.transform.up;
+
+                    spd = Mathf.Lerp(0, origSpd, dist / 2);
+                }
+
+
+                if (is_pirate)
+                {
+                    FindTarget("player_station", detect_radius);
+                    if (target == null)
+                    {
+                        FindTarget("player", detect_radius);
+                    }
+                }
+
+                if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) > stay_radius)
+                {
+                    dir = (stay_around.transform.position - transform.position).normalized;
+                    rand_time = 10;
+                }
+                else if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) < stay_radius / 4)
+                {
+                    dir = (transform.position - stay_around.transform.position).normalized;
+                    rand_time = 10;
+                }
+
+
+
+
+
+            }
+            else if (target != null)
+            {
+
+
+                rand_time -= Time.deltaTime;
+                retreatTime -= Time.deltaTime;
+                if (rand_time < 0)
+                {
+                    var targetScal = target.GetComponent<Collider2D>().bounds.size.x;
+                    offset = new Vector3(Random.Range(-targetScal, targetScal), Random.Range(-targetScal, targetScal));
+                    rand_time = 1f;
+                }
+
+
+                dir = ((target.transform.position + offset) - transform.position).normalized;
+                //var movePos = (transform.position - target.transform.position).normalized * attackDistance;
+                //movedir = (movePos - transform.position).normalized;
+
+                Vector3 movePos = target.transform.position + (transform.position - target.transform.position).normalized * attackDistance;
+                movedir = (movePos - transform.position).normalized;
+
+
+
+                weaponsBroken = 0;
+                var count = 0;
+                foreach (var w in weapons)
+                {
+                    if (w.activeSelf)
+                    {
+                        count++;
+                        if (w.GetComponent<Health>() != null && w.GetComponent<Health>().hp <= 0)
+                        {
+                            weaponsBroken++;
+                        }
+                    }
+
+                }
+                if (retreatTime < 0)
+                {
+                    retreatChance = Random.Range(0f, 1f);
+                    retreatTime = 5f;
+                }
+                if ((ship.total_hp < ship.origHp * retreatThreshold || (ship.amount_broken > 0 && retreatChance < retreatThreshold) || (weaponsBroken == count && retreatChance < .5f)))
+                {
+                    retreat = true;
+                    rand_time = 10f;
+
+                    movedir = (transform.position - target.transform.position).normalized;
+                    dir = (transform.position - target.transform.position).normalized;
+
+
+                    if (lvl > 1)
+                    {
+                        boost = true;
+                    }
+                }
+
+
+                if (Vector2.Distance(target.transform.position, transform.position) < detect_radius * .8f)
+                {
+                    FireWeapons();
+                }
+                else
+                {
+                    StopLaserbeams();
+                }
+
+
+
+
+
+                if (target != null && target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0))
+                {
+                    target = null;
+                    rand_time = 0;
                 }
             }
-
-            if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) > stay_radius)
-            {
-                dir = (stay_around.transform.position - transform.position).normalized;
-                rand_time = 10;
-            }
-            else if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) < stay_radius / 4)
-            {
-                dir = (transform.position - stay_around.transform.position).normalized;
-                rand_time = 10;
-            }
-
-
-
-
-
         }
-        else if (target != null)
+        else
         {
+            if (boost)
+            {
+                boostParticles.Play();
+                ship.boosting = true;
+                boost = false;
+            }
+
+            if (Vector2.Distance(target.transform.position, transform.position) < 150f) PlayerBash.bash = true;
+            else PlayerBash.bash = false;
 
 
             rand_time -= Time.deltaTime;
             if (rand_time < 0)
             {
-                var targetScal = target.GetComponent<Collider2D>().bounds.size.x;
-                offset = new Vector3(Random.Range(-targetScal, targetScal), Random.Range(-targetScal, targetScal));
-                rand_time = 1f;
-            }
-
-
-            dir = ((target.transform.position + offset) - transform.position).normalized;
-
-            if (Vector2.Distance(target.transform.position, transform.position) < detect_radius * .8f)
-            {
-
-                foreach (GameObject w in weapons)
-                {
-                    if (!w.GetComponent<NPCweapon>().laser_beam)
-                    {
-                        w.GetComponent<NPCweapon>().Attack();
-                        w.GetComponent<NPCweapon>().target_tag = target.tag;
-                        w.GetComponent<NPCweapon>().dmg_bonus = GetComponent<ShipStats>().dmg_bonus;
-                        w.GetComponent<NPCweapon>().firerate_bonus = GetComponent<ShipStats>().firerate_bonus;
-                    }
-                    else
-                    {
-                        w.GetComponent<NPCweapon>().target_tag = target.tag;
-                        w.GetComponent<NPCweapon>().is_firing = true;
-                        beam_slow = .5f;
-                        w.GetComponent<NPCweapon>().dist = detect_radius;
-                    }
-                }
-
-
-
-            }
-            else
-            {
-                foreach (GameObject w in weapons)
-                {
-                    if (w.GetComponent<NPCweapon>().laser_beam)
-                    {
-                        w.GetComponent<NPCweapon>().is_firing = false;
-                        beam_slow = 1f;
-                    }
-                }
-            }
-
-
-
-
-            if (target != null && target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0))
-            {
+                boostParticles.Stop();
+                Debug.Log("rand time hit 0");
+                PlayerBash.bash = false;
+                retreat = false;
                 target = null;
-                rand_time = 0;
             }
+
         }
     }
 
@@ -273,4 +328,36 @@ public class NPCmovement : MonoBehaviour
         
     }
 
+    private void FireWeapons()
+    {
+        foreach (GameObject w in weapons)
+        {
+            var weapon = w.GetComponent<NPCweapon>();
+            if (!weapon.laser_beam)
+            {
+                weapon.Attack();
+                weapon.target_tag = target.tag;
+                weapon.dmg_bonus = GetComponent<ShipStats>().dmg_bonus;
+                weapon.firerate_bonus = GetComponent<ShipStats>().firerate_bonus;
+            }
+            else
+            {
+                weapon.target_tag = target.tag;
+                weapon.is_firing = true;
+                beam_slow = .5f;
+                weapon.dist = detect_radius;
+            }
+        }
+    }
+    private void StopLaserbeams()
+    {
+        foreach (GameObject w in weapons)
+        {
+            if (w.GetComponent<NPCweapon>().laser_beam)
+            {
+                w.GetComponent<NPCweapon>().is_firing = false;
+                beam_slow = 1f;
+            }
+        }
+    }
 }

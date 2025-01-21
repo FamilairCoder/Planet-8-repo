@@ -101,9 +101,9 @@ public class Health : MonoBehaviour
                     GetComponent<Animator>().enabled = true;
 
                 spr.sprite = orig_sprite;
+                spr.color = new Color(1f, 1f, 1f);
 
 
-    
             }
         }
         
