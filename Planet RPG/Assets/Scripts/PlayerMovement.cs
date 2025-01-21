@@ -42,11 +42,14 @@ public class PlayerMovement : MonoBehaviour
         if (!dead)
         {
             //concreteMovement = true;
+            bool moving = false;
             if (Input.GetKey(KeyCode.W))
             {
                 // rb.AddForce(transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 if (!concreteMovement) Move(transform.up);
                 else if (concreteMovement) Move(new Vector2(0, 1));
+
+                moving = true;
             }
 
 
@@ -55,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
                 //if (!concreteMovement) rb.AddForce(-transform.up * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 if (!concreteMovement) Move(-transform.up);
                 else if (concreteMovement) Move(new Vector2(0, -1));
+
+                moving = true;
 
             }
 
@@ -65,6 +70,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if (!concreteMovement) Move(-transform.right);
                 else if (concreteMovement) Move(new Vector2(-1, 0));
+
+                moving = true;
             }
             else if (Input.GetKey(KeyCode.D))
             {
@@ -72,8 +79,10 @@ public class PlayerMovement : MonoBehaviour
 
                 if (!concreteMovement) Move(transform.right);
                 else if (concreteMovement) Move(new Vector2(1, 0));
-            }
 
+                moving = true;
+            }
+            if (!moving) rb.velocity = Vector2.Lerp(rb.velocity, new(0, 0), .1f);
 
 
             if (Input.GetKey(KeyCode.X))

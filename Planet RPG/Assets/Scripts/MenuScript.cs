@@ -10,11 +10,14 @@ public class MenuScript : MonoBehaviour
     private GameObject player;
     public bool dontSpawnCV;
     public bool isOutpost;
+    public float restockAdd;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerMining>().gameObject;
         StartCoroutine(Delay());
+        restockAdd = PlayerPrefs.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
+        StartCoroutine(RestockTime());
     }
 
     // Update is called once per frame
@@ -47,6 +50,21 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(.3f);
 
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator RestockTime()
+    {
+
+        while (true)
+        {
+            PlayerPrefs.SetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", restockAdd);
+            PlayerPrefs.Save();
+            if (restockAdd > 0) restockAdd--;
+            yield return new WaitForSeconds(30f);
+        }
+        
+
+        //gameObject.SetActive(false);
     }
 
 }

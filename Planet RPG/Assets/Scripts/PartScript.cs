@@ -68,6 +68,7 @@ public class PartScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (HUDmanage.money >= cost)
         {
+            SellButtonScript.sell = false;
             down = true;
             orig_pos = GetComponent<RectTransform>().localPosition;
         } 

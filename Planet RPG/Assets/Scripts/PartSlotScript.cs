@@ -6,6 +6,8 @@ using UnityEngine;
 public class PartSlotScript : MonoBehaviour
 {
     public GameObject part, station;
+    private MenuScript menu;
+    private bool added;
     public int part_min;
     public List<GameObject> parts = new List<GameObject>();
     public List<GameObject> weapon_parts = new List<GameObject>();
@@ -21,6 +23,7 @@ public class PartSlotScript : MonoBehaviour
     void Start()
     {
         station = transform.parent.GetComponent<MenuScript>().station;
+        menu = transform.parent.GetComponent<MenuScript>();
         
     }
 
@@ -29,9 +32,11 @@ public class PartSlotScript : MonoBehaviour
     {
         if (!did)
         {
+            part_time += menu.restockAdd;
             var key = station.GetComponent<ShipSpawner>().savekey;
             if (PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), 0) != parts.Count - 1 && PlayerPrefs.GetInt(key + "empty" + transform.GetSiblingIndex(), 0) == 0)
                 ChooseNewPart();
+
             did = true;
         }
         if (part != null)
@@ -40,6 +45,7 @@ public class PartSlotScript : MonoBehaviour
             cost_text.text = cost.ToString() + " photons";
             if (HUDmanage.money < cost) cost_text.color = new Color(.7f, 0, 0);
             else if (HUDmanage.money >= cost) cost_text.color = new Color(0, .72f, 0);
+            added = false;
         }
         else
         {
@@ -50,12 +56,13 @@ public class PartSlotScript : MonoBehaviour
             cost_text.text = Mathf.Round(part_time).ToString();
             cost_text.color = new Color(.7f, 0, 0);
             part_time -= Time.deltaTime;
-            if (part_time < 0 )
+            if (!added) { part_time = 60 + menu.restockAdd; menu.restockAdd += 10; added = true; }
+            if (part_time < 0)
             {
                 PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
                 ChooseNewPart();
                 PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 0);
-                part_time = 60;
+                //part_time = 60 + menu.restockAdd;
             }
         }
 
@@ -80,5 +87,6 @@ public class PartSlotScript : MonoBehaviour
         cost = part.GetComponent<PartScript>().cost;
         desc = part.GetComponent<PartScript>().description;
         if (part_button != null) { part_button.GetComponent<MenuButton>().show.Add(p); }
+
     }
 }

@@ -16,6 +16,9 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
     public GameObject ship_stats;
     public List<Sprite> part_images = new List<Sprite>();
     public List<Sprite> weaponPart_images = new List<Sprite>();
+    public GameObject sellHighlight;
+    private float savedCost;
+    public AudioClip sellSFX;
     // Start is called before the first frame update
     void Start()
     {
@@ -87,6 +90,17 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
                 SlotPart();
             }
         }
+        if (sellHighlight != null)
+        {
+            if (SellButtonScript.sell && filled)
+            {
+                sellHighlight.SetActive(true);
+            }
+            else
+            {
+                sellHighlight.SetActive(false);
+            }
+        }
 
 
 
@@ -95,6 +109,23 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (sellHighlight != null)
+        {
+            if (SellButtonScript.sell && filled)
+            {
+                HUDmanage.money += PlayerPrefs.GetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) * .7f;
+                filled = false;
+                linked_part = null;
+                picked_up_obj = null;                
+                image.sprite = orig;
+                did = false;
+                GUIAudioplayer.clip = sellSFX;
+                PlayerPrefs.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
+                PlayerPrefs.SetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
+                PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1);
+                PlayerPrefs.Save();
+            }
+        }
 
 
     }
@@ -126,8 +157,8 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
         picked_up_obj.GetComponent<PartScript>().circuit_slot = gameObject;
         filled = true;
         linked_part = picked_up_obj;
-
-
+        PlayerPrefs.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), picked_up_obj.GetComponent<PartScript>().cost);
+        PlayerPrefs.Save();
         if (!did && HUDmanage.money >= picked_up_obj.GetComponent<PartScript>().cost)
         {
             HUDmanage.money -= picked_up_obj.GetComponent<PartScript>().cost;
