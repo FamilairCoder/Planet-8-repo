@@ -30,11 +30,13 @@ public class NPCweapon : MonoBehaviour
             var lr = GetComponent<LineRenderer>();
             lr.enabled = true;
             var cast = Physics2D.RaycastAll(atk_point.transform.position, transform.up, dist);
+            
             Vector3 hit = new(0, 0, 0);
             GameObject obj = null;
             foreach (var c in cast)
             {
-                if (c.collider.CompareTag(target_tag) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+                //Debug.Log(c);
+                if (c.collider.CompareTag(target_tag) && c.collider.gameObject != gameObject && !c.transform.IsChildOf(transform) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
                 {
                     hit = c.point;
                     obj = c.collider.gameObject;

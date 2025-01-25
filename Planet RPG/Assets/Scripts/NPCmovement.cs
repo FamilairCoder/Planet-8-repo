@@ -206,25 +206,29 @@ public class NPCmovement : MonoBehaviour
                     }
 
                 }
-                if (retreatTime < 0)
+                if (lvl > 1 && !for_menu)
                 {
-                    retreatChance = Random.Range(0f, 1f);
-                    retreatTime = 5f;
-                }
-                if ((ship.total_hp < ship.origHp * retreatThreshold || (ship.amount_broken > 0 && retreatChance < retreatThreshold) || (weaponsBroken == count && retreatChance < .5f)))
-                {
-                    retreat = true;
-                    rand_time = 10f;
-
-                    movedir = (transform.position - target.transform.position).normalized;
-                    dir = (transform.position - target.transform.position).normalized;
-
-
-                    if (lvl > 1)
+                    if (retreatTime < 0)
                     {
-                        boost = true;
+                        retreatChance = Random.Range(0f, 1f);
+                        retreatTime = 5f;
+                    }
+                    if ((ship.total_hp < ship.origHp * retreatThreshold || (ship.amount_broken > 0 && retreatChance < retreatThreshold) || (weaponsBroken == count && retreatChance < .5f)))
+                    {
+                        retreat = true;
+                        rand_time = 10f;
+
+                        movedir = (transform.position - target.transform.position).normalized;
+                        dir = (transform.position - target.transform.position).normalized;
+
+
+                        if (lvl > 1)
+                        {
+                            boost = true;
+                        }
                     }
                 }
+
 
 
                 if (Vector2.Distance(target.transform.position, transform.position) < detect_radius * .8f)
@@ -264,7 +268,6 @@ public class NPCmovement : MonoBehaviour
             if (rand_time < 0)
             {
                 boostParticles.Stop();
-                Debug.Log("rand time hit 0");
                 PlayerBash.bash = false;
                 retreat = false;
                 target = null;

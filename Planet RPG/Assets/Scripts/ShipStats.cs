@@ -182,20 +182,24 @@ public class ShipStats : MonoBehaviour
             spd = slow_spd * 5;
             turning_spd = slow_turning_spd * 5;
         }
-        if (boosting)
+        if (npc)
         {
-            spd = slow_spd * boostspd;
-            if (GetComponent<NPCmovement>().lvl == 3 && boostspd > 5) boostspd -= 5 * Time.deltaTime;
-            else if (GetComponent<NPCmovement>().lvl == 2 && boostspd > 10) boostspd -= 10 * Time.deltaTime;
-        }
-        else
-        {
-            if ((boostspd < 40 && GetComponent<NPCmovement>().lvl == 2) || (boostspd < 50 && GetComponent<NPCmovement>().lvl == 3))
+            if (boosting)
             {
-                boostspd += Time.deltaTime;
+                spd = slow_spd * boostspd;
+                if (GetComponent<NPCmovement>().lvl == 3 && boostspd > 5) boostspd -= 5 * Time.deltaTime;
+                else if (GetComponent<NPCmovement>().lvl == 2 && boostspd > 10) boostspd -= 10 * Time.deltaTime;
             }
-    
+            else
+            {
+                if ((boostspd < 40 && GetComponent<NPCmovement>().lvl == 2) || (boostspd < 50 && GetComponent<NPCmovement>().lvl == 3))
+                {
+                    boostspd += Time.deltaTime;
+                }
+
+            }
         }
+
             
 
 

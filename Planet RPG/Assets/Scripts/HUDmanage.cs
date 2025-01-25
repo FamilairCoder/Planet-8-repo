@@ -39,7 +39,13 @@ public class HUDmanage : MonoBehaviour
     private void Awake()
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
+
+
+        //get rid of this
         PlayerPrefs.DeleteAll();
+        //get rid of this
+
+
         sd = new List<SetDelivery>(FindObjectsOfType<SetDelivery>());
     }
     // Start is called before the first frame update
@@ -47,8 +53,11 @@ public class HUDmanage : MonoBehaviour
     {
         index = 0;
         money = PlayerPrefs.GetFloat("money", 0);
-        money = 10000;
 
+
+        //get rid of this
+        money = 10000;
+        //get rid of this
     }
 
 
@@ -56,7 +65,6 @@ public class HUDmanage : MonoBehaviour
     void Update()
     {
 
-        //Debug.Log("Framerate: " + (1.0f / Time.deltaTime));
         Application.targetFrameRate = -1;
 
         foreach ( SetDelivery sds in sd )

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -18,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     private float zoom_offset;
     private bool did_position, concreteMovement;
     public bool inhibited;
+
+    private Vector2 respawnPos;
+    public List<StationStats> stationPoses = new List<StationStats>();
+
+    public GameObject concreteText;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
         spd_down = spd;
         turning_spd = ship.turning_spd;
         target_zoom = Camera.main.orthographicSize;
-        
-        
+
+        StartCoroutine(CheckVisitedStation());
     }
 
 
@@ -120,14 +126,23 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
         else concreteMovement = false;
 
-        if (!did_position)
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            transform.position = new Vector2(PlayerPrefs.GetFloat("player positionx", 0), PlayerPrefs.GetFloat("player positiony", 0));
-            did_position = true;
+            if (concreteMovement)
+            {
+                PlayerPrefs.SetInt("ConcreteMovement", 0);
+                Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement off";
+                PlayerPrefs.Save();
+            }
+            else
+            {
+                PlayerPrefs.SetInt("ConcreteMovement", 1);
+                Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement on";
+                PlayerPrefs.Save();
+            }
         }
 
-        PlayerPrefs.SetFloat("player positionx", transform.position.x);
-        PlayerPrefs.SetFloat("player positiony", transform.position.y);
+
 
         spd_up = spd * 8;
         inhibited = false;
@@ -144,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
             if (dead_time < 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                transform.position = new Vector3(0, 0, 0);
+                transform.position = respawnPos;
                 for (int i = 0; i < current_ship.transform.childCount; i++)
                 {
                     var child = current_ship.transform.GetChild(i).gameObject;
@@ -267,5 +282,58 @@ public class PlayerMovement : MonoBehaviour
     public void Move(Vector2 direction)
     {
         GetComponent<Rigidbody2D>().AddForce(direction * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+    }
+
+
+    private IEnumerator CheckVisitedStation()
+    {
+        yield return new WaitForSeconds(.1f);
+        
+        if (PlayerPrefs.GetFloat("first spawn", 1) == 1)
+        {
+
+            transform.position = stationPoses[Random.Range(0, stationPoses.Count)].spawnPoint;
+            PlayerPrefs.SetFloat("first spawn", 0);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+
+            transform.position = new Vector2(PlayerPrefs.GetFloat("player positionx", 0), PlayerPrefs.GetFloat("player positiony", 0));
+        }
+        var x = PlayerPrefs.GetFloat("respawnX", respawnPos.x);
+        var y = PlayerPrefs.GetFloat("respawnY", respawnPos.y);
+        respawnPos = new Vector2(x, y);
+
+
+        //get rid of this
+        transform.position = new(0, 0);
+        Debug.Log("pos set to 0, 0");
+        //get rid of this
+
+
+        while (true)
+        {
+            PlayerPrefs.SetFloat("player positionx", transform.position.x);
+            PlayerPrefs.SetFloat("player positiony", transform.position.y);
+            PlayerPrefs.Save();
+
+
+            var hit = Physics2D.OverlapCircleAll(transform.position, 50f, LayerMask.GetMask("station"));
+            if (hit.Length > 0)
+            {
+                foreach(var a in hit)
+                {
+                    if (a.transform.parent != null && a.GetComponentInParent<StationStats>() != null)
+                    {
+                        respawnPos = a.GetComponentInParent<StationStats>().spawnPoint;
+                        PlayerPrefs.SetFloat("respawnX", respawnPos.x);
+                        PlayerPrefs.SetFloat("respawnY", respawnPos.y);
+                        PlayerPrefs.Save();
+                    }
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
     }
 }
