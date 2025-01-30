@@ -60,7 +60,7 @@ public class MenuScript : MonoBehaviour
             PlayerPrefs.SetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", restockAdd);
             PlayerPrefs.Save();
             if (restockAdd > 0) restockAdd--;
-            yield return new WaitForSeconds(30f);
+            yield return new WaitForSeconds(10f);
         }
         
 

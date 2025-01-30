@@ -30,7 +30,8 @@ public class RepairButtonScript : MonoBehaviour, IPointerClickHandler, IPointerE
             }
         }
 
-        cost = Mathf.Round((ship.total_hp - current_hp) * 5);
+        //Debug.Log(ship.total_hp);
+        cost = Mathf.Round((ship.origHp - current_hp) * 5);
         text.GetComponent<TextMeshProUGUI>().text = cost.ToString() + " photons";
         if (cost > 0)
         {

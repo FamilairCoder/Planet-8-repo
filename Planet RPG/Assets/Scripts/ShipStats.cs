@@ -144,15 +144,15 @@ public class ShipStats : MonoBehaviour
                 col.offset = new(0, .21f);
                 madelvl3 = true;
             }
-            var currentTotalHP = 0f;
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                if (transform.GetChild(i).GetComponent<Health>() != null && transform.GetChild(i).gameObject.activeSelf)
-                {
-                    currentTotalHP += transform.GetChild(i).GetComponent<Health>().hp;
-                }
-            }
-            if (currentTotalHP > total_hp) total_hp = currentTotalHP;
+            //var currentTotalHP = 0f;
+            //for (int i = 0; i < transform.childCount; i++)
+            //{
+            //    if (transform.GetChild(i).GetComponent<Health>() != null && transform.GetChild(i).gameObject.activeSelf)
+            //    {
+            //        currentTotalHP += transform.GetChild(i).GetComponent<Health>().hp;
+            //    }
+            //}
+            //if (currentTotalHP > total_hp) total_hp = currentTotalHP;
 
         }
 
@@ -241,6 +241,7 @@ public class ShipStats : MonoBehaviour
                 }
             }
             total_hp = h;
+            if (total_hp > origHp) origHp = total_hp;
             yield return new WaitForSeconds(Random.Range(.25f, .75f));
         }
     }

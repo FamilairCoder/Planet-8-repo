@@ -1049,7 +1049,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 5991e49bc66d3d44d8ce67c670e089bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1618,7 +1618,7 @@ MonoBehaviour:
   - {fileID: 6643379399382353486, guid: 73e2537899f5a824e952a33f66af193f, type: 3}
   max_dist: 1500
   min_dist: 500
-  max_numb: 4
+  max_numb: 6
   spawn_time: 60
   ship_types: 
   armor_bonuses: []
@@ -2687,7 +2687,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: -1665880229, guid: 115875056f5b6514d84c0e29af6c1ef3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2774,7 +2774,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d5ead0016691317499f51eb7616e0023, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -4258,7 +4258,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 74371cc6703b932418d4a3df7dcbf4f7, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -5798,7 +5798,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &343064751
@@ -5877,7 +5877,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2737880bbd6568b49a33655bebfe2e75, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -13218,6 +13218,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420034}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420037}
   - component: {fileID: 519420035}
   - component: {fileID: 519420036}
   m_Layer: 0
@@ -13395,7 +13396,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 19.670046
+  MaxDistance: 19.97
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -13470,6 +13471,97 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &519420037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dbfa9c275aa6f4c9c376f598f0fc7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBox: {fileID: 9119350005370335452, guid: 6c6927c332d7ebc4e8f3bf4a8e9f6222, type: 3}
+  weakSpinDialogues:
+  - You call that a spin?
+  - Get outta the way
+  - Ow. Hey!
+  - Did a mosquito just bite me?
+  - Dont threaten me with a good time
+  - weeee
+  - thats a spin? what a tease
+  - Not so hard
+  - Watch where you're going
+  strongSpinDialogues:
+  - AAAAAAAAAAAAAAAAAA!!!!!
+  - You maniac!!!
+  - Leave me alone!!
+  - Help help help help!!!
+  - For the love of the mech gods! LEAVE ME ALONE!!!!
+  - mech gods save me!!!!!
+  - by the mech gods!!
+  - oh my mechanical GOD!
+  - Quit spinning me!!
+  - You could get fired for that!
+  - I'll call the police!
+  - Patrols, KILL THAT GUY!!
+  - GIFAEUFEHUHFAEHJKAHF!!!
+  - GAH!!!
+  pirateFear:
+  - Pirate! Pirate! Pirate!
+  - Help! Patrol! Theres a pirate!
+  - Kill that pirate!
+  - AAAAAHHHHHH!!!
+  - Im scared right now!
+  - He'll kill me!!!
+  - Red lighter alert!!
+  - Shoot em dead!
+  - RUN! Theres a pirate!
+  - Blow that pirate to bits before he kills me!!
+  pirateThreat:
+  - Killing time!
+  - I'll murder you!
+  - Red light forever!!
+  - Do you wanna DIEEEE!!!!
+  - You're facing me? ME of all red lighters?!?!
+  - Do you know who i am??!
+  - I'll murder all over you're thrusters!!!
+  - The red dragon will fly again!!
+  - What are you gonna do?! I'll kill you!!
+  - Oh boy I get to murder someone!
+  - I see future scrap metal apporaching!
+  - No one will hear you scream!!!
+  - Blood in the morning will wake a pirate right up!!
+  - Space ghost coast to coast time!!
+  - One shot here we go!
+  - This better be good!!
+  - What a lousy ship! Come at me!!
+  - Pray to the mech gods for what I'm gonna do to you!!
+  - Oh Red Dragon, have mercy on this poor soul
+  - Nice ship. Put up a good fight!
+  - You'd better squirm!
+  - I hope you die!!
+  - More debris for the graveyard? With pleasure!!
+  - Part by part. I'll rip you apart!!
+  - A red light never goes out!
+  pirateRetreat:
+  - Uh oh
+  - running time
+  - no dont kill me!!
+  - I dont wanna die!
+  - Wait wait wait I'm sorry
+  - Look over there!
+  - Whats that over there?
+  - Tactical retreat!
+  - I'm not running you're running!
+  - I left my weapons over here actually
+  - AAAAAAAAAA
+  - Not like this!!!
+  - Tac void!
+  - You got lucky this time!
+  - Look at the time
 --- !u!1001 &521838109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15026,7 +15118,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &697229446
@@ -15871,7 +15963,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!4 &750361216 stripped
@@ -16040,7 +16132,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 436939dc793622d47b5d10e79d42cb66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -21629,7 +21721,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &816220578
@@ -22076,7 +22168,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &832085480
@@ -22382,7 +22474,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -49507,7 +49599,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &1070725837
@@ -49875,7 +49967,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3435f433d7e3a2b45844b04f366458c4, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -61527,7 +61619,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3571badd650698744b012c4b1eb41a06, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -62305,7 +62397,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: a955ba94cb2eb39499d3ca7c18e8a611, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -67712,7 +67804,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &1243219665
@@ -68658,7 +68750,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 533c5770fae1b4741bd492f8e86bf04e, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -70108,7 +70200,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1442970109
@@ -99408,7 +99500,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 368e1e47d0262a140b9b6bb91b7e2709, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100436,7 +100528,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1861262836
@@ -101116,7 +101208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 47e8707293c38a64d940d1c20a7b96f2, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -101392,7 +101484,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 4e62336d5229d374f877fa2c3a2af726, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101689,7 +101781,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ee703effa864ab64b8fbdf44d0c3d3ba, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -107574,7 +107666,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &1986632945
@@ -108484,7 +108576,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c39f50da50c5e944e8ae5f6e0c0502ca, type: 3}
   m_Color: {r: 0, g: 1, b: 0.93155813, a: 1}
@@ -108820,7 +108912,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 5eb54b0f9a5130341bc30d4d7b3b7e6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -109403,7 +109495,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &2087753736
@@ -109593,7 +109685,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1365405497
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2144389818
@@ -111237,7 +111329,7 @@ MonoBehaviour:
   ignore_key: 0
   npc: 0
   spd: 10
-  turning_spd: 250
+  turning_spd: 180
   ruin: {fileID: 0}
   core: {fileID: 7688633824968255465}
   trail: {fileID: 3964245037470213767}

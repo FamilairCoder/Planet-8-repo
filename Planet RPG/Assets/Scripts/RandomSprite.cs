@@ -28,7 +28,7 @@ public class RandomSprite : MonoBehaviour
         {
             GetComponent<Animator>().runtimeAnimatorController = anim_sprites[Random.Range(0, anim_sprites.Count)];
         }
-        
+        if (same_as != null) { StartCoroutine(SameAsRandomize()); }
     }
 
     // Update is called once per frame
@@ -36,15 +36,7 @@ public class RandomSprite : MonoBehaviour
     {
         if (same_as != null && !did_same)
         {
-            if (sprite)
-            {
-                GetComponent<SpriteRenderer>().sprite = same_as.GetComponent<SpriteRenderer>().sprite;
-            }
-            else if (animated)
-            {
-                GetComponent<Animator>().runtimeAnimatorController = same_as.GetComponent<Animator>().runtimeAnimatorController;
-            }
-            if (!dont_set_polygon_collider) gameObject.AddComponent<PolygonCollider2D>();
+
             did_same = true;
         }
     }
@@ -64,5 +56,23 @@ public class RandomSprite : MonoBehaviour
         {
             GetComponent<Animator>().runtimeAnimatorController = anim_sprites[Random.Range(0, anim_sprites.Count)];
         }
+    }
+
+    private IEnumerator SameAsRandomize()
+    {
+        yield return new WaitForSeconds(.07f);
+
+        if (sprite)
+        {
+            GetComponent<SpriteRenderer>().sprite = same_as.GetComponent<SpriteRenderer>().sprite;
+            if (GetComponent<Health>() != null) GetComponent<Health>().orig_sprite = same_as.GetComponent<SpriteRenderer>().sprite;
+
+        }
+        else if (animated)
+        {
+            GetComponent<Animator>().runtimeAnimatorController = same_as.GetComponent<Animator>().runtimeAnimatorController;
+        }
+        if (!dont_set_polygon_collider) gameObject.AddComponent<PolygonCollider2D>();
+        yield return null;
     }
 }

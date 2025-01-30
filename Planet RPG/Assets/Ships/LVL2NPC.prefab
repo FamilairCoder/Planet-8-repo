@@ -1368,6 +1368,7 @@ GameObject:
   - component: {fileID: 896857993350109234}
   - component: {fileID: 739055171729308702}
   - component: {fileID: 5370410600349633878}
+  - component: {fileID: 4743406910015301034}
   - component: {fileID: 4910573212011572999}
   - component: {fileID: 7915978510711168339}
   m_Layer: 0
@@ -1427,6 +1428,7 @@ MonoBehaviour:
   ruin_sprite: {fileID: 0}
   thrusters: []
   total_hp: 0
+  origHp: 0
   armor_bonus: 0
   dmg_bonus: 0
   firerate_bonus: 0
@@ -1436,8 +1438,15 @@ MonoBehaviour:
   mining_bonus: 0
   ore_bonus: 0
   bounty_bonus: 0
+  lvl2Parts: []
+  lvl2PartsDiagnosis: []
+  lvl3Parts: []
+  lvl3PartsDiagnosis: []
   images: 
   filled: 
+  amount_broken: 0
+  slow_spd: 0
+  boosting: 0
 --- !u!114 &5370410600349633878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,15 +1461,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 0
   is_npc: 1
+  for_menu: 0
+  lvl: 0
+  boostParticles: {fileID: 0}
   weapons: []
   bounty_cost: 0
   detect_radius: 0
+  attackDistance: 0
   stay_radius: 0
   has_bounty: 0
+  inhibit: 0
+  giveBounty: 0
+  attackedByPlayer: 0
+  retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
+  squadPoint: {fileID: 0}
+  squadLeader: {fileID: 0}
+  target: {fileID: 0}
   rand_time: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+--- !u!114 &4743406910015301034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769924565629858774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &4910573212011572999
 Rigidbody2D:
   serializedVersion: 4

@@ -41,8 +41,7 @@ public class Health : MonoBehaviour
         {
             orig_hp = hp;
         }
-        spr = GetComponent<SpriteRenderer>();
-        orig_sprite = GetComponent<SpriteRenderer>().sprite;
+
         startHP = hp;
     }
 
@@ -96,12 +95,12 @@ public class Health : MonoBehaviour
                 {
                     trail.SetActive(true);
                 }
-                GetComponent<Collider2D>().enabled = true;
+                if (GetComponent<Collider2D>() != null) GetComponent<Collider2D>().enabled = true;
                 if (GetComponent<Animator>() != null)
                     GetComponent<Animator>().enabled = true;
 
-                spr.sprite = orig_sprite;
-                spr.color = new Color(1f, 1f, 1f);
+                if (orig_sprite != null) spr.sprite = orig_sprite;
+                if (spr != null) spr.color = new Color(1f, 1f, 1f);
 
 
             }
@@ -112,6 +111,9 @@ public class Health : MonoBehaviour
     private IEnumerator saveRoutine()
     {
 
+        yield return new WaitForSeconds(.1f);
+        spr = GetComponent<SpriteRenderer>();
+        orig_sprite = GetComponent<SpriteRenderer>().sprite;
         while (true)
         {
             if (transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
@@ -148,7 +150,7 @@ public class Health : MonoBehaviour
                 hp += Random.Range(0f, 1f);
                 
             }
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(Random.Range(0f, 3f));
 
         }
 

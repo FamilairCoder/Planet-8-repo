@@ -51,12 +51,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 4241901175462793480, guid: 1bd7615c43e15bf498cc44397d659b31, type: 3}
   came_from: {fileID: 0}
-  spd: 50
+  spd: 100
   dmg: 1
   target_tag: 
   missile: 0
   turn_spd: 0
   target: {fileID: 0}
+  playerMade: 0
 --- !u!212 &4063018559739895537
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -202,7 +203,7 @@ AudioSource:
   Priority: 100
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

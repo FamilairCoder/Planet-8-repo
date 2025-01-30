@@ -6433,7 +6433,12 @@ MonoBehaviour:
   atk_dmg_add: 0.2
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -6947,6 +6952,7 @@ GameObject:
   - component: {fileID: 4988569569778036387}
   - component: {fileID: 6217326880971995069}
   - component: {fileID: 4976063222292165687}
+  - component: {fileID: -5142797251554786719}
   m_Layer: 8
   m_Name: Lvl2TwinGunner
   m_TagString: enemy
@@ -7029,6 +7035,7 @@ MonoBehaviour:
   filled: 
   amount_broken: 0
   slow_spd: 0
+  boosting: 0
 --- !u!114 &3068488101594490943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7043,6 +7050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 1
   is_npc: 0
+  is_patrol: 0
   for_menu: 0
   lvl: 2
   boostParticles: {fileID: 2644664783734186495}
@@ -7058,6 +7066,7 @@ MonoBehaviour:
   giveBounty: 0
   attackedByPlayer: 0
   retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -7179,6 +7188,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5142797251554786719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197650440908734497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
 --- !u!1 &8236505198394549921
 GameObject:
   m_ObjectHideFlags: 0
@@ -7460,7 +7482,12 @@ MonoBehaviour:
   atk_dmg_add: 0.2
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0

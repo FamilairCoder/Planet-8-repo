@@ -6,9 +6,10 @@ public class NPCweapon : MonoBehaviour
 {
     public GameObject atk_point, bullet, beam_explosion;
     public float atk_spd, atk_spread, atk_dmg_add, beam_dmg;
-    public bool laser_beam;
+    public bool laser_beam, randomWeapon;
     [Header("Dont have to set---------")]
-    public bool is_firing;
+    public GameObject laserbullet, rod;
+    public bool is_firing, laserBullet, laserRod;
     public float dmg_bonus, firerate_bonus, dist;
     private float atk_time, dmg_time = .25f;
     public string target_tag;
@@ -17,7 +18,30 @@ public class NPCweapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (randomWeapon)
+        {
+            var chance = Random.Range(0f, 1f);
+            if (chance < .3f)
+            {
+                laser_beam = true;
+            }
+            else if (chance < .6f)
+            {
+                laserBullet = true;
+                bullet = laserbullet;
+
+                atk_spd = .2f;
+                atk_spread = 5;
+            }
+            else
+            {
+                laserRod = true;
+                bullet = rod;
+
+                atk_spd = .2f;
+                atk_spread = 1;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -74,6 +98,7 @@ public class NPCweapon : MonoBehaviour
 
     public void Attack()
     {
+        //if (GetComponentInParent<NPCmovement>().is_patrol) Debug.Log("attacking");
         atk_time -= Time.deltaTime;
         if (atk_time <= 0 && GetComponent<Health>().hp > 0)
         {

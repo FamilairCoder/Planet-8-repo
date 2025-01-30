@@ -635,8 +635,10 @@ GameObject:
   - component: {fileID: 6725282345655335605}
   - component: {fileID: 5497862395697174013}
   - component: {fileID: 4190323390481590607}
+  - component: {fileID: 4917254632974495125}
   - component: {fileID: 3561528815180038587}
   - component: {fileID: 7826597478872990781}
+  - component: {fileID: 2102108439484793625}
   m_Layer: 0
   m_Name: LVL3NPCSquad
   m_TagString: npc
@@ -697,6 +699,7 @@ MonoBehaviour:
   ruin_sprite: {fileID: 0}
   thrusters: []
   total_hp: 0
+  origHp: 0
   armor_bonus: 0
   dmg_bonus: 0
   firerate_bonus: 0
@@ -706,8 +709,15 @@ MonoBehaviour:
   mining_bonus: 0
   ore_bonus: 0
   bounty_bonus: 0
+  lvl2Parts: []
+  lvl2PartsDiagnosis: []
+  lvl3Parts: []
+  lvl3PartsDiagnosis: []
   images: 
   filled: 
+  amount_broken: 0
+  slow_spd: 0
+  boosting: 0
 --- !u!114 &4190323390481590607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,18 +732,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 0
   is_npc: 1
+  is_patrol: 0
+  for_menu: 0
+  lvl: 0
+  boostParticles: {fileID: 0}
   weapons: []
   bounty_cost: 0
   detect_radius: 0
+  attackDistance: 0
   stay_radius: 0
   has_bounty: 0
   inhibit: 0
+  giveBounty: 0
+  attackedByPlayer: 0
+  retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
+  target: {fileID: 0}
   rand_time: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+--- !u!114 &4917254632974495125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365596581031562569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
 --- !u!50 &3561528815180038587
 Rigidbody2D:
   serializedVersion: 4
@@ -796,6 +829,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 20
+--- !u!114 &2102108439484793625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365596581031562569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
 --- !u!1 &3639109866263736683
 GameObject:
   m_ObjectHideFlags: 0

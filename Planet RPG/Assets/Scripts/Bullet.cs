@@ -44,13 +44,38 @@ public class Bullet : MonoBehaviour
         }
 
         nextPos = transform.position + transform.up * spd * Time.deltaTime;
-        RaycastHit2D hit = Physics2D.Raycast(nextPos, transform.up, spd * Time.deltaTime);
-
-        if (hit.collider != null)
+        RaycastHit2D[] hit = Physics2D.RaycastAll(nextPos, transform.up, spd * Time.deltaTime);
+        foreach (var c in hit)
         {
+            //Debug.Log(c);
+            if (came_from != null && target_tag != "" && target_tag != null && c.collider.CompareTag(target_tag) && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+            {
+                
+                Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
+                c.collider.GetComponent<Health>().hp -= dmg;
+                if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
+                {
+                    if (playerMade)
+                    {
+                        c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                    }
+                    var chance = Random.Range(0f, 1f);
+                    if (chance < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
+                    {
+                        c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                    }
 
-            Collision(hit.collider, hit.point);
+                }
+                Destroy(gameObject);
+                break;
+            }
+
         }
+        //if (hit.collider != null)
+        //{
+
+        //    Collision(hit.collider, hit.point);
+        //}
 
         transform.position = nextPos;
 

@@ -12,7 +12,7 @@ public class PartSlotScript : MonoBehaviour
     public List<GameObject> parts = new List<GameObject>();
     public List<GameObject> weapon_parts = new List<GameObject>();
     public TextMeshProUGUI desc_text, cost_text;
-    private float cost, part_time = 60f;
+    private float cost, part_time = 360f;
     private string desc;
     public int part_numb;
     public GameObject part_button;
@@ -56,7 +56,7 @@ public class PartSlotScript : MonoBehaviour
             cost_text.text = Mathf.Round(part_time).ToString();
             cost_text.color = new Color(.7f, 0, 0);
             part_time -= Time.deltaTime;
-            if (!added) { part_time = 60 + menu.restockAdd; menu.restockAdd += 10; added = true; }
+            if (!added) { part_time = 360 + menu.restockAdd; menu.restockAdd += 30; added = true; }
             if (part_time < 0)
             {
                 PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));

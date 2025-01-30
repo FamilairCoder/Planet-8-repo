@@ -10,6 +10,7 @@ public class AudioScript : MonoBehaviour
     private float changeTimeleft, checkTime, fade = 1, saveTime;
     private Collider2D[] stationNumb, pirateNumb;
     public GameObject player;
+    private Transform playerPos;
     public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery;
     private AudioClip playNext;
     private AudioSource AudioSource;    
@@ -24,7 +25,8 @@ public class AudioScript : MonoBehaviour
         }
         else
         {
-            GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
+            playerPos = FindObjectOfType<PlayerMovement>().gameObject.transform;
+            GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
         }
 
@@ -135,7 +137,7 @@ public class AudioScript : MonoBehaviour
         }
         else if (!forMenu)
         {
-            GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
+            GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
         }
         else if (forMenu)
         {

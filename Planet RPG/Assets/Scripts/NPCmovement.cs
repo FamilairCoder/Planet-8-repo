@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class NPCmovement : MonoBehaviour
 {
-    public bool is_pirate, is_npc, for_menu;
+    public bool is_pirate, is_npc, is_patrol, for_menu;
     public float lvl;
     public ParticleSystem boostParticles;
     //public GameObject basic_laser_bullet;
@@ -16,12 +16,12 @@ public class NPCmovement : MonoBehaviour
     public float bounty_cost, detect_radius, attackDistance;
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger;
     private bool basic_laser = true;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
     private float turning_spd, spd, delay_time = .1f, beam_slow, saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
-    private bool did, found_danger, boost = false;
+    private bool did, boost = false;
     public float rand_time;
     public Vector3 dir;
     private Vector3 movedir;
@@ -47,6 +47,8 @@ public class NPCmovement : MonoBehaviour
                 }*/
         retreatThreshold = Random.Range(.1f, .5f);
         if (retreatThreshold < .25f) retreatThreshold = 0f;
+
+        if (is_pirate || is_patrol) StartCoroutine(FindTarget());
     }
 
     // Update is called once per frame
@@ -55,7 +57,19 @@ public class NPCmovement : MonoBehaviour
         if (target == null)
         {
             
-            if (squadLeader == null) rb.AddForce(transform.up * spd / 3 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            if (squadLeader == null)
+            {
+                if (is_npc)
+                {
+                    rb.AddForce(transform.up * spd / 3 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    rb.AddForce(transform.up * spd / 6 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                }
+            }
+                
+                
             else rb.AddForce((squadPoint.transform.position - transform.position).normalized * spd / 3 * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
         else if (target != null)
@@ -91,7 +105,7 @@ public class NPCmovement : MonoBehaviour
         
         
         
-
+        //if (is_pirate)
         spd = ship.spd * (1 + ship.thrust_bonus);
         turning_spd = ship.turning_spd * (1 + ship.turnspd_bonus);
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * beam_slow);
@@ -114,14 +128,16 @@ public class NPCmovement : MonoBehaviour
                 rand_time -= Time.deltaTime;
                 if (rand_time < 0)
                 {
+                    found_danger = false;
                     dir = (Random.insideUnitCircle + new Vector2(transform.position.x, transform.position.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
                     rand_time = Random.Range(0f, 30f);
+                    if (is_patrol) rand_time = Random.Range(0f, 10f);
                     target_point = new(0, 0);
                     beam_slow = 1f;
-                    if (is_npc && stay_around != null && Random.Range(0f, 1f) < .1f)
-                    {
+                    if ((is_patrol || is_npc) && stay_around != null && (Random.Range(0f, 1f) < .1f || (is_patrol && Random.Range(0f, 1f) < .3f)))                    {
                         target_point = new Vector2(stay_around.transform.position.x + Random.Range(-10f, 10f), stay_around.transform.position.y + Random.Range(-10f, 10f));
                         rand_time = Random.Range(30f, 60f);
+                        if (is_patrol) rand_time = Random.Range(0f, 30f);
                     }
                 }
 
@@ -144,14 +160,6 @@ public class NPCmovement : MonoBehaviour
                 }
 
 
-                if (is_pirate)
-                {
-                    FindTarget("player_station", detect_radius);
-                    if (target == null)
-                    {
-                        FindTarget("player", detect_radius);
-                    }
-                }
 
                 if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) > stay_radius)
                 {
@@ -165,6 +173,8 @@ public class NPCmovement : MonoBehaviour
                 }
 
 
+                StopLaserbeams();
+
 
 
 
@@ -177,6 +187,7 @@ public class NPCmovement : MonoBehaviour
                 retreatTime -= Time.deltaTime;
                 if (rand_time < 0)
                 {
+                    
                     var targetScal = target.GetComponent<Collider2D>().bounds.size.x;
                     offset = new Vector3(Random.Range(-targetScal, targetScal), Random.Range(-targetScal, targetScal));
                     rand_time = 1f;
@@ -206,12 +217,12 @@ public class NPCmovement : MonoBehaviour
                     }
 
                 }
-                if (lvl > 1 && !for_menu)
+                if (lvl > 1 && !for_menu)// && attackedByPlayer)
                 {
                     if (retreatTime < 0)
                     {
                         retreatChance = Random.Range(0f, 1f);
-                        retreatTime = 5f;
+                        retreatTime = 2f;
                     }
                     if ((ship.total_hp < ship.origHp * retreatThreshold || (ship.amount_broken > 0 && retreatChance < retreatThreshold) || (weaponsBroken == count && retreatChance < .5f)))
                     {
@@ -243,11 +254,21 @@ public class NPCmovement : MonoBehaviour
 
 
 
-
-                if (target != null && target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0))
+/*                if (is_patrol)
                 {
+                    if (target != null) Debug.Log("target is not null");
+                    if (target.GetComponent<Health>() != null) Debug.Log("target has health");
+                    if (Vector2.Distance(target.transform.position, transform.position) > detect_radius) Debug.Log("target is greater than detect radius");
+                    if (target.GetComponent<Health>().hp <= 0) Debug.Log("target has less than or equal to 0 health");
+                }*/
+                if (target != null && ((target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0)) || Vector2.Distance(target.transform.position, transform.position) > detect_radius))
+                {
+                    //if (is_patrol) Debug.Log("AAAAAAAAA");
                     target = null;
                     rand_time = 0;
+                    //Debug.Log("AAAAAAA");
+                    StopLaserbeams();
+                    StartCoroutine(FindTarget());
                 }
             }
         }
@@ -271,21 +292,23 @@ public class NPCmovement : MonoBehaviour
                 PlayerBash.bash = false;
                 retreat = false;
                 target = null;
+                StartCoroutine(FindTarget());
             }
 
         }
     }
 
 
-    void FindTarget(string tag, float dist)
+    void FindTargets(string tag, float dist)
     {
+        //Debug.Log("Finding tag: " + tag);
         var hit = Physics2D.OverlapCircleAll(transform.position, dist);
         var possibleTargets = new List<GameObject>();
         foreach (var b in hit)
         {
 
             var a = b.gameObject;
-            if (a.CompareTag(tag) && a != gameObject && !a.transform.IsChildOf(transform))
+            if (a.CompareTag(tag) && a.GetComponent<Collider2D>() != null && a.GetComponent<Health>() != null && a != gameObject && !a.transform.IsChildOf(transform))
             {
 
                 possibleTargets.Add(a);
@@ -322,14 +345,15 @@ public class NPCmovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+/*    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("enemy"))
         {
             found_danger = false;
+            Debug.Log("not found danger");
         }
         
-    }
+    }*/
 
     private void FireWeapons()
     {
@@ -362,5 +386,38 @@ public class NPCmovement : MonoBehaviour
                 beam_slow = 1f;
             }
         }
+    }
+
+    private IEnumerator FindTarget()
+    {
+        yield return new WaitForSeconds(.2f);
+        
+        while (true)
+        {
+            if (target == null)
+            {
+
+                if (is_pirate)
+                {
+                    
+                    FindTargets("patrol", detect_radius);
+                    if (target == null)
+                    {
+                        FindTargets("player_station", detect_radius);
+                    }
+                    if (target == null)
+                    {
+                        FindTargets("player", detect_radius);
+                    }
+                }
+                else if (is_patrol)
+                {
+                    FindTargets("enemy", detect_radius);
+                    //Debug.Log("AAAAAA");
+                }
+            }
+            yield return new WaitForSeconds(Random.Range(0f, 1f));
+        }
+
     }
 }

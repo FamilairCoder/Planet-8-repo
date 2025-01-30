@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7707226760475301501}
   - component: {fileID: 5506675635070051384}
   - component: {fileID: 5159690596794364402}
-  - component: {fileID: 1053783730855790574}
   m_Layer: 0
   m_Name: NavText
   m_TagString: Untagged
@@ -51,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23cbb8c940d59e044bd04556790bb0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offsetPos: {x: 0, y: 0}
 --- !u!23 &5506675635070051384
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -185,11 +185,3 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5506675635070051384}
   m_maskType: 0
---- !u!33 &1053783730855790574
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6881777714792682351}
-  m_Mesh: {fileID: 0}

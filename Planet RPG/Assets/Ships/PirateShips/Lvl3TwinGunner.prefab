@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3135802498711671716}
   - component: {fileID: 589859254355506313}
   - component: {fileID: 6089991129911584621}
+  - component: {fileID: -6118861615290272428}
   m_Layer: 8
   m_Name: Lvl3TwinGunner
   m_TagString: enemy
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 1
   is_npc: 0
+  is_patrol: 0
   for_menu: 0
   lvl: 3
   boostParticles: {fileID: 4029188804288740599}
@@ -137,6 +139,7 @@ MonoBehaviour:
   giveBounty: 0
   attackedByPlayer: 0
   retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -258,6 +261,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6118861615290272428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128679201558193338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
 --- !u!1 &132427943359554405
 GameObject:
   m_ObjectHideFlags: 0
@@ -6189,7 +6205,12 @@ MonoBehaviour:
   atk_dmg_add: 5
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -6856,7 +6877,12 @@ MonoBehaviour:
   atk_dmg_add: 1
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -7637,7 +7663,12 @@ MonoBehaviour:
   atk_dmg_add: 1
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0

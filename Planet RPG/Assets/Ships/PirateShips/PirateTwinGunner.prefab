@@ -251,7 +251,12 @@ MonoBehaviour:
   atk_dmg_add: 1
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -544,6 +549,7 @@ GameObject:
   - component: {fileID: 7200968791606805473}
   - component: {fileID: 1005539728869228000}
   - component: {fileID: -5701777637616639704}
+  - component: {fileID: -5459239900307538186}
   m_Layer: 8
   m_Name: PirateTwinGunner
   m_TagString: enemy
@@ -596,6 +602,7 @@ MonoBehaviour:
   thrusters:
   - {fileID: 1106082186988565805}
   total_hp: 0
+  origHp: 0
   armor_bonus: 0
   dmg_bonus: 0
   firerate_bonus: 1
@@ -611,6 +618,9 @@ MonoBehaviour:
   lvl3PartsDiagnosis: []
   images: 
   filled: 
+  amount_broken: 0
+  slow_spd: 0
+  boosting: 0
 --- !u!114 &2856970170080940503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,8 +635,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 1
   is_npc: 0
+  is_patrol: 0
   for_menu: 0
   lvl: 1
+  boostParticles: {fileID: 0}
   weapons:
   - {fileID: 8055497038948650888}
   - {fileID: 1167636527864232619}
@@ -638,6 +650,8 @@ MonoBehaviour:
   inhibit: 0
   giveBounty: 0
   attackedByPlayer: 0
+  retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -5563,6 +5577,19 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &-5459239900307538186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2165780576859064741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
 --- !u!1 &3420542242338837250
 GameObject:
   m_ObjectHideFlags: 0
@@ -5816,7 +5843,12 @@ MonoBehaviour:
   atk_dmg_add: 1
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0

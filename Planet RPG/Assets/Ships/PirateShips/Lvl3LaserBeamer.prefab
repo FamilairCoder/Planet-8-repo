@@ -358,7 +358,12 @@ MonoBehaviour:
   atk_dmg_add: 2
   beam_dmg: 2
   laser_beam: 1
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -6582,6 +6587,7 @@ GameObject:
   - component: {fileID: 7093962384068534923}
   - component: {fileID: 3115968326776933002}
   - component: {fileID: 6082107919845538768}
+  - component: {fileID: 1379906335305158227}
   m_Layer: 8
   m_Name: Lvl3LaserBeamer
   m_TagString: enemy
@@ -6666,6 +6672,7 @@ MonoBehaviour:
   filled: 
   amount_broken: 0
   slow_spd: 0
+  boosting: 0
 --- !u!114 &2035109128166642302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6680,6 +6687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 1
   is_npc: 0
+  is_patrol: 0
   for_menu: 0
   lvl: 3
   boostParticles: {fileID: 2496315853821929749}
@@ -6694,6 +6702,7 @@ MonoBehaviour:
   giveBounty: 0
   attackedByPlayer: 0
   retreat: 0
+  found_danger: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -11619,6 +11628,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1379906335305158227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7211335594278913039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e518904c5855143a8332147a2115c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
 --- !u!1 &7220952524821408671
 GameObject:
   m_ObjectHideFlags: 0
