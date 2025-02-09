@@ -1349,7 +1349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 6
-  orig_hp: 0
+  orig_hp: 6
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 49a64384797c3fa44a7aa7301daaf871, type: 3}
   orig_sprite: {fileID: 0}
@@ -1524,6 +1524,7 @@ GameObject:
   - component: {fileID: 57631136}
   - component: {fileID: 57631147}
   - component: {fileID: 57631148}
+  - component: {fileID: 57631150}
   m_Layer: 11
   m_Name: Station
   m_TagString: player_station
@@ -1749,6 +1750,25 @@ MonoBehaviour:
   nav_obj: {fileID: 0}
   nav_sakekey: 
   deliverAmount: 0
+--- !u!114 &57631150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57631135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3726e88e3a63147be6749744c5e985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
+  numb: 5
+  maxDist: 50
+  patrols:
+  - {fileID: 8976296008429324940, guid: 04eca7e25370854418fecc61c46123ab, type: 3}
+  - {fileID: 525398787763590521, guid: 6a3e98e757059b648b3c339401491bda, type: 3}
+  spawnedPatrols: []
 --- !u!1 &61644805
 GameObject:
   m_ObjectHideFlags: 0
@@ -12712,7 +12732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 418361f0a1601e74bb0f4c3788eab33f, type: 3}
   orig_sprite: {fileID: 0}
@@ -13562,6 +13582,39 @@ MonoBehaviour:
   - Tac void!
   - You got lucky this time!
   - Look at the time
+  patrolSpinDialogue:
+  - What do you think you're doing?
+  - I'm a patrol you know?
+  - Keep your hands off Bluey
+  - Paws off bub
+  - Keep it moving Bluey
+  - What are you a red lighter?
+  - And I just got a new coat of paint. Great
+  - That's 1000 photons
+  - You aren't all that blue lighter
+  - Blue lighters think they're all that
+  - I'll call reinforcements I swear
+  - 'Blue balled '
+  - Move along blue lighter
+  - Hey. Quit it
+  - I command you to stop
+  patrolThreat:
+  - Enemy spotted
+  - I'll blast him to bits
+  - Red lighter alert! KILLLL!!!
+  - Lets make this quick
+  - Stop! You're under arrest!!
+  - I hate bread. I hate pirates more!!
+  - You're wanted dead or alive. I choose dead
+  - Death incoming
+  - Weapons locked. Time to kill
+  - Its pirate killing time
+  - Alight chums lets do this
+  - PPPAAAAAATTTTRRROOOOLLLLLLL!!!!!!
+  - Killimanjaro!!!
+  - They called me patrol guy back in the war
+  - Just like good old times
+  - The Red Dragon plummets right now!!
 --- !u!1001 &521838109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22394,7 +22447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 6
-  orig_hp: 0
+  orig_hp: 6
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 49a64384797c3fa44a7aa7301daaf871, type: 3}
   orig_sprite: {fileID: 0}
@@ -49840,7 +49893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 8
-  orig_hp: 0
+  orig_hp: 8
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 4882020943703bd4f9810c8c2cf0f7fb, type: 3}
   orig_sprite: {fileID: 0}
@@ -62716,7 +62769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 9839e9009482c9648981d9ab38f51bd0, type: 3}
   orig_sprite: {fileID: 0}
@@ -68027,7 +68080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 8
-  orig_hp: 0
+  orig_hp: 8
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 4882020943703bd4f9810c8c2cf0f7fb, type: 3}
   orig_sprite: {fileID: 0}
@@ -93894,7 +93947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 8
-  orig_hp: 0
+  orig_hp: 8
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: a606337dd6e47904692a90cedda9207e, type: 3}
   orig_sprite: {fileID: 0}
@@ -99629,7 +99682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 8
-  orig_hp: 0
+  orig_hp: 8
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: a606337dd6e47904692a90cedda9207e, type: 3}
   orig_sprite: {fileID: 0}
@@ -100675,7 +100728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 723cd64be1761e74d86176002acd31f4, type: 3}
   orig_sprite: {fileID: 0}
@@ -107382,7 +107435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 418361f0a1601e74bb0f4c3788eab33f, type: 3}
   orig_sprite: {fileID: 0}
@@ -108111,7 +108164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 723cd64be1761e74d86176002acd31f4, type: 3}
   orig_sprite: {fileID: 0}
@@ -110766,41 +110819,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!58 &1404430142131900338
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 3.125
 --- !u!222 &1422259009024496018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -110844,19 +110862,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1767018548530900927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae769552cbc44054d9138668cf60649c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 0}
 --- !u!4 &1893223420066407144
 Transform:
   m_ObjectHideFlags: 0
@@ -111238,37 +111243,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dd1d832080dbea43b3a7ad9e52c9925, type: 3}
---- !u!114 &3095982924801619555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5447644e9b289f54d9a2610aa5ca3869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawn_npcs: 1
-  npc_amount: 6
-  savekey: 
-  ships: []
-  lvl2_ships: []
-  lvl3_ships: []
-  npc_ships:
-  - {fileID: 6643379399382353486, guid: 73e2537899f5a824e952a33f66af193f, type: 3}
-  - {fileID: 3365596581031562569, guid: 8fc7f478ae274b345a39d48aed361538, type: 3}
-  max_dist: 300
-  min_dist: 10
-  max_numb: 0
-  spawn_time: 0
-  ship_types: 
-  armor_bonuses: []
-  spawned_ships: []
-  spawned_shipsLvl2: []
-  spawned_shipsLvl3: []
-  npc_spawned_ships: []
 --- !u!61 &3186180437998881904
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -111479,21 +111453,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &3681760691326600980
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1960, y: 65, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3701154399532081952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111619,6 +111578,75 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fc3adaf5a39bf14c9f93df63d52c464, type: 3}
+--- !u!1001 &3710886204204631439
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1334708298902273769, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_Name
+      value: MilitaryOutpost
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1960
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044140461817081682, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711526532949956672, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: patrols.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3711526532949956672, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: patrols.Array.data[0]
+      value: 
+      objectReference: {fileID: 8976296008429324940, guid: 04eca7e25370854418fecc61c46123ab, type: 3}
+    - target: {fileID: 3711526532949956672, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
+      propertyPath: patrols.Array.data[1]
+      value: 
+      objectReference: {fileID: 525398787763590521, guid: 6a3e98e757059b648b3c339401491bda, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 54f50d0b0e4bfcb44898460380059a74, type: 3}
 --- !u!95 &3778221560541260046
 Animator:
   serializedVersion: 5
@@ -111834,7 +111862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
-  orig_hp: 0
+  orig_hp: 3
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: f6329b9a0fc162c43a12ecbb7d11f994, type: 3}
   orig_sprite: {fileID: 0}
@@ -111861,27 +111889,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &4799252798272867626
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 205cb694af15cfa4db272d5e3c8395f3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!222 &4891723597623269644
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -112069,58 +112076,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!212 &5339805522364913495
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1355886397
-  m_SortingLayer: 4
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 1233431410, guid: 00cfc66e62d12cf4d9a13ce5e855c2ff, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 6.25, y: 6.25}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!222 &5371509200324974742
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -112159,30 +112114,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &5470813685284712567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3681760691326600980}
-  - component: {fileID: 5339805522364913495}
-  - component: {fileID: 8867304750361735857}
-  - component: {fileID: 4799252798272867626}
-  - component: {fileID: 1404430142131900338}
-  - component: {fileID: 3095982924801619555}
-  - component: {fileID: 7082582456253381060}
-  - component: {fileID: 1767018548530900927}
-  - component: {fileID: 8156703030119816073}
-  m_Layer: 11
-  m_Name: MilitaryOutpost
-  m_TagString: player_station
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &5486023732822734722
 GameObject:
   m_ObjectHideFlags: 0
@@ -112698,23 +112629,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4519074627612994598}
   m_maskType: 0
---- !u!114 &7082582456253381060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52931c18839f602489133d05821069c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoint: {x: 0, y: 0}
-  turrets: []
-  linked_stations: []
-  target_tag: 
-  name: 
 --- !u!114 &7139161053402623030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112728,7 +112642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
-  orig_hp: 0
+  orig_hp: 3
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 08b442612d7e0e6498161f98e73a4beb, type: 3}
   orig_sprite: {fileID: 0}
@@ -112838,7 +112752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  orig_hp: 0
+  orig_hp: 5
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 646313bacf1e9f04186078fb5f760ee4, type: 3}
   orig_sprite: {fileID: 0}
@@ -113242,24 +113156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552515d00d77eca46b5f75f8e531174e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8156703030119816073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86230d508a515dc4f8951ad2c3814271, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nav_text: {fileID: 6881777714792682351, guid: 388db7c75271caa4d975e807b0933d12, type: 3}
-  map_obj: {fileID: 1054806180039250759, guid: 33e9cea7b95e184409ba1341522112dc, type: 3}
-  create_nav: 1
-  nav_obj: {fileID: 2326955375072846781, guid: 33e9cea7b95e184409ba1341522112dc, type: 3}
-  nav_sakekey: 
-  deliverAmount: 0
 --- !u!222 &8202768488825221205
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -113486,19 +113382,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8867304750361735857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5470813685284712567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7fa1c215b58bbd41a0330723f0dcb04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 3750473558363924006, guid: 717e0af18e0c8b74fa82036869ce35cb, type: 3}
 --- !u!224 &8914970275086414366
 RectTransform:
   m_ObjectHideFlags: 0
@@ -113627,7 +113510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
-  orig_hp: 0
+  orig_hp: 3
   death_explosion: {fileID: 0}
   ruin: {fileID: 21300000, guid: 87387e32c711c88439323c689b3b7da9, type: 3}
   orig_sprite: {fileID: 0}
@@ -113774,6 +113657,6 @@ SceneRoots:
   - {fileID: 769858534}
   - {fileID: 299056273}
   - {fileID: 230558394}
-  - {fileID: 3681760691326600980}
+  - {fileID: 3710886204204631439}
   - {fileID: 1181891613}
   - {fileID: 1886208234}

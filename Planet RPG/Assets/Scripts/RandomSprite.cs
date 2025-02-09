@@ -18,9 +18,29 @@ public class RandomSprite : MonoBehaviour
     {
         if (sprites.Count > 0 && same_as == null) 
         {
+            if (GetComponentInParent<PatrolID>() != null)
+            {
+                var id = GetComponentInParent<PatrolID>().id.ToString();
+                int index = 0;
+                if (PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().spawnCameFrom.key + "alive" + id, 1) == 1)
+                {
+                    index = PlayerPrefs.GetInt(id + "sprite" + transform.GetSiblingIndex(), Random.Range(0, sprites.Count));
+                }
+                else
+                {
+                    index = Random.Range(0, sprites.Count);
+                }
+                if (index >= 0 && index < sprites.Count) GetComponent<SpriteRenderer>().sprite = sprites[index];
 
-            if (GetComponent<SpriteRenderer>() != null) GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Count)];
-            else GetComponent<Image>().sprite = sprites[Random.Range(0, sprites.Count)];
+                PlayerPrefs.SetInt(id + "sprite" + transform.GetSiblingIndex(), index);
+                PlayerPrefs.Save();
+            }
+            else
+            {
+                if (GetComponent<SpriteRenderer>() != null) GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Count)];
+                else GetComponent<Image>().sprite = sprites[Random.Range(0, sprites.Count)];
+            }
+
             if (!dont_set_polygon_collider) gameObject.AddComponent<PolygonCollider2D>();
         }
 

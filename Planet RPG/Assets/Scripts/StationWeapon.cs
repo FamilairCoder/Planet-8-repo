@@ -113,7 +113,7 @@ public class StationWeapon : MonoBehaviour
                     lr.SetPosition(1, atk_points[0].transform.position + atk_points[0].transform.up * laser_range);
                 }
             }
-
+            if (Vector2.Distance(transform.position, target.transform.position) > detection_radius) target = null;
 
         }
         

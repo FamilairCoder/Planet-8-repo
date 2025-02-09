@@ -41,9 +41,9 @@ public class HUDmanage : MonoBehaviour
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
 
 
-        //get rid of this
+        //get rid of this--------------------------
         PlayerPrefs.DeleteAll();
-        //get rid of this
+        //get rid of this--------------------------
 
 
         sd = new List<SetDelivery>(FindObjectsOfType<SetDelivery>());
@@ -55,9 +55,9 @@ public class HUDmanage : MonoBehaviour
         money = PlayerPrefs.GetFloat("money", 0);
 
 
-        //get rid of this
+        //get rid of this--------------------------
         money = 10000;
-        //get rid of this
+        //get rid of this--------------------------
     }
 
 

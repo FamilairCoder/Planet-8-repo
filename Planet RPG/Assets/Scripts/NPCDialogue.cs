@@ -8,7 +8,7 @@ public class NPCDialogue : MonoBehaviour
     private DialogueManager manager;
     private GameObject createdDialogue;
     private bool spinning, inDanger, threatening, retreating;
-    private float timeleft = 2f, threatenTime = 3f;
+    private float timeleft = 3f, threatenTime = 3f;
     private NPCmovement npcM;
     // Start is called before the first frame update
     void Start()
@@ -32,7 +32,7 @@ public class NPCDialogue : MonoBehaviour
                 Destroy(createdDialogue);
                 spinning = false;
                 //threatening = false;                
-                timeleft = 2;
+                timeleft = 3;
             }
         }
 
@@ -54,14 +54,16 @@ public class NPCDialogue : MonoBehaviour
             inDanger = false;
         }
 
-        if (!threatening && npcM.is_pirate && npcM.target != null)
+        if (!threatening && npcM.target != null)
         {
+            if (createdDialogue != null) Destroy(createdDialogue);
             var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);
             createdDialogue = d;
             var script = d.GetComponent<DialogueStayOn>();
             script.stayOn = gameObject;
             d.GetComponent<AudioSource>().clip = clip;
-            script.text = manager.pirateThreat[Random.Range(0, manager.pirateThreat.Count)];
+            if (npcM.is_pirate) script.text = manager.pirateThreat[Random.Range(0, manager.pirateThreat.Count)];
+            if (npcM.is_patrol) script.text = manager.patrolThreat[Random.Range(0, manager.patrolThreat.Count)];
 
             threatening = true;
         }
@@ -70,6 +72,7 @@ public class NPCDialogue : MonoBehaviour
 
         if (!retreating && npcM.is_pirate && npcM.retreat)
         {
+            if (createdDialogue != null) Destroy(createdDialogue);
             var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);
             createdDialogue = d;
             var script = d.GetComponent<DialogueStayOn>();
@@ -80,7 +83,7 @@ public class NPCDialogue : MonoBehaviour
             retreating = true;
         }
 
-        if (npcM.is_pirate && threatening)
+        if ((npcM.is_pirate || npcM.is_patrol) && threatening)
         {
             threatenTime -= Time.deltaTime;
             if (npcM.target != null)
@@ -92,10 +95,12 @@ public class NPCDialogue : MonoBehaviour
                 threatening = false;
             }
         }
-        if (npcM.is_patrol && !npcM.retreat)
+        if ((npcM.is_pirate || npcM.is_patrol) && !npcM.retreat)
         {
             retreating = false;
         }
+
+
         //if (!npcM.retreat && npcM.target == null)
         //{
         //    threatening = false;
@@ -106,19 +111,29 @@ public class NPCDialogue : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var ang = Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity);
-        if (!spinning && collision.gameObject.CompareTag("player") && ang > 100 && npcM.is_npc)
-        {    
+        if (!spinning && collision.gameObject.CompareTag("player") && ang > 100 && (npcM.is_npc || npcM.is_patrol) && npcM.target == null)
+        {
+            if (createdDialogue != null) Destroy(createdDialogue);
             var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);
             createdDialogue = d;
+            if (clip != null) d.GetComponent<AudioSource>().clip = clip;
             var script = d.GetComponent<DialogueStayOn>();
             script.stayOn = gameObject;
-            if (ang < 200)
+            if (npcM.is_npc)
             {
-                script.text = manager.weakSpinDialogues[Random.Range(0, manager.weakSpinDialogues.Count)];
+                if (ang < 200)
+                {
+                    script.text = manager.weakSpinDialogues[Random.Range(0, manager.weakSpinDialogues.Count)];
+                }
+                else
+                {
+                    script.text = manager.strongSpinDialogues[Random.Range(0, manager.strongSpinDialogues.Count)];
+                }
             }
-            else 
+            else if (npcM.is_patrol)
             {
-                script.text = manager.strongSpinDialogues[Random.Range(0, manager.strongSpinDialogues.Count)];
+                
+                script.text = manager.patrolSpinDialogue[Random.Range(0, manager.patrolSpinDialogue.Count)];
             }
             spinning = true;
         }

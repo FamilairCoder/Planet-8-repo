@@ -219,7 +219,7 @@ public class MapParralax : MonoBehaviour
 
     void Start()
     {
-        on = PlayerPrefs.GetInt(savekey + "enabled", 0) == 1;
+        if (!on) on = PlayerPrefs.GetInt(savekey + "enabled", 0) == 1;
         tracking = PlayerPrefs.GetInt(savekey + "tracking", 0) == 1;
         player = FindObjectOfType<PlayerMining>().gameObject;
         origScale = transform.localScale;

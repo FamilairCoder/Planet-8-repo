@@ -19,13 +19,22 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spr = GetComponent<SpriteRenderer>();
         if (!reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
         {
             if (transform.parent.GetComponent<ShipStats>().npc)
             {
+                if (GetComponentInParent<PatrolID>() != null)
+                {
+                    hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
+                    orig_hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
+                }
+                else
+                {
+                    hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
+                    orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
+                }
 
-                hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
-                orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
 
             }
             else
@@ -99,7 +108,7 @@ public class Health : MonoBehaviour
                 if (GetComponent<Animator>() != null)
                     GetComponent<Animator>().enabled = true;
 
-                if (orig_sprite != null) spr.sprite = orig_sprite;
+                if (orig_sprite != null && spr.sprite != null) spr.sprite = orig_sprite;
                 if (spr != null) spr.color = new Color(1f, 1f, 1f);
 
 
@@ -121,8 +130,16 @@ public class Health : MonoBehaviour
                 if (transform.parent.GetComponent<ShipStats>().npc)
                 {
 
-                    PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
-                    PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", orig_hp);
+                    if (GetComponentInParent<PatrolID>() != null)
+                    {
+                        hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
+                        orig_hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
+                    }
+                    else
+                    {
+                        hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
+                        orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
+                    }
 
                 }
                 else

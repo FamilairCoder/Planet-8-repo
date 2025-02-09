@@ -29,7 +29,9 @@ public class NPCmovement : MonoBehaviour
     public string key;
     private ShipStats ship;
     private Rigidbody2D rb;
-   
+    private Transform playerPos;
+    private PatrolID patrolID;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,13 @@ public class NPCmovement : MonoBehaviour
         if (retreatThreshold < .25f) retreatThreshold = 0f;
 
         if (is_pirate || is_patrol) StartCoroutine(FindTarget());
+        if (is_patrol)
+        {
+            playerPos = FindObjectOfType<PlayerMovement>().transform;
+            patrolID = GetComponent<PatrolID>();
+        }
+            
+            
     }
 
     // Update is called once per frame
@@ -65,7 +74,15 @@ public class NPCmovement : MonoBehaviour
                 }
                 else
                 {
-                    rb.AddForce(transform.up * spd / 6 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                    if (is_patrol && patrolID.taken)
+                    {
+                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+
+                    }
+                    else if (!is_patrol || !patrolID.taken)
+                    {
+                        rb.AddForce(transform.up * spd / 6 * Time.fixedDeltaTime, ForceMode2D.Impulse);
+                    }
                 }
             }
                 
@@ -114,6 +131,65 @@ public class NPCmovement : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * Time.deltaTime);
 
+
+        //fleet movement
+        if (is_patrol && patrolID.taken)
+        {
+            if (target == null)
+            {
+                var dist = Vector2.Distance(transform.position, playerPos.position);
+
+                beam_slow = .5f;
+                rand_time -= Time.deltaTime;
+                if (rand_time < 0)
+                {
+                    //beam_slow = 1f;
+
+                    /*                if (dist > PatrolID.stayDist)
+                                    {
+
+                                    }*/
+
+
+
+                    dir = (Random.insideUnitCircle + new Vector2(transform.position.x, transform.position.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
+                    rand_time = Random.Range(0f, 5f);
+                }
+
+                if (dist > PatrolID.stayDist)
+                {
+                    if (!boost)
+                    {
+                        patrolID.boostParticles.Play();
+                        boost = true;
+                    }
+                    beam_slow = dist / 5;
+                    //beam_slow = 100;
+                    //Debug.Log(beam_slow);
+                    dir = (playerPos.position - transform.position).normalized;
+                    rand_time = Random.Range(0f, 2f);
+                }
+                else
+                {
+
+                    patrolID.boostParticles.Stop();
+                    boost = false;
+                }
+                StopLaserbeams();
+
+            }
+            else if (target != null)
+            {
+                boost = false;
+                patrolID.boostParticles.Stop();
+            }
+        }
+        
+
+
+
+
+
         if (!retreat)
         {
 
@@ -121,7 +197,7 @@ public class NPCmovement : MonoBehaviour
             if (boostParticles != null) boostParticles.Stop();
            
 
-            if (target == null)
+            if (target == null && (!is_patrol || !patrolID.taken))
             {
                 beam_slow = 1f;
 
@@ -383,7 +459,7 @@ public class NPCmovement : MonoBehaviour
             if (w.GetComponent<NPCweapon>().laser_beam)
             {
                 w.GetComponent<NPCweapon>().is_firing = false;
-                beam_slow = 1f;
+                //beam_slow = 1f;
             }
         }
     }

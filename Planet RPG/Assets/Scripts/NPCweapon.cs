@@ -41,6 +41,55 @@ public class NPCweapon : MonoBehaviour
                 atk_spd = .2f;
                 atk_spread = 1;
             }
+
+
+
+
+            if (GetComponentInParent<PatrolID>() != null)
+            {
+                
+                var id = GetComponentInParent<PatrolID>().id.ToString();
+                if (PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().spawnCameFrom.key + "alive" + id, 1) == 1)
+                {
+                    chance = PlayerPrefs.GetFloat(id + "weaponChance" + transform.GetSiblingIndex(), Random.Range(0f, 1f));
+                }
+                else
+                {
+                    chance = Random.Range(0f, 1f);
+                }
+
+
+
+                if (chance < .3f)
+                {
+                    laser_beam = true;
+                }
+                else if (chance < .6f)
+                {
+                    laserBullet = true;
+                    bullet = laserbullet;
+
+                    atk_spd = .2f;
+                    atk_spread = 5;
+                }
+                else
+                {
+                    laserRod = true;
+                    bullet = rod;
+
+                    atk_spd = .2f;
+                    atk_spread = 1;
+                }
+
+
+
+                PlayerPrefs.SetFloat(id + "weaponChance" + transform.GetSiblingIndex(), chance);
+                PlayerPrefs.Save();
+            }
+
+
+
+
         }
     }
 

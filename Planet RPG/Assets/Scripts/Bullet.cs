@@ -115,11 +115,16 @@ public class Bullet : MonoBehaviour
             collision.GetComponent<Health>().hp -= dmg;
             if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
             {
+                var chance = Random.Range(0f, 1f);
                 if (playerMade)
                 {
                     collision.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                    if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
+                    {
+                        collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                    }
                 }
-                var chance = Random.Range(0f, 1f);
+                
                 if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
                 {
                     collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;

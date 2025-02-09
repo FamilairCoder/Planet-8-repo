@@ -5,12 +5,15 @@ using UnityEngine;
 public class OutpostSetBody : MonoBehaviour
 {
     public GameObject leg;
+    private string key;
     // Start is called before the first frame update
     void Start()
     {
-        var amount = Random.Range(1, 10);
+        key = gameObject.name; 
+        var amount = PlayerPrefs.GetFloat(key + "amount", Random.Range(1, 10));
+        var radius = PlayerPrefs.GetFloat(key + "radius", Random.Range(1f, 3f));
         //var radius = Random.Range(transform.localScale.x * .1f, transform.localScale.x * .9f);
-        var radius = Random.Range(.5f, 3f);
+        //var radius = Random.Range(1f, 3f);
         for (float i = 0; i < amount; i++)
         {
             var currentpos = transform.position;
@@ -24,6 +27,9 @@ public class OutpostSetBody : MonoBehaviour
             var l = Instantiate(leg, pos, targetRotation, transform);
             
         }
+        PlayerPrefs.SetFloat(key + "amount", amount);
+        PlayerPrefs.SetFloat(key + "radius", radius);
+        PlayerPrefs.Save();
     }
 
     // Update is called once per frame
