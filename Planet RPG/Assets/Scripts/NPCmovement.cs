@@ -83,6 +83,11 @@ public class NPCmovement : MonoBehaviour
                     {
                         rb.AddForce(transform.up * spd / 6 * Time.fixedDeltaTime, ForceMode2D.Impulse);
                     }
+                    if (is_patrol && GetComponent<OpenMenu>().createdMenu != null)
+                    {
+                        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, 0), .3f);
+                        dir = (playerPos.position - transform.position).normalized;
+                    }
                 }
             }
                 

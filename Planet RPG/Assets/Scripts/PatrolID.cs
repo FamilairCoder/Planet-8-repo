@@ -23,14 +23,19 @@ public class PatrolID : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+/*        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (!taken && Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map)
         {
-            particles.Play();
-            clip.Play();
-            //Play vfx and sfx
-            taken = true;
-            Instantiate(ind, transform.position, Quaternion.identity).GetComponent<IndicatorPositioning>().tiedObj = gameObject;
-        }
+
+        }*/
+    }
+
+    public void Hire()
+    {
+        particles.Play();
+        clip.Play();
+        //Play vfx and sfx
+        taken = true;
+        Instantiate(ind, transform.position, Quaternion.identity).GetComponent<IndicatorPositioning>().tiedObj = gameObject;
     }
 }

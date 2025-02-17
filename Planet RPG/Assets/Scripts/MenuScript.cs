@@ -9,15 +9,20 @@ public class MenuScript : MonoBehaviour
     public GameObject station;
     private GameObject player;
     public bool dontSpawnCV;
-    public bool isOutpost;
-    public float restockAdd;
+    public bool isOutpost, forPatrol;
+    public float restockAdd, hireCost;
+    public PatrolHireButton hireButton;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerMining>().gameObject;
         StartCoroutine(Delay());
-        restockAdd = PlayerPrefs.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
-        StartCoroutine(RestockTime());
+        if (!forPatrol)
+        {
+            restockAdd = PlayerPrefs.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
+            StartCoroutine(RestockTime());
+        }
+
     }
 
     // Update is called once per frame
@@ -31,6 +36,7 @@ public class MenuScript : MonoBehaviour
             {
                 active = false;
                 GetComponent<RectTransform>().localPosition = away_pos;
+                if (forPatrol) Destroy(gameObject);
                 gameObject.SetActive(false);
 
             }
@@ -39,7 +45,9 @@ public class MenuScript : MonoBehaviour
         {
             GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, away_pos, .1f);
             
+            
         }
+         if (hireButton != null && hireButton.hired) Destroy(gameObject);
     }
 
 
@@ -49,7 +57,7 @@ public class MenuScript : MonoBehaviour
 
         yield return new WaitForSeconds(.3f);
 
-        gameObject.SetActive(false);
+        if (!forPatrol) gameObject.SetActive(false);
     }
 
     private IEnumerator RestockTime()

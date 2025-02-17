@@ -6,7 +6,7 @@ public class AudioScript : MonoBehaviour
 {
     public static float songVolume = 1, masterVolume = .5f, SFXVolume = .5f;
     public bool isManager, forMenu, dontPitchShift;
-    private bool changing, traveling, isLaser;
+    private bool changing, traveling, isLaser, inMenu;
     private float changeTimeleft, checkTime, fade = 1, saveTime;
     private Collider2D[] stationNumb, pirateNumb;
     public GameObject player;
@@ -23,11 +23,17 @@ public class AudioScript : MonoBehaviour
         {
             GetComponent<AudioSource>().volume = songVolume * masterVolume * fade;
         }
-        else
+        else if (FindObjectOfType<PlayerMovement>() != null)
         {
             playerPos = FindObjectOfType<PlayerMovement>().gameObject.transform;
             GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
+        }
+        else if(FindObjectOfType<PlayerMovement>() == null)
+        {
+            GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
+            if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
+            inMenu = true;
         }
 
         songVolume = PlayerPrefs.GetFloat("SongVolume", 1);
@@ -137,7 +143,8 @@ public class AudioScript : MonoBehaviour
         }
         else if (!forMenu)
         {
-            GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
+            if (!inMenu) GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
+            else GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
         }
         else if (forMenu)
         {
