@@ -49,7 +49,7 @@ public class NPCweapon : MonoBehaviour
             {
                 
                 var id = GetComponentInParent<PatrolID>().id.ToString();
-                if (PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().spawnCameFrom.key + "alive" + id, 1) == 1)
+                if (PlayerPrefs.GetFloat("alive" + id, 1) == 1)
                 {
                     chance = PlayerPrefs.GetFloat(id + "weaponChance" + transform.GetSiblingIndex(), Random.Range(0f, 1f));
                 }

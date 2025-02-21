@@ -23,7 +23,7 @@ public class PatrolSpawner : MonoBehaviour
 
         for (int i = 0; i < numb; i++)
         {
-            if (PlayerPrefs.GetFloat(key + "alive" + i, 1) == 1)
+            if (PlayerPrefs.GetFloat("alive" + i + key, 1) == 1)
             {
                 SpawnPatrol(i);
             }
@@ -45,7 +45,7 @@ public class PatrolSpawner : MonoBehaviour
 
     void SpawnPatrol(float id)
     {
-        var index = PlayerPrefs.GetInt(key + "index" + id, Random.Range(0, patrols.Count));
+        var index = PlayerPrefs.GetInt("index" + id, Random.Range(0, patrols.Count));
 
         var dist = Random.Range(0, maxDist);
         var vec = Random.Range(0f, 360f);
@@ -53,18 +53,24 @@ public class PatrolSpawner : MonoBehaviour
         GameObject p = Instantiate(patrols[index], pos, Quaternion.identity);
         p.GetComponent<NPCmovement>().stay_around = gameObject;
         p.GetComponent<NPCmovement>().stay_radius = maxDist;
-        p.GetComponent<PatrolID>().id = id;
+        p.GetComponent<PatrolID>().id = id + key;
         p.GetComponent<PatrolID>().spawnCameFrom = GetComponent<PatrolSpawner>();
 
-        PlayerPrefs.SetFloat(key + "alive" + id, 1);
-        PlayerPrefs.SetInt(key + "index" + id, index);
+        PlayerPrefs.SetFloat("alive" + id + key, 1);
+        PlayerPrefs.SetInt("index" + id, index);
         PlayerPrefs.Save();
-
+        //key += 1;
         spawnedPatrols.Insert((int)id, p);
+
+        if (PlayerPrefs.GetFloat("taken" + id + key, 0) == 1)
+        {
+            p.SetActive(false);
+        }
+
     }
 
 
-    private IEnumerator CheckSpawned()
+        private IEnumerator CheckSpawned()
     {
 
         while (true)
@@ -88,12 +94,14 @@ public class PatrolSpawner : MonoBehaviour
             for (int i = 0; i < numb; i++)
             {
                 
-                if (spawnedPatrols[i] == null || spawnedPatrols[i].GetComponent<PatrolID>().taken)
+                if (spawnedPatrols[i] == null)
                 {
-                    PlayerPrefs.SetFloat(key + "alive" + i, 0);
-                    PlayerPrefs.DeleteKey(key + "index" + i);
+                    PlayerPrefs.SetFloat("alive" + i + key, 0);
+                    PlayerPrefs.DeleteKey("index" + i + key);
                     
                 }
+
+                
             }
 
 
@@ -102,7 +110,7 @@ public class PatrolSpawner : MonoBehaviour
                 for (int i = 0; i < numb; i++)
                 {
                     //Debug.Log(PlayerPrefs.GetFloat(key + "alive" + i));
-                    if (PlayerPrefs.GetFloat(key + "alive" + i, 1) == 0)
+                    if (PlayerPrefs.GetFloat("alive" + i + key, 1) == 0)
                     {
                         spawnedPatrols.Remove(spawnedPatrols[i]);
                         SpawnPatrol(i);

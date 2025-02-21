@@ -20,9 +20,9 @@ public class RandomSprite : MonoBehaviour
         {
             if (GetComponentInParent<PatrolID>() != null)
             {
-                var id = GetComponentInParent<PatrolID>().id.ToString();
+                var id = GetComponentInParent<PatrolID>().id;
                 int index = 0;
-                if (PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().spawnCameFrom.key + "alive" + id, 1) == 1)
+                if (PlayerPrefs.GetFloat("alive" + id, 1) == 1)
                 {
                     index = PlayerPrefs.GetInt(id + "sprite" + transform.GetSiblingIndex(), Random.Range(0, sprites.Count));
                 }

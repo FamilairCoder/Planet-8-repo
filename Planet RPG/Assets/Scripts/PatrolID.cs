@@ -11,8 +11,9 @@ public class PatrolID : MonoBehaviour
     public GameObject ind;
     public ParticleSystem boostParticles;
     [Header("Identification stuff---------------------")]
-    public float id;
+    public string id;
     public bool taken;
+    public bool didTaken;
     public PatrolSpawner spawnCameFrom;
     // Start is called before the first frame update
     void Start()
@@ -32,10 +33,18 @@ public class PatrolID : MonoBehaviour
 
     public void Hire()
     {
-        particles.Play();
-        clip.Play();
+
         //Play vfx and sfx
         taken = true;
         Instantiate(ind, transform.position, Quaternion.identity).GetComponent<IndicatorPositioning>().tiedObj = gameObject;
+        if (taken && !didTaken)
+        {
+            particles.Play();
+            clip.Play();
+            PatrolManager.patrols.Add(gameObject);
+            didTaken = true;
+        }
+        PlayerPrefs.SetFloat("taken" + id, 1);
+        PlayerPrefs.Save();
     }
 }

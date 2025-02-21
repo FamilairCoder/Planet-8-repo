@@ -220,6 +220,12 @@ public class ShipStats : MonoBehaviour
                 PlayerPrefs.SetFloat(GetComponent<NPCmovement>().key + "alive", 0);
 
                 if (GetComponent<NPCmovement>().giveBounty) HUDmanage.money += GetComponent<NPCmovement>().bounty_cost / 4;
+                if (GetComponent<PatrolID>()  != null)
+                {
+                    PlayerPrefs.SetFloat("alive" + GetComponent<PatrolID>().id, 0);
+                    PlayerPrefs.SetFloat("taken" + GetComponent<PatrolID>().id, 0);
+                    PlayerPrefs.Save();
+                }
 
                 Destroy(gameObject);
             }
