@@ -20,5 +20,6 @@ public class IndicatorPositioning : MonoBehaviour
         {
             transform.position = tiedObj.transform.position + new Vector3(0f, offset);
         }
+        else Destroy(gameObject);
     }
 }

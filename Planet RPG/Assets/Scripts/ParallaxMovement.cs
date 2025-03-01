@@ -12,7 +12,7 @@ public class ParallaxMovement : MonoBehaviour
 
     void Start()
     {
-        if (setPlayer) playerTransform = FindObjectOfType<PlayerMovement>().transform;
+        if (setPlayer) playerTransform = HUDmanage.playerReference.transform;
         if (randomize)
         {
             parallaxFactor = Random.Range(min, max);

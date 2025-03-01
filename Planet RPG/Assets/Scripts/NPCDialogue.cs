@@ -132,8 +132,15 @@ public class NPCDialogue : MonoBehaviour
             }
             else if (npcM.is_patrol)
             {
+                if (!GetComponent<PatrolID>().taken)
+                {
+                    script.text = manager.patrolSpinDialogue[Random.Range(0, manager.patrolSpinDialogue.Count)];
+                }
+                else
+                {
+                    script.text = manager.patrolTakenSpinDialogue[Random.Range(0, manager.patrolTakenSpinDialogue.Count)];
+                }
                 
-                script.text = manager.patrolSpinDialogue[Random.Range(0, manager.patrolSpinDialogue.Count)];
             }
             spinning = true;
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class OpenMenu : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class OpenMenu : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Debug.Log("Mouse Position: " + mousePos);
 
-        if (Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map && !opened)
+        if (!PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map && !opened)
         {
             //Debug.Log("AAAAAAAAAAA");
             if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || !menu.GetComponent<MenuScript>().active))

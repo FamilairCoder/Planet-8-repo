@@ -8,7 +8,7 @@ public class Despawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerPos = FindObjectOfType<PlayerMovement>().transform;
+        playerPos = HUDmanage.playerReference.transform;
 
         StartCoroutine(check());
     }

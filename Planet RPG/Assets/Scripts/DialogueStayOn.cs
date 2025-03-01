@@ -19,7 +19,7 @@ public class DialogueStayOn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stayOn != null)
+        if (stayOn != null && stayOn.activeSelf)
         {
             var stayPos = stayOn.transform.position;
             transform.position = new(stayPos.x, stayPos.y + 1f, -5f);

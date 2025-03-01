@@ -14,7 +14,7 @@ public class RepairButtonScript : MonoBehaviour, IPointerClickHandler, IPointerE
     // Start is called before the first frame update
     void Start()
     {
-        ship = FindObjectOfType<PlayerMovement>().transform.GetChild(0).GetComponent<ShipStats>();
+        ship = HUDmanage.playerReference.transform.GetChild(0).GetComponent<ShipStats>();
 
     }
 

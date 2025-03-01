@@ -12,7 +12,7 @@ public class ErrorTextDisappear : MonoBehaviour
     void Start()
     {
         
-        player = FindObjectOfType<PlayerMovement>().gameObject;
+        player = HUDmanage.playerReference;
         
         
     }

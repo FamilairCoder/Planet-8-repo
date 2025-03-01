@@ -20,7 +20,7 @@ public class AsteroidSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerMovement>().gameObject;
+        player = HUDmanage.playerReference;
 
         float distance = Vector2.Distance(transform.position, player.transform.position);
         if (distance < max_dist + 200)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 //using static UnityEditor.PlayerSettings;
 
@@ -17,7 +18,7 @@ public class NPCmovement : MonoBehaviour
     [Header("Dont have to set-------")]
     public float stay_radius;
     public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger;
-    private bool basic_laser = true;    
+    private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
     private float turning_spd, spd, delay_time = .1f, beam_slow, saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
@@ -53,7 +54,7 @@ public class NPCmovement : MonoBehaviour
         if (is_pirate || is_patrol) StartCoroutine(FindTarget());
         if (is_patrol)
         {
-            playerPos = FindObjectOfType<PlayerMovement>().transform;
+            playerPos = HUDmanage.playerReference.transform;
             patrolID = GetComponent<PatrolID>();
         }
             
@@ -105,6 +106,36 @@ public class NPCmovement : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && is_pirate && PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && GetComponent<Collider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && !HUDmanage.on_map)
+        {
+            PatrolManager.holdFire = false;
+            PatrolManager.focusTarget = GetComponent<ShipStats>().core;
+        }
+        if (is_patrol && GetComponent<PatrolID>().taken)
+        {
+            if (PatrolManager.focusTarget != null)
+            {
+                choseFocus = true;
+                target = PatrolManager.focusTarget;
+            }
+            else if (choseFocus)
+            {
+
+                choseFocus = false;
+                target = null;
+            }
+            if (PatrolManager.holdPosition)
+            {
+                held = true;
+                playerPos = PatrolManager.createdHoldIndicator.transform;
+            }
+            else if (held)
+            {
+                held = false;
+                playerPos = HUDmanage.playerReference.transform;
+            }
+
+        }
         if (!is_npc && key != "" && !for_menu)
         {
             delay_time -= Time.deltaTime;
@@ -342,7 +373,7 @@ public class NPCmovement : MonoBehaviour
                     if (Vector2.Distance(target.transform.position, transform.position) > detect_radius) Debug.Log("target is greater than detect radius");
                     if (target.GetComponent<Health>().hp <= 0) Debug.Log("target has less than or equal to 0 health");
                 }*/
-                if (target != null && ((target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0)) || Vector2.Distance(target.transform.position, transform.position) > detect_radius))
+                if ((is_patrol && GetComponent<PatrolID>().taken && PatrolManager.holdFire) || (target != null && ((target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0)) || Vector2.Distance(target.transform.position, transform.position) > detect_radius)))
                 {
                     //if (is_patrol) Debug.Log("AAAAAAAAA");
                     target = null;
@@ -475,7 +506,7 @@ public class NPCmovement : MonoBehaviour
         
         while (true)
         {
-            if (target == null)
+            if (target == null && (!is_patrol || (!GetComponent<PatrolID>().taken || !PatrolManager.holdFire)))
             {
 
                 if (is_pirate)

@@ -18,7 +18,7 @@ public class PatrolSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerMovement>().transform;
+        player = HUDmanage.playerReference.transform;
         if (key == "") key = gameObject.name + "patrolspot";
 
         for (int i = 0; i < numb; i++)

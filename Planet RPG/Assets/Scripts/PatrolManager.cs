@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PatrolManager : MonoBehaviour
 {
+    public GameObject focusIndicator, holdIndicator;
     public List<GameObject> spawnPatrols = new List<GameObject>();
     public static List<GameObject> patrols = new List<GameObject>();
     private float numb;
+    public static bool focusFire, holdFire, holdPosition;
+    public static GameObject focusTarget, createdIndicator, createdHoldIndicator;
+    public static bool createdFocus = false, createdHold = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +34,21 @@ public class PatrolManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-                
+        if (focusFire && !createdFocus)
+        {
+            createdIndicator = Instantiate(focusIndicator, transform.position, Quaternion.identity);
+            createdFocus = true;
+        }
+        if (holdPosition && !createdHold)
+        {
+            createdHoldIndicator = Instantiate(holdIndicator, transform.position, Quaternion.identity);
+            createdHold = true;
+        }
+        else if (!holdPosition && createdHold)
+        {
+            Destroy(createdHoldIndicator);
+            createdHold = false;
+        }
     }
 
 
@@ -43,7 +61,7 @@ public class PatrolManager : MonoBehaviour
         var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
         GameObject p = Instantiate(spawnPatrols[index], pos, Quaternion.identity);
         p.GetComponent<NPCmovement>().stay_around = gameObject;
-        p.GetComponent<NPCmovement>().stay_radius = 20;
+        p.GetComponent<NPCmovement>().stay_radius = PatrolID.stayDist;
         p.GetComponent<PatrolID>().id = id;
         p.GetComponent<PatrolID>().taken = true;
         p.GetComponent<PatrolID>().didTaken = true;

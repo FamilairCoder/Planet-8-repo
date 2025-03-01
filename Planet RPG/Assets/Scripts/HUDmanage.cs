@@ -36,10 +36,12 @@ public class HUDmanage : MonoBehaviour
     public static List<SetDelivery> sd = new List<SetDelivery>();
 
     public static AudioSource bountySound;
+
+    public static GameObject playerReference;
     private void Awake()
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
-
+        playerReference = FindObjectOfType<PlayerMovement>().gameObject;
 
         //get rid of this--------------------------
         PlayerPrefs.DeleteAll();

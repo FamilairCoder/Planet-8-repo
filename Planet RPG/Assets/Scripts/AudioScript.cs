@@ -19,17 +19,18 @@ public class AudioScript : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        var player = HUDmanage.playerReference;
         if (isManager || forMenu)
         {
             GetComponent<AudioSource>().volume = songVolume * masterVolume * fade;
         }
-        else if (FindObjectOfType<PlayerMovement>() != null)
+        else if (player != null)
         {
-            playerPos = FindObjectOfType<PlayerMovement>().gameObject.transform;
+            playerPos = player.gameObject.transform;
             GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
         }
-        else if(FindObjectOfType<PlayerMovement>() == null)
+        else if(player == null)
         {
             GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
