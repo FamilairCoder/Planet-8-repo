@@ -54,7 +54,7 @@ public class SettingsNumb : MonoBehaviour
     float CalculateLerp(float min, float max)
     {
         var relativePos = linkedSlide.position.x - linkedBar.position.x;
-        if (relativePos > 0) Debug.Log(relativePos);
+        //if (relativePos > 0) Debug.Log(relativePos);
         return Mathf.Lerp(min, max, (relativePos + 7.5f) / 15);
     }
 }

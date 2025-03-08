@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 respawnPos;
     public List<StationStats> stationPoses = new List<StationStats>();
 
-    public GameObject concreteText;
+    public GameObject concreteText, healingParticle;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         var rb = GetComponent<Rigidbody2D>();
-        if (!dead)
+        if (!dead && !TextInputScript.typing)
         {
             //concreteMovement = true;
             bool moving = false;

@@ -132,13 +132,13 @@ public class Health : MonoBehaviour
 
                     if (GetComponentInParent<PatrolID>() != null)
                     {
-                        hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
-                        orig_hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
+                        PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
+                        PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", orig_hp);
                     }
                     else
                     {
-                        hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
-                        orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
+                        PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
+                        PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", orig_hp);
                     }
 
                 }
@@ -155,7 +155,7 @@ public class Health : MonoBehaviour
 
     private IEnumerator healRoutine()
     {
-        if (GetComponentInParent<NPCmovement>() == null || !GetComponentInParent<NPCmovement>().is_pirate)
+        if (GetComponentInParent<NPCmovement>() == null || GetComponentInParent<NPCmovement>().is_npc)
         {
             yield break;
         }
@@ -165,7 +165,7 @@ public class Health : MonoBehaviour
             if (hp < orig_hp && GetComponentInParent<NPCmovement>().target == null)
             {
                 hp += Random.Range(0f, 1f);
-                
+                Instantiate(HUDmanage.playerReference.GetComponent<PlayerMovement>().healingParticle, transform.position, Quaternion.identity).GetComponent<ObjectDisappear>().offsetPos = transform;
             }
             yield return new WaitForSeconds(Random.Range(0f, 3f));
 

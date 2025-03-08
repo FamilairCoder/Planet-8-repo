@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FMenuOpen : MonoBehaviour
 {
-    private bool active;
+    public static bool active;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +29,7 @@ public class FMenuOpen : MonoBehaviour
                 GetComponent<RectTransform>().anchoredPosition = new Vector2(808, 0);
             }
         }
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) && !TextInputScript.typing)
         {
             if (active) active = false;
             else active = true;

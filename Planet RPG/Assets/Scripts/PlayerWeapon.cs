@@ -53,7 +53,7 @@ public class PlayerWeapon : MonoBehaviour
                 }*/
         basic_laser_cooldown -= Time.deltaTime;
         laser_rod_cooldown -= Time.deltaTime;
-        ActivateAttack();
+        if (!TextInputScript.typing) ActivateAttack();
         
         if (Input.GetMouseButton(0) && !PlayerMovement.dead)
         {

@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     public GameObject target;
     private Vector3 nextPos;
     private bool collided;
-    public bool playerMade;
+    public bool playerMade, patrolMade;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,10 +57,20 @@ public class Bullet : MonoBehaviour
                 {
                     if (playerMade)
                     {
+                        //Debug.Log("player made");
+                        c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                        var chance = Random.Range(0f, 1f);
+                        if (chance < .3f)// && (came_from.transform.parent != null ))
+                        {
+                            c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
+                        }
+                    }
+                    else if (patrolMade)
+                    {
                         c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
                     }
-                    var chance = Random.Range(0f, 1f);
-                    if (chance < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
+                    var chancea = Random.Range(0f, 1f);
+                    if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null )
                     {
                         c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
                     }

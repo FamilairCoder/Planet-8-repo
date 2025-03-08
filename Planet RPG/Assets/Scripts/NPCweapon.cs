@@ -20,10 +20,12 @@ public class NPCweapon : MonoBehaviour
     {
         if (randomWeapon)
         {
+            var npcM = GetComponentInParent<NPCmovement>();
             var chance = Random.Range(0f, 1f);
             if (chance < .3f)
             {
                 laser_beam = true;
+                npcM.attackDistance = 10;
             }
             else if (chance < .6f)
             {
@@ -32,6 +34,7 @@ public class NPCweapon : MonoBehaviour
 
                 atk_spd = .2f;
                 atk_spread = 5;
+                npcM.attackDistance = 3;
             }
             else
             {
@@ -40,6 +43,7 @@ public class NPCweapon : MonoBehaviour
 
                 atk_spd = .2f;
                 atk_spread = 1;
+                npcM.attackDistance = 5;
             }
 
 
@@ -157,7 +161,7 @@ public class NPCweapon : MonoBehaviour
             b.GetComponent<Bullet>().came_from = gameObject;
             b.GetComponent<Bullet>().dmg *= (1 + dmg_bonus);
             b.GetComponent<Bullet>().dmg += atk_dmg_add;
-
+            if (GetComponentInParent<PatrolID>() != null && GetComponentInParent<PatrolID>().taken) b.GetComponent<Bullet>().patrolMade = true;
             if (atk_point2 != null)
             {
                 rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + Random.Range(-atk_spread, atk_spread));
@@ -166,6 +170,7 @@ public class NPCweapon : MonoBehaviour
                 b.GetComponent<Bullet>().came_from = gameObject;
                 b.GetComponent<Bullet>().dmg *= (1 + dmg_bonus);
                 b.GetComponent<Bullet>().dmg += atk_dmg_add;
+                if (GetComponentInParent<PatrolID>() != null && GetComponentInParent<PatrolID>().taken) b.GetComponent<Bullet>().patrolMade = true;
             }
             
             atk_time = atk_spd * (1 + firerate_bonus);

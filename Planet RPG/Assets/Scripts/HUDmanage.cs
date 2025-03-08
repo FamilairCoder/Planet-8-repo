@@ -80,7 +80,7 @@ public class HUDmanage : MonoBehaviour
 
         money_text.GetComponent<TextMeshProUGUI>().text = Mathf.Round(money).ToString();
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && !TextInputScript.typing)
         {
             var pm = FindObjectOfType<PlayerMovement>();
             if (!on_map) 

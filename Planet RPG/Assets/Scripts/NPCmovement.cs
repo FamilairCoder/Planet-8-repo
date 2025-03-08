@@ -175,7 +175,7 @@ public class NPCmovement : MonoBehaviour
             {
                 var dist = Vector2.Distance(transform.position, playerPos.position);
 
-                beam_slow = .5f;
+                beam_slow = Mathf.Lerp(beam_slow, .5f, .2f);
                 rand_time -= Time.deltaTime;
                 if (rand_time < 0)
                 {
@@ -199,7 +199,8 @@ public class NPCmovement : MonoBehaviour
                         patrolID.boostParticles.Play();
                         boost = true;
                     }
-                    beam_slow = dist / 5;
+                    beam_slow = Mathf.Lerp(beam_slow, dist / 5, .2f);
+                    //beam_slow = dist / 5;
                     //beam_slow = 100;
                     //Debug.Log(beam_slow);
                     dir = (playerPos.position - transform.position).normalized;
@@ -483,7 +484,7 @@ public class NPCmovement : MonoBehaviour
             {
                 weapon.target_tag = target.tag;
                 weapon.is_firing = true;
-                beam_slow = .5f;
+                beam_slow = .75f;
                 weapon.dist = detect_radius;
             }
         }
