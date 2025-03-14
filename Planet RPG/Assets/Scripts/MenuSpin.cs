@@ -12,7 +12,7 @@ public class MenuSpin : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (GetComponent<RectTransform>() == null) transform.rotation *= Quaternion.Euler(0, 0, spinSpd);
         else GetComponent<RectTransform>().transform.rotation *= Quaternion.Euler(0, 0, spinSpd * Time.deltaTime);

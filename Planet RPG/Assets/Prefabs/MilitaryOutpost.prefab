@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2044140461817081682}
   - component: {fileID: 5590308093738835578}
+  - component: {fileID: 3214899294116411631}
   - component: {fileID: 6705727898616714674}
   - component: {fileID: 2745577230582681030}
   - component: {fileID: 7879421136932364186}
@@ -38,7 +39,8 @@ Transform:
   m_LocalPosition: {x: -1960, y: 65, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1105460783458524652}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5590308093738835578
@@ -93,6 +95,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3214899294116411631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334708298902273769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f3e56a39b68b146aebca353db513c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 7806137791648421606}
+  range: 500
+  lvl1Pirates:
+  - {fileID: 5414367945774883173, guid: d590cd2de439586498743ee7d5507948, type: 3}
+  - {fileID: 9031692814069967844, guid: 39d5580fd92310f40b6c5ecc3f7fe619, type: 3}
+  - {fileID: 2165780576859064741, guid: ebb3fbdbd53a05245af0a795b45e03dc, type: 3}
+  lvl2Pirates:
+  - {fileID: 295905607024655341, guid: e1fbfcb6f58a06946b5fd827665c5921, type: 3}
+  - {fileID: 1019534367252167476, guid: bb90f9fe3726c5e49913e17db2b6d6b4, type: 3}
+  - {fileID: 8197650440908734497, guid: 1e8cc21822d0e294288c43fe8db8797c, type: 3}
+  lvl3Pirates:
+  - {fileID: 7211335594278913039, guid: b68c17a16f65ebf41a7e098598a7ff3c, type: 3}
+  - {fileID: 779570867784909044, guid: e44cbf02cf1819f429681531b7e52e7c, type: 3}
+  - {fileID: 128679201558193338, guid: 03aa85d230a4e1b4dbcb6a763acf6883, type: 3}
+  chosenLvl1: {fileID: 0}
+  chosenLvl2: {fileID: 0}
+  chosenLvl3: {fileID: 0}
 --- !u!114 &6705727898616714674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
+  forPatrol: 0
+  hireCost: 0
+  createdMenu: {fileID: 0}
 --- !u!114 &8480082644006328733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,3 +305,34 @@ MonoBehaviour:
   maxDist: 100
   patrols: []
   spawnedPatrols: []
+--- !u!1 &7806137791648421606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105460783458524652}
+  m_Layer: 11
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1105460783458524652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806137791648421606}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2044140461817081682}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

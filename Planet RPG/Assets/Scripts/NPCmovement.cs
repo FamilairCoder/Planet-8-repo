@@ -15,9 +15,10 @@ public class NPCmovement : MonoBehaviour
     [Header("Unique Variables")]
     public List<GameObject> weapons = new List<GameObject>();
     public float bounty_cost, detect_radius, attackDistance;
+   // public 
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader;
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
@@ -27,10 +28,10 @@ public class NPCmovement : MonoBehaviour
     public Vector3 dir;
     private Vector3 movedir;
     private Vector3 offset, target_point;
-    public string key;
+    public string key, squadKey;
     private ShipStats ship;
     private Rigidbody2D rb;
-    private Transform playerPos;
+    public Transform playerPos;
     private PatrolID patrolID;
 
     // Start is called before the first frame update
@@ -57,7 +58,7 @@ public class NPCmovement : MonoBehaviour
             playerPos = HUDmanage.playerReference.transform;
             patrolID = GetComponent<PatrolID>();
         }
-            
+        
             
     }
 
@@ -73,21 +74,39 @@ public class NPCmovement : MonoBehaviour
                 {
                     rb.AddForce(transform.up * spd / 3 * Time.fixedDeltaTime, ForceMode2D.Impulse);
                 }
-                else
+
+
+                else if (is_patrol)
                 {
-                    if (is_patrol && patrolID.taken)
+                    if (patrolID.taken)
                     {
                         rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
 
                     }
-                    else if (!is_patrol || !patrolID.taken)
+                    else if (!patrolID.taken)
                     {
                         rb.AddForce(transform.up * spd / 6 * Time.fixedDeltaTime, ForceMode2D.Impulse);
                     }
-                    if (is_patrol && GetComponent<OpenMenu>().createdMenu != null)
+                    if (GetComponent<OpenMenu>().createdMenu != null)
                     {
                         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(0, 0), .3f);
                         dir = (playerPos.position - transform.position).normalized;
+                    }
+                }
+
+                else if (is_pirate)
+                {
+                    if (!inSquad && !pirateLeader)
+                    {
+                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                    }
+                    else if (!pirateLeader)
+                    {
+                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                    }
+                    else
+                    {
+                        rb.AddForce(beam_slow * .3f * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
                     }
                 }
             }
@@ -169,12 +188,14 @@ public class NPCmovement : MonoBehaviour
 
 
         //fleet movement
-        if (is_patrol && patrolID.taken)
+        if (((is_patrol && patrolID.taken) || (is_pirate && inSquad)) && playerPos != null)
         {
+            //Debug.Log("using fleet motion");
             if (target == null)
             {
+                
                 var dist = Vector2.Distance(transform.position, playerPos.position);
-
+                //Debug.Log(dist);
                 beam_slow = Mathf.Lerp(beam_slow, .5f, .2f);
                 rand_time -= Time.deltaTime;
                 if (rand_time < 0)
@@ -192,14 +213,16 @@ public class NPCmovement : MonoBehaviour
                     rand_time = Random.Range(0f, 5f);
                 }
 
-                if (dist > PatrolID.stayDist)
+                if ((inSquad && dist > 10) || (!inSquad && dist > PatrolID.stayDist))
                 {
                     if (!boost)
                     {
-                        patrolID.boostParticles.Play();
+                        if (patrolID != null) patrolID.boostParticles.Play();
+                        else if (boostParticles != null) boostParticles.Play();
                         boost = true;
                     }
                     beam_slow = Mathf.Lerp(beam_slow, dist / 5, .2f);
+                    //Debug.Log("beam slow is " + beam_slow);
                     //beam_slow = dist / 5;
                     //beam_slow = 100;
                     //Debug.Log(beam_slow);
@@ -209,7 +232,8 @@ public class NPCmovement : MonoBehaviour
                 else
                 {
 
-                    patrolID.boostParticles.Stop();
+                    if (patrolID != null) patrolID.boostParticles.Stop();
+                    else if (boostParticles != null) boostParticles.Stop();
                     boost = false;
                 }
                 StopLaserbeams();
@@ -218,7 +242,8 @@ public class NPCmovement : MonoBehaviour
             else if (target != null)
             {
                 boost = false;
-                patrolID.boostParticles.Stop();
+                if (patrolID != null) patrolID.boostParticles.Stop();
+                else if (boostParticles != null) boostParticles.Stop();
             }
         }
         
@@ -234,7 +259,7 @@ public class NPCmovement : MonoBehaviour
             if (boostParticles != null) boostParticles.Stop();
            
 
-            if (target == null && (!is_patrol || !patrolID.taken))
+            if (target == null && (!is_patrol || !patrolID.taken) && !inSquad)
             {
                 beam_slow = 1f;
 
@@ -279,7 +304,7 @@ public class NPCmovement : MonoBehaviour
                     dir = (stay_around.transform.position - transform.position).normalized;
                     rand_time = 10;
                 }
-                else if (!is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) < stay_radius / 4)
+                else if (!pirateLeader && !is_npc && stay_around != null && Vector2.Distance(transform.position, stay_around.transform.position) < stay_radius / 4)
                 {
                     dir = (transform.position - stay_around.transform.position).normalized;
                     rand_time = 10;
@@ -330,7 +355,7 @@ public class NPCmovement : MonoBehaviour
                     }
 
                 }
-                if (lvl > 1 && !for_menu)// && attackedByPlayer)
+                if (lvl > 1 && !for_menu && !inSquad && !pirateLeader)// && attackedByPlayer)
                 {
                     if (retreatTime < 0)
                     {

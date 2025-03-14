@@ -38,6 +38,9 @@ public class HUDmanage : MonoBehaviour
     public static AudioSource bountySound;
 
     public static GameObject playerReference;
+
+    public static bool pauseMenu;
+    //public GameObject pauseMenuObj;
     private void Awake()
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
@@ -80,7 +83,7 @@ public class HUDmanage : MonoBehaviour
 
         money_text.GetComponent<TextMeshProUGUI>().text = Mathf.Round(money).ToString();
 
-        if (Input.GetKeyDown(KeyCode.M) && !TextInputScript.typing)
+        if (Input.GetKeyDown(KeyCode.M) && !TextInputScript.typing && !pauseMenu)
         {
             var pm = FindObjectOfType<PlayerMovement>();
             if (!on_map) 
@@ -118,7 +121,19 @@ public class HUDmanage : MonoBehaviour
             map.SetActive(false);
             on_map = false;
         }
-
+        else if (Input.GetKeyDown(KeyCode.Escape) && !OpenMenu.opened && !on_map && !PatrolManager.focusFire)
+        {
+            if (!pauseMenu)
+            {
+                //pauseMenuObj.SetActive(true);
+                pauseMenu = true;
+            }
+            else
+            {
+                //pauseMenuObj.SetActive(false);
+                pauseMenu = false;
+            }
+        }
 
 
         if (PlayerMining.cargo_amount > 0)

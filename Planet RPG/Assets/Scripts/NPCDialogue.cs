@@ -111,7 +111,7 @@ public class NPCDialogue : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var ang = Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity);
-        if (!spinning && collision.gameObject.CompareTag("player") && ang > 100 && (npcM.is_npc || npcM.is_patrol) && npcM.target == null)
+        if (!spinning /*&& collision.gameObject.CompareTag("player")*/ && ang > 100 && (npcM.is_npc || npcM.is_patrol) && npcM.target == null)
         {
             if (createdDialogue != null) Destroy(createdDialogue);
             var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);

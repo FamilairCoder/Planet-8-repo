@@ -16,11 +16,19 @@ public class ObjectDisappear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        offsetY += .5f * Time.deltaTime;
-        transform.position = new Vector3(offsetPos.position.x, offsetPos.position.y + offsetY);
+        if (offsetPos != null)
+        {
+            offsetY += .5f * Time.deltaTime;
+            transform.position = new Vector3(offsetPos.position.x, offsetPos.position.y + offsetY);
 
-        //transform.localPosition += new Vector3(0, .5f) * Time.deltaTime;
-        GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, .9f) * Time.deltaTime;
-        if (GetComponent<SpriteRenderer>().color.a < 0) Destroy(gameObject);
+            //transform.localPosition += new Vector3(0, .5f) * Time.deltaTime;
+            GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, .9f) * Time.deltaTime;
+            if (GetComponent<SpriteRenderer>().color.a < 0) Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 }
