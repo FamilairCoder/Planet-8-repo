@@ -13,7 +13,7 @@ public class SquadLocationSetter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<NPCmovement>().squadKey = key;
+        if (GetComponent<NPCmovement>() != null && !GetComponent<NPCmovement>().is_npc)  GetComponent<NPCmovement>().squadKey = key;
         for (int i = 0; i < amount; i++)
         {
             if (GetComponent<NPCmovement>() == null || GetComponent<NPCmovement>().is_npc)

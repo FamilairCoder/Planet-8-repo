@@ -313,7 +313,7 @@ public class MapParralax : MonoBehaviour
             lr.SetPosition(0, playerPos);
             lr.SetPosition(1, targetPos);
 
-            if (Vector2.Distance(playerPos, targetPos) < 30)
+            if (Vector2.Distance(playerPos, targetPos) < 40)
                 tracking = false;
 
             if (HUDmanage.on_map && !mapJustOpened)

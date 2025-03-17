@@ -111,6 +111,7 @@ public class NPCDialogue : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var ang = Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity);
+        var tag = collision.gameObject.tag;
         if (!spinning /*&& collision.gameObject.CompareTag("player")*/ && ang > 100 && (npcM.is_npc || npcM.is_patrol) && npcM.target == null)
         {
             if (createdDialogue != null) Destroy(createdDialogue);
@@ -119,7 +120,7 @@ public class NPCDialogue : MonoBehaviour
             if (clip != null) d.GetComponent<AudioSource>().clip = clip;
             var script = d.GetComponent<DialogueStayOn>();
             script.stayOn = gameObject;
-            if (npcM.is_npc)
+            if (npcM.is_npc && tag == "player" || tag == "npc")
             {
                 if (ang < 200)
                 {
@@ -129,6 +130,10 @@ public class NPCDialogue : MonoBehaviour
                 {
                     script.text = manager.strongSpinDialogues[Random.Range(0, manager.strongSpinDialogues.Count)];
                 }
+            }
+            else if (npcM.is_npc && tag == "patrol")
+            {
+                script.text = manager.npcToPatrolSpin[Random.Range(0, manager.npcToPatrolSpin.Count)];
             }
             else if (npcM.is_patrol)
             {

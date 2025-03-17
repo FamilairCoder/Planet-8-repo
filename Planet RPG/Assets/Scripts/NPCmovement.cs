@@ -22,7 +22,7 @@ public class NPCmovement : MonoBehaviour
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
-    private float turning_spd, spd, delay_time = .1f, beam_slow, saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
+    private float turning_spd, spd, delay_time = .1f, beam_slow, fleet_slow = 1 , saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
     private bool did, boost = false;
     public float rand_time;
     public Vector3 dir;
@@ -80,7 +80,7 @@ public class NPCmovement : MonoBehaviour
                 {
                     if (patrolID.taken)
                     {
-                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                        rb.AddForce(fleet_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
 
                     }
                     else if (!patrolID.taken)
@@ -98,15 +98,15 @@ public class NPCmovement : MonoBehaviour
                 {
                     if (!inSquad && !pirateLeader)
                     {
-                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                        rb.AddForce(fleet_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
                     }
                     else if (!pirateLeader)
                     {
-                        rb.AddForce(beam_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                        rb.AddForce(fleet_slow * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
                     }
                     else
                     {
-                        rb.AddForce(beam_slow * .3f * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
+                        rb.AddForce(fleet_slow * .3f * spd * Time.fixedDeltaTime * transform.up, ForceMode2D.Impulse);
                     }
                 }
             }
@@ -180,11 +180,11 @@ public class NPCmovement : MonoBehaviour
         //if (is_pirate)
         spd = ship.spd * (1 + ship.thrust_bonus);
         turning_spd = ship.turning_spd * (1 + ship.turnspd_bonus);
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * beam_slow);
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * beam_slow * fleet_slow);
 
         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * fleet_slow * Time.deltaTime);
 
 
         //fleet movement
@@ -196,7 +196,7 @@ public class NPCmovement : MonoBehaviour
                 
                 var dist = Vector2.Distance(transform.position, playerPos.position);
                 //Debug.Log(dist);
-                beam_slow = Mathf.Lerp(beam_slow, .5f, .2f);
+                fleet_slow = Mathf.Lerp(fleet_slow, .5f, .2f);
                 rand_time -= Time.deltaTime;
                 if (rand_time < 0)
                 {
@@ -221,7 +221,7 @@ public class NPCmovement : MonoBehaviour
                         else if (boostParticles != null) boostParticles.Play();
                         boost = true;
                     }
-                    beam_slow = Mathf.Lerp(beam_slow, dist / 5, .2f);
+                    fleet_slow = Mathf.Lerp(fleet_slow, dist / 5, .2f);
                     //Debug.Log("beam slow is " + beam_slow);
                     //beam_slow = dist / 5;
                     //beam_slow = 100;
@@ -241,6 +241,7 @@ public class NPCmovement : MonoBehaviour
             }
             else if (target != null)
             {
+                fleet_slow = 1;
                 boost = false;
                 if (patrolID != null) patrolID.boostParticles.Stop();
                 else if (boostParticles != null) boostParticles.Stop();

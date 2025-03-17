@@ -12,6 +12,9 @@ public class FleetShipSpawner : MonoBehaviour
     public List<GameObject> lvl3Pirates = new List<GameObject>();
 
     public GameObject chosenLvl1, chosenLvl2, chosenLvl3;
+    public GameObject nav_objLvl1, nav_objLvl2, nav_objLvl3;
+    public GameObject createdLvl1Nav, createdLvl2Nav, createdLvl3Nav;
+    private MapParralax map_obj;
     public string key;
     // Start is called before the first frame update
     void Start()
@@ -38,11 +41,16 @@ public class FleetShipSpawner : MonoBehaviour
             var pos = new Vector3(spawnPoint.transform.position.x + xpos, spawnPoint.transform.position.y + ypos);
             var a = Instantiate(list[listIndex], pos, Quaternion.identity);
             a.GetComponent<NPCmovement>().pirateLeader = true;
-            a.GetComponent<NPCmovement>().stay_around = gameObject;
+            a.GetComponent<NPCmovement>().stay_around = spawnPoint;
             a.GetComponent<NPCmovement>().stay_radius = range;
             a.GetComponent<NPCmovement>().giveBounty = true;
             a.AddComponent<SquadLocationSetter>();
             SquadLocationSetter sq = a.GetComponent<SquadLocationSetter>();
+
+            var z = CreateLeaderNav(lvl, a);
+            if (lvl == 1) createdLvl1Nav = z;
+            if (lvl == 2) createdLvl2Nav = z;
+            if (lvl == 3) createdLvl3Nav = z;
 
             var chance = 0f;
             if (lvl == 1)
@@ -118,6 +126,19 @@ public class FleetShipSpawner : MonoBehaviour
         {
             return null;
         }
-       
+
+    }
+
+    GameObject CreateLeaderNav(float lvl, GameObject toLink)
+    {
+        GameObject nav = null;
+        if (lvl == 1) nav = Instantiate(nav_objLvl1, transform.position, Quaternion.identity);
+        if (lvl == 2) nav = Instantiate(nav_objLvl2, transform.position, Quaternion.identity);
+        if (lvl == 3) nav = Instantiate(nav_objLvl3, transform.position, Quaternion.identity);
+
+        map_obj = nav.GetComponent<MapParralax>();
+        map_obj.linked_obj = toLink;
+        map_obj.savekey = gameObject.name + "Fleetmapobj" + lvl;
+        return nav;
     }
 }

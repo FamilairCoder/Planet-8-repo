@@ -219,7 +219,14 @@ public class ShipStats : MonoBehaviour
                 if (GetComponent<NPCmovement>().retreat) PlayerBash.bash = false;
                 PlayerPrefs.SetFloat(GetComponent<NPCmovement>().key + "alive", 0);
 
-                if (GetComponent<NPCmovement>().giveBounty) HUDmanage.money += GetComponent<NPCmovement>().bounty_cost;
+                if (GetComponent<NPCmovement>().giveBounty)
+                {
+                    HUDmanage.money += GetComponent<NPCmovement>().bounty_cost;
+                    if (GetComponent<NPCmovement>().inSquad || GetComponent<NPCmovement>().pirateLeader)
+                    {
+                        HUDmanage.money += GetComponent<NPCmovement>().bounty_cost * 1.5f;
+                    }
+                }
                 if (GetComponent<PatrolID>()  != null)
                 {
                     PlayerPrefs.SetFloat("alive" + GetComponent<PatrolID>().id, 0);
