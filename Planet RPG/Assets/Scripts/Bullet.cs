@@ -48,36 +48,39 @@ public class Bullet : MonoBehaviour
         foreach (var c in hit)
         {
             //Debug.Log(c);
-            if (came_from != null && target_tag != "" && target_tag != null && c.collider.CompareTag(target_tag) && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+            if (came_from != null && target_tag != "" && target_tag != null && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
             {
-                
-                Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
-                c.collider.GetComponent<Health>().hp -= dmg;
-                if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
+                if (c.collider.CompareTag(target_tag) || (came_from.transform.parent != null && CheckPirateTags(c)))
                 {
-                    if (playerMade)
+                    Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
+                    c.collider.GetComponent<Health>().hp -= dmg;
+                    if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
                     {
-                        //Debug.Log("player made");
-                        c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
-                        var chance = Random.Range(0f, 1f);
-                        if (chance < .3f)// && (came_from.transform.parent != null ))
+                        if (playerMade)
                         {
-                            c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
+                            //Debug.Log("player made");
+                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                            var chance = Random.Range(0f, 1f);
+                            if (chance < .3f)// && (came_from.transform.parent != null ))
+                            {
+                                c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
+                            }
                         }
-                    }
-                    else if (patrolMade)
-                    {
-                        c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
-                    }
-                    var chancea = Random.Range(0f, 1f);
-                    if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null )
-                    {
-                        c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
-                    }
+                        else if (patrolMade)
+                        {
+                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                        }
+                        var chancea = Random.Range(0f, 1f);
+                        if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null)
+                        {
+                            c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                        }
 
+                    }
+                    Destroy(gameObject);
+                    break;
                 }
-                Destroy(gameObject);
-                break;
+
             }
 
         }
@@ -121,27 +124,31 @@ public class Bullet : MonoBehaviour
 
         if (came_from != null && target_tag != null && target_tag != "" && collision.CompareTag(target_tag) && collision.GetComponent<Health>() != null && (came_from.transform.parent == null || !collision.transform.IsChildOf(came_from.transform.parent)))
         {
-            Instantiate(explosion, exploPos, Quaternion.identity);//, collision.transform);
-            collision.GetComponent<Health>().hp -= dmg;
-            if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
+            if (collision.CompareTag(target_tag) || (came_from.transform.parent != null && CheckPirateTags(collision)))
             {
-                var chance = Random.Range(0f, 1f);
-                if (playerMade)
+                Instantiate(explosion, exploPos, Quaternion.identity);//, collision.transform);
+                collision.GetComponent<Health>().hp -= dmg;
+                if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
                 {
-                    collision.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                    var chance = Random.Range(0f, 1f);
+                    if (playerMade)
+                    {
+                        collision.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                        if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
+                        {
+                            collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                        }
+                    }
+
                     if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
                     {
                         collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
                     }
+
                 }
-                
-                if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
-                {
-                    collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
-                }
-                
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
+
             
         }
 
@@ -151,5 +158,15 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             
         }
+    }
+    bool CheckPirateTags(RaycastHit2D c)
+    {
+        if (came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.collider.tag)) return true;
+        else return false;
+    }
+    bool CheckPirateTags(Collider2D c)
+    {
+        if (came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.tag)) return true;
+        else return false;
     }
 }

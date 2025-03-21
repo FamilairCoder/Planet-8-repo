@@ -7,6 +7,7 @@ public class StationStats : MonoBehaviour
     public Vector2 spawnPoint;
     public List<GameObject> turrets = new List<GameObject>();
     public List<GameObject> linked_stations = new List<GameObject>();
+    //public List<string> targetTags = new List<string>();
     public string target_tag, name;
     // Start is called before the first frame update
     void Start()

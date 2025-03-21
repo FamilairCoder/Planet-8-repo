@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     public float hp, orig_hp;
+
     public GameObject death_explosion;
     public Sprite ruin;
     public Sprite orig_sprite;
@@ -13,6 +16,13 @@ public class Health : MonoBehaviour
     public GameObject trail, linked_diagnosis;
     private float saveTime;
     private SpriteRenderer spr;
+    [Header("For Stations and Outposts----------------")]
+    public bool isStation;
+    public GameObject ruinObj, explosion;
+    public SpriteRenderer cracks;
+    public ParticleSystem deathParticles;
+    public float bounty;
+    private bool started;
     [Header("For test dummy stuf---------------------------")]
     public bool reportDmg;
     private float dmgTime = 1, startHP;
@@ -20,7 +30,7 @@ public class Health : MonoBehaviour
     void Start()
     {
         spr = GetComponent<SpriteRenderer>();
-        if (!reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
+        if (!isStation && !reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
         {
             if (transform.parent.GetComponent<ShipStats>().npc)
             {
@@ -46,9 +56,15 @@ public class Health : MonoBehaviour
             StartCoroutine(saveRoutine());
             StartCoroutine(healRoutine());
         }        
-        else 
+        else if (!isStation)
         {
             orig_hp = hp;
+        }
+        else if (isStation)
+        {
+            hp = PlayerPrefs.GetFloat(gameObject.name + "hp", hp);
+            orig_hp = PlayerPrefs.GetFloat(gameObject.name + "orig_hp", hp);
+            if (hp <= 0) Destroy(GetComponent<PirateShipSpawner>());
         }
 
         startHP = hp;
@@ -79,20 +95,31 @@ public class Health : MonoBehaviour
 
             if (hp <= 0)
             {
-
-                if (trail != null)
+                if (!isStation)
                 {
-                    trail.SetActive(false);
-                }
-                if (gets_ruined)
-                {
-                    if (ruin != null) spr.sprite = ruin;
-                    else
+                    if (trail != null)
                     {
-                        spr.color = new Color(.5f, .5f, .5f);
+                        trail.SetActive(false);
                     }
-                    GetComponent<Collider2D>().enabled = false;
-                    if (GetComponent<Animator>() != null) GetComponent<Animator>().enabled = false;
+                    if (gets_ruined)
+                    {
+                        if (ruin != null) spr.sprite = ruin;
+                        else
+                        {
+                            spr.color = new Color(.5f, .5f, .5f);
+                        }
+                        GetComponent<Collider2D>().enabled = false;
+                        if (GetComponent<Animator>() != null) GetComponent<Animator>().enabled = false;
+
+                    }
+                }
+                else if (!started)
+                {
+                    StartCoroutine(DeathSequence());
+                    started = true;
+ 
+                    
+
 
                 }
 
@@ -111,11 +138,57 @@ public class Health : MonoBehaviour
                 if (orig_sprite != null && spr.sprite != null) spr.sprite = orig_sprite;
                 if (spr != null) spr.color = new Color(1f, 1f, 1f);
 
+                if (isStation)
+                {
+                    
+                    cracks.color = Color.Lerp(new Color(1, 1, 1, .5f), new Color(0, 0, 0, 0), hp / orig_hp);
+                }
 
             }
         }
         
     }
+
+
+    private IEnumerator DeathSequence()
+    {
+        var timeleft = 0;
+        float size = GetComponent<Collider2D>().bounds.size.x * 1.3f;
+        deathParticles.Play();
+        while (true)
+        {
+            if (timeleft < 30)
+            {
+
+                Instantiate(explosion, transform.position + new Vector3(Random.Range(-size, size), Random.Range(-size, size)), Quaternion.identity).transform.localScale = new Vector3(2, 2);
+
+                timeleft++;
+                yield return new WaitForSeconds(.1f);
+            }
+            else
+            {
+                var a = Instantiate(ruinObj, transform.position, transform.rotation);
+                a.transform.localScale = transform.localScale;
+                Destroy(a.GetComponent<DespawnTimer>());
+                a.GetComponent<SpriteRenderer>().sprite = ruin;
+
+                PlayerPrefs.SetFloat(gameObject.name + "alive", 0);
+
+                if (bounty > 0)
+                {
+                    HUDmanage.money += bounty;
+
+                }
+                Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(5, 5);
+                PlayerPrefs.Save();
+                Destroy(gameObject);
+
+
+                yield return null;
+            }
+        }
+    }
+
 
     private IEnumerator saveRoutine()
     {
@@ -125,7 +198,8 @@ public class Health : MonoBehaviour
         orig_sprite = GetComponent<SpriteRenderer>().sprite;
         while (true)
         {
-            if (transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
+
+            if (!isStation && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
             {
                 if (transform.parent.GetComponent<ShipStats>().npc)
                 {
@@ -147,6 +221,11 @@ public class Health : MonoBehaviour
                     PlayerPrefs.SetFloat("player" + transform.GetSiblingIndex() + "hp", hp);
                     PlayerPrefs.SetFloat("player" + transform.GetSiblingIndex() + "orig_hp", orig_hp);
                 }
+            }
+            else if (isStation)
+            {
+                PlayerPrefs.SetFloat(gameObject.name + "hp", hp);
+                PlayerPrefs.SetFloat(gameObject.name + "orig_hp", orig_hp);
             }
             yield return new WaitForSeconds(Random.Range(.5f, 1.5f));
         }
@@ -171,5 +250,11 @@ public class Health : MonoBehaviour
 
         }
 
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(saveRoutine());
+        StartCoroutine(healRoutine());
     }
 }

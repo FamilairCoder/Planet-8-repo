@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5449402617031855696}
   - component: {fileID: 5232820428758416895}
   - component: {fileID: -393421592873602322}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Patrol2
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -121,6 +121,8 @@ MonoBehaviour:
   attackedByPlayer: 0
   retreat: 0
   found_danger: 0
+  inSquad: 0
+  pirateLeader: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
@@ -128,6 +130,8 @@ MonoBehaviour:
   rand_time: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+  squadKey: 
+  playerPos: {fileID: 0}
 --- !u!50 &163946472404029346
 Rigidbody2D:
   serializedVersion: 4
@@ -251,7 +255,7 @@ GameObject:
   - component: {fileID: 543191799337763742}
   - component: {fileID: 6419482481019430725}
   - component: {fileID: 1917664552636554348}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LeftArmor
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -374,6 +378,11 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  bounty: 0
   reportDmg: 0
 --- !u!1 &1861737291420610482
 GameObject:
@@ -388,7 +397,7 @@ GameObject:
   - component: {fileID: 8701383656045192197}
   - component: {fileID: 3276444711551918692}
   - component: {fileID: 7081274720350829334}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TakenFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5334,7 +5343,7 @@ GameObject:
   - component: {fileID: 7767925856233599845}
   - component: {fileID: 9096447332139519529}
   - component: {fileID: 5498269461620272902}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Light
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -5463,7 +5472,7 @@ GameObject:
   - component: {fileID: 2209050829326274927}
   - component: {fileID: 2826313756755014031}
   - component: {fileID: 179487011038495711}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Thruster
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -5601,6 +5610,11 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  bounty: 0
   reportDmg: 0
 --- !u!61 &179487011038495711
 BoxCollider2D:
@@ -5659,7 +5673,7 @@ GameObject:
   - component: {fileID: 2422301707454302074}
   - component: {fileID: 5054800582598952445}
   - component: {fileID: 7973430694981841865}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RightArmor
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -5782,6 +5796,11 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  bounty: 0
   reportDmg: 0
 --- !u!1 &6035685173271257850
 GameObject:
@@ -5792,7 +5811,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 214981333630117189}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GameObject
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -5825,7 +5844,7 @@ GameObject:
   - component: {fileID: 237396596979673863}
   - component: {fileID: 4900569992885778558}
   - component: {fileID: 7944812254663097978}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Boost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10661,7 +10680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6493678806789898132}
   - component: {fileID: 7473896454296399020}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ThrustTrail
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -10808,7 +10827,7 @@ GameObject:
   - component: {fileID: 180006255263319722}
   - component: {fileID: 3540959992311176820}
   - component: {fileID: 7741116227707925262}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Main
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -10902,6 +10921,11 @@ MonoBehaviour:
   gets_ruined: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  bounty: 0
   reportDmg: 0
 --- !u!60 &7741116227707925262
 PolygonCollider2D:
@@ -10967,7 +10991,7 @@ GameObject:
   - component: {fileID: 6206037738817938536}
   - component: {fileID: 8351949816764470180}
   - component: {fileID: 5159838531871120356}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Weapon
   m_TagString: patrol
   m_Icon: {fileID: 0}
@@ -11121,6 +11145,11 @@ MonoBehaviour:
   gets_ruined: 1
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  bounty: 0
   reportDmg: 0
 --- !u!120 &5159838531871120356
 LineRenderer:

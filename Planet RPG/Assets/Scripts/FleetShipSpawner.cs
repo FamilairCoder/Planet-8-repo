@@ -78,7 +78,7 @@ public class FleetShipSpawner : MonoBehaviour
                     {
                         var ind = PlayerPrefs.GetInt(key + "pirate2 index" + lvl + i, Random.Range(0, lvl2Pirates.Count));
                         PlayerPrefs.SetInt(key + "pirate2 index" + lvl + i, ind);
-                        Debug.Log(ind);
+                        //Debug.Log(ind);
                         sq.shipsToSpawn.Add(lvl2Pirates[ind]);
                     }
                     PlayerPrefs.SetFloat(key + "chance" + lvl + i, chance);

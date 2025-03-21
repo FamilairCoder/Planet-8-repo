@@ -262,4 +262,8 @@ public class ShipStats : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(.25f, .75f));
         }
     }
+    private void OnEnable()
+    {
+        StartCoroutine(CalculateHealth());
+    }
 }

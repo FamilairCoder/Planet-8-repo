@@ -31,7 +31,7 @@ public class StationWeapon : MonoBehaviour
     {
 
 
-
+        //Debug.Log(target_tag);
         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * Time.deltaTime);

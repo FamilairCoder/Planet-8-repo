@@ -38,6 +38,8 @@ public class HUDmanage : MonoBehaviour
     public static AudioSource bountySound;
 
     public static GameObject playerReference;
+    public static List<string> pirateTags = new List<string>();
+    public List<string> pirateTagsEditor = new List<string>();
 
     public static bool pauseMenu;
     //public GameObject pauseMenuObj;
@@ -45,7 +47,7 @@ public class HUDmanage : MonoBehaviour
     {
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
         playerReference = FindObjectOfType<PlayerMovement>().gameObject;
-
+        pirateTags = pirateTagsEditor;
         //get rid of this--------------------------
         PlayerPrefs.DeleteAll();
         //get rid of this--------------------------

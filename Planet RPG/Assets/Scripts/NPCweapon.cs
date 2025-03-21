@@ -112,14 +112,15 @@ public class NPCweapon : MonoBehaviour
             GameObject obj = null;
             foreach (var c in cast)
             {
-                //Debug.Log(c);
-                if (c.collider.CompareTag(target_tag) && c.collider.gameObject != gameObject && !c.transform.IsChildOf(transform) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+                if (c.collider.gameObject != gameObject && !c.transform.IsChildOf(transform) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
                 {
-                    hit = c.point;
-                    obj = c.collider.gameObject;
-                    break;
+                    if (c.collider.CompareTag(target_tag) || (GetComponentInParent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.collider.tag)))
+                    {
+                        hit = c.point;
+                        obj = c.collider.gameObject;
+                        break;
+                    }
                 }
-
             }
 
 

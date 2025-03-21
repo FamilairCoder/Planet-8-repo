@@ -18,7 +18,7 @@ public class NPCmovement : MonoBehaviour
    // public 
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader, dontRetreat;
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target;
@@ -356,7 +356,7 @@ public class NPCmovement : MonoBehaviour
                     }
 
                 }
-                if (lvl > 1 && !for_menu && !inSquad && !pirateLeader)// && attackedByPlayer)
+                if (lvl > 1 && !for_menu && !inSquad && !pirateLeader && !dontRetreat)// && attackedByPlayer)
                 {
                     if (retreatTime < 0)
                     {
@@ -552,11 +552,19 @@ public class NPCmovement : MonoBehaviour
                 else if (is_patrol)
                 {
                     FindTargets("enemy", detect_radius);
+/*                    if (target == null)
+                    {
+                        FindTargets("pirate_station", detect_radius);
+                    }*/
                     //Debug.Log("AAAAAA");
                 }
             }
             yield return new WaitForSeconds(Random.Range(0f, 1f));
         }
 
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(FindTarget());
     }
 }
