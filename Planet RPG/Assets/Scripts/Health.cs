@@ -22,28 +22,39 @@ public class Health : MonoBehaviour
     public SpriteRenderer cracks;
     public ParticleSystem deathParticles;
     public float bounty;
-    private bool started;
+    private bool started, isPatrol, isPirate;
+    public bool largeDeath;
+    public GameObject ripple;
+    //private GameObject linkedCore;
     [Header("For test dummy stuf---------------------------")]
     public bool reportDmg;
     private float dmgTime = 1, startHP;
     // Start is called before the first frame update
     void Start()
     {
+        //linkedCore = transform.parent.GetComponent<ShipStats>().core;
+        if (GetComponentInParent<PatrolID>() != null) isPatrol = true;
+        else if (GetComponentInParent<NPCmovement>() != null && GetComponentInParent<NPCmovement>().is_pirate) isPirate = true;
         spr = GetComponent<SpriteRenderer>();
         if (!isStation && !reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
         {
             if (transform.parent.GetComponent<ShipStats>().npc)
             {
-                if (GetComponentInParent<PatrolID>() != null)
+                if (isPatrol)// && PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + "alive", 1) == 1)
                 {
                     hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
                     orig_hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
                 }
-                else
+                else if (isPirate)// && PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1) == 1)
                 {
                     hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
                     orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
                 }
+/*                else
+                {
+                    if (isPatrol) PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + "alive", 1);
+                    else if (isPirate) PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1);
+                }*/
 
 
             }
@@ -64,7 +75,15 @@ public class Health : MonoBehaviour
         {
             hp = PlayerPrefs.GetFloat(gameObject.name + "hp", hp);
             orig_hp = PlayerPrefs.GetFloat(gameObject.name + "orig_hp", hp);
-            if (hp <= 0) Destroy(GetComponent<PirateShipSpawner>());
+            if (hp <= 0)
+            {
+                var a = Instantiate(ruinObj, transform.position, transform.rotation);
+                a.transform.localScale = transform.localScale;
+                Destroy(a.GetComponent<DespawnTimer>());
+                a.GetComponent<SpriteRenderer>().sprite = ruin;
+
+                Destroy(gameObject);
+            }
         }
 
         startHP = hp;
@@ -157,11 +176,22 @@ public class Health : MonoBehaviour
         deathParticles.Play();
         while (true)
         {
-            if (timeleft < 30)
+            if (!largeDeath && timeleft < 30)
             {
 
                 Instantiate(explosion, transform.position + new Vector3(Random.Range(-size, size), Random.Range(-size, size)), Quaternion.identity).transform.localScale = new Vector3(2, 2);
 
+                timeleft++;
+                yield return new WaitForSeconds(.1f);
+            }
+            else if (largeDeath && timeleft <= 60)
+            {
+                Instantiate(explosion, transform.position + new Vector3(Random.Range(-size, size), Random.Range(-size, size)), Quaternion.identity).transform.localScale = new Vector3(3, 3);
+                if (timeleft == 0 || timeleft == 20 || timeleft == 40 || timeleft == 60)
+                {
+                    Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(5, 5);
+                    Instantiate(ripple, transform.position, Quaternion.identity);
+                }
                 timeleft++;
                 yield return new WaitForSeconds(.1f);
             }
@@ -179,7 +209,8 @@ public class Health : MonoBehaviour
                     HUDmanage.money += bounty;
 
                 }
-                Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(5, 5);
+                if (!largeDeath) Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(5, 5);
+                else Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(7, 7);
                 PlayerPrefs.Save();
                 Destroy(gameObject);
 
@@ -204,12 +235,12 @@ public class Health : MonoBehaviour
                 if (transform.parent.GetComponent<ShipStats>().npc)
                 {
 
-                    if (GetComponentInParent<PatrolID>() != null)
+                    if (isPatrol)
                     {
                         PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
                         PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", orig_hp);
                     }
-                    else
+                    else if (isPirate)
                     {
                         PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
                         PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", orig_hp);
@@ -227,7 +258,7 @@ public class Health : MonoBehaviour
                 PlayerPrefs.SetFloat(gameObject.name + "hp", hp);
                 PlayerPrefs.SetFloat(gameObject.name + "orig_hp", orig_hp);
             }
-            yield return new WaitForSeconds(Random.Range(.5f, 1.5f));
+            yield return new WaitForSeconds(Random.Range(4f, 6f));
         }
         
     }
@@ -257,4 +288,5 @@ public class Health : MonoBehaviour
         StartCoroutine(saveRoutine());
         StartCoroutine(healRoutine());
     }
+
 }

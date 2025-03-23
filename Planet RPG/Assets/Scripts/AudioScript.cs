@@ -53,14 +53,14 @@ public class AudioScript : MonoBehaviour
     void Update()
     {
         saveTime -= Time.deltaTime;
-        if (saveTime < 0)
+        if (saveTime < 0 && forMenu)
         {
             PlayerPrefs.SetFloat("SongVolume", songVolume);
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
             PlayerPrefs.SetFloat("SFXVolume", SFXVolume);
             PlayerPrefs.Save();
 
-            saveTime = 1f;
+            saveTime = .1f;
         }
 
 

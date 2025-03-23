@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StationWeapon : MonoBehaviour
 {
     [Header("Set")]
+    public bool isPirate;
     public List<GameObject> atk_points = new List<GameObject>();
     //public GameObject atk_point;
     public GameObject bullet;
@@ -30,11 +33,14 @@ public class StationWeapon : MonoBehaviour
     void Update()
     {
 
-
+        if (GetComponent<Health>().hp > 0 && (transform.parent.GetComponent<Health>() == null || transform.parent.GetComponent<Health>().hp > 0))
+        {
+            float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * Time.deltaTime);
+        }
         //Debug.Log(target_tag);
-        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * Time.deltaTime);
+
         if (target != null)
         {
             dir = (target.transform.position - transform.position).normalized;
@@ -42,7 +48,7 @@ public class StationWeapon : MonoBehaviour
             if (!laser)
             {
                 atk_time -= Time.deltaTime;
-                if (atk_time <= 0 && GetComponent<Health>().hp > 0)
+                if (atk_time <= 0 && GetComponent<Health>().hp > 0 && (transform.parent.GetComponent<Health>() == null || transform.parent.GetComponent<Health>().hp > 0))
                 {
                     if (!missile)
                     {
@@ -86,10 +92,15 @@ public class StationWeapon : MonoBehaviour
                 GameObject obj = null;
                 foreach (var c in cast)
                 {
-                    if (c.collider.CompareTag(target_tag) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+                    if (c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
                     {
-                        hit = c.point;
-                        obj = c.collider.gameObject;
+                        if (c.collider.CompareTag(target_tag) || (isPirate && HUDmanage.pirateTags.Contains(c.collider.tag)))
+                        {
+                            hit = c.point;
+                            obj = c.collider.gameObject;
+                            break;
+                        }
+
                     }
 
                 }
@@ -119,12 +130,29 @@ public class StationWeapon : MonoBehaviour
         
         if (target == null)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detection_radius, LayerMask.GetMask("pirates"));
-            foreach (Collider2D a in colliders)
+            if (!isPirate)
             {
-                target = a.gameObject;
-                break;
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detection_radius, LayerMask.GetMask("pirates"));
+                foreach (Collider2D a in colliders)
+                {
+                    target = a.gameObject;
+                    break;
+                }
             }
+            else
+            {
+                Collider2D[] player = Physics2D.OverlapCircleAll(transform.position, detection_radius, LayerMask.GetMask("playerparts"));
+                Collider2D[] patrols = Physics2D.OverlapCircleAll(transform.position, detection_radius, LayerMask.GetMask("patrol"));
+                var combined = player.Concat(patrols).ToArray();
+                var highest = combined.Length;
+                if (highest > 0)
+                {
+                    var chosen = Random.Range(0, highest);
+                    target = combined[chosen].gameObject;
+                }
+
+            }
+
             if (GetComponent<LineRenderer>() != null)
             {
                 var lr = GetComponent<LineRenderer>();

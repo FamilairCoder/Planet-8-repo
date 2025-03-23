@@ -61,14 +61,17 @@ public class ShipStats : MonoBehaviour
         }
         slow_spd = spd / 5;
         slow_turning_spd = turning_spd / 5;
+        //Debug.Log(total_hp);
+        //Debug.Log(origHp);
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).GetComponent<Health>() != null && transform.GetChild(i).gameObject.activeSelf)
             {
-                total_hp += transform.GetChild(i).GetComponent<Health>().hp;
-                origHp += transform.GetChild(i).GetComponent<Health>().hp;
+                //total_hp += transform.GetChild(i).GetComponent<Health>().hp;
+                //origHp += transform.GetChild(i).GetComponent<Health>().hp;
             }
         }
+        
         StartCoroutine(CalculateHealth());
 
     }
@@ -231,7 +234,13 @@ public class ShipStats : MonoBehaviour
                 {
                     PlayerPrefs.SetFloat("alive" + GetComponent<PatrolID>().id, 0);
                     PlayerPrefs.SetFloat("taken" + GetComponent<PatrolID>().id, 0);
+
+                    DeleteChildHealthPrefs(GetComponent<PatrolID>().id);
                     
+                }
+                else if (GetComponent<NPCmovement>().is_pirate)
+                {
+                    DeleteChildHealthPrefs(GetComponent<NPCmovement>().key);
                 }
                 if (GetComponent<NPCmovement>().inSquad || GetComponent<NPCmovement>().pirateLeader)
                 {
@@ -258,12 +267,21 @@ public class ShipStats : MonoBehaviour
                 }
             }
             total_hp = h;
-            if (total_hp > origHp) origHp = total_hp;
+            
+            if (total_hp > origHp) { origHp = total_hp;  }
             yield return new WaitForSeconds(Random.Range(.25f, .75f));
         }
     }
     private void OnEnable()
     {
         StartCoroutine(CalculateHealth());
+    }
+    void DeleteChildHealthPrefs(string key)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            PlayerPrefs.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "hp");
+            PlayerPrefs.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "orig_hp");
+        }
     }
 }

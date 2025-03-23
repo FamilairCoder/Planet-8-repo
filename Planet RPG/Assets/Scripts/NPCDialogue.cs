@@ -56,14 +56,19 @@ public class NPCDialogue : MonoBehaviour
 
         if (!threatening && npcM.target != null)
         {
-            if (createdDialogue != null) Destroy(createdDialogue);
-            var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);
-            createdDialogue = d;
-            var script = d.GetComponent<DialogueStayOn>();
-            script.stayOn = gameObject;
-            d.GetComponent<AudioSource>().clip = clip;
-            if (npcM.is_pirate) script.text = manager.pirateThreat[Random.Range(0, manager.pirateThreat.Count)];
-            if (npcM.is_patrol) script.text = manager.patrolThreat[Random.Range(0, manager.patrolThreat.Count)];
+            var chance = Random.Range(0f, 1f);
+            if (chance < .5f)
+            {
+                if (createdDialogue != null) Destroy(createdDialogue);
+                var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);
+                createdDialogue = d;
+                var script = d.GetComponent<DialogueStayOn>();
+                script.stayOn = gameObject;
+                d.GetComponent<AudioSource>().clip = clip;
+                if (npcM.is_pirate) script.text = manager.pirateThreat[Random.Range(0, manager.pirateThreat.Count)];
+                if (npcM.is_patrol) script.text = manager.patrolThreat[Random.Range(0, manager.patrolThreat.Count)];
+            }
+
 
             threatening = true;
         }
@@ -120,7 +125,7 @@ public class NPCDialogue : MonoBehaviour
             if (clip != null) d.GetComponent<AudioSource>().clip = clip;
             var script = d.GetComponent<DialogueStayOn>();
             script.stayOn = gameObject;
-            if (npcM.is_npc && tag == "player" || tag == "npc")
+            if (npcM.is_npc && (tag == "player" || tag == "npc"))
             {
                 if (ang < 200)
                 {

@@ -50,8 +50,9 @@ public class Bullet : MonoBehaviour
             //Debug.Log(c);
             if (came_from != null && target_tag != "" && target_tag != null && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
             {
-                if (c.collider.CompareTag(target_tag) || (came_from.transform.parent != null && CheckPirateTags(c)))
+                if (c.collider.CompareTag(target_tag) || (came_from.GetComponent<StationWeapon>() != null && came_from.GetComponent<StationWeapon>().isPirate && HUDmanage.pirateTags.Contains(c.collider.tag)) || (came_from.transform.parent != null && CheckPirateTags(c)))
                 {
+
                     Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
                     c.collider.GetComponent<Health>().hp -= dmg;
                     if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
@@ -124,7 +125,7 @@ public class Bullet : MonoBehaviour
 
         if (came_from != null && target_tag != null && target_tag != "" && collision.CompareTag(target_tag) && collision.GetComponent<Health>() != null && (came_from.transform.parent == null || !collision.transform.IsChildOf(came_from.transform.parent)))
         {
-            if (collision.CompareTag(target_tag) || (came_from.transform.parent != null && CheckPirateTags(collision)))
+            if (collision.CompareTag(target_tag) || (came_from.GetComponent<StationWeapon>() != null && came_from.GetComponent<StationWeapon>().isPirate && HUDmanage.pirateTags.Contains(collision.tag)) || (came_from.transform.parent != null && CheckPirateTags(collision)))
             {
                 Instantiate(explosion, exploPos, Quaternion.identity);//, collision.transform);
                 collision.GetComponent<Health>().hp -= dmg;
@@ -161,12 +162,12 @@ public class Bullet : MonoBehaviour
     }
     bool CheckPirateTags(RaycastHit2D c)
     {
-        if (came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.collider.tag)) return true;
+        if (came_from.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.collider.tag)) return true;
         else return false;
     }
     bool CheckPirateTags(Collider2D c)
     {
-        if (came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.tag)) return true;
+        if (came_from.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.tag)) return true;
         else return false;
     }
 }

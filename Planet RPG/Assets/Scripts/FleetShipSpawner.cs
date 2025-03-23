@@ -5,6 +5,9 @@ using static UnityEditor.PlayerSettings;
 
 public class FleetShipSpawner : MonoBehaviour
 {
+    public List<GameObject> linkedOutposts = new List<GameObject>();
+    public GameObject linkedStation;
+   
     public GameObject spawnPoint;
     public float range;
     public List<GameObject> lvl1Pirates = new List<GameObject>();
@@ -12,10 +15,13 @@ public class FleetShipSpawner : MonoBehaviour
     public List<GameObject> lvl3Pirates = new List<GameObject>();
 
     public GameObject chosenLvl1, chosenLvl2, chosenLvl3;
-    public GameObject nav_objLvl1, nav_objLvl2, nav_objLvl3;
+    public GameObject nav_objLvl1, nav_objLvl2, nav_objLvl3, outpostNavObj;
     public GameObject createdLvl1Nav, createdLvl2Nav, createdLvl3Nav;
+    public List<GameObject> createdOutpostNavObjs = new List<GameObject>();
     private MapParralax map_obj;
     public string key;
+    private float distTime;
+    private bool far;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +30,41 @@ public class FleetShipSpawner : MonoBehaviour
         chosenLvl2 = SpawnShip(lvl2Pirates, 2);
         chosenLvl3 = SpawnShip(lvl3Pirates, 3);
 
+        for (int i = 0; i < linkedOutposts.Count; i++) 
+        {
+            var nav = Instantiate(outpostNavObj, transform.position, Quaternion.identity);
+
+            map_obj = nav.GetComponent<MapParralax>();
+            map_obj.linked_obj = linkedOutposts[i];
+            map_obj.savekey = gameObject.name + "Outpostmapobj" + i;
+            createdOutpostNavObjs.Add(nav);
+        }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        distTime -= Time.deltaTime;
+        if (distTime <= 0)
+        {
+            if (far && Vector2.Distance(transform.position, HUDmanage.playerReference.transform.position) < 2000)
+            {
+                DeactivateShips(chosenLvl1, true);
+                DeactivateShips(chosenLvl2, true);
+                DeactivateShips(chosenLvl3, true);
+                far = false;
+            }
+            else if (!far && Vector2.Distance(transform.position, HUDmanage.playerReference.transform.position) > 2000)
+            {
+                DeactivateShips(chosenLvl1, false);
+                DeactivateShips(chosenLvl2, false);
+                DeactivateShips(chosenLvl3, false);
+                far = true;
+            }
+            distTime = 1f;
+        }
     }
 
     GameObject SpawnShip(List<GameObject> list, float lvl)
@@ -140,5 +176,16 @@ public class FleetShipSpawner : MonoBehaviour
         map_obj.linked_obj = toLink;
         map_obj.savekey = gameObject.name + "Fleetmapobj" + lvl;
         return nav;
+    }
+
+    void DeactivateShips(GameObject ship, bool boolean)
+    {
+        var squadScript = ship.GetComponent<SquadLocationSetter>();
+        for (int i = 0; i < squadScript.shipsSpawned.Count; i++)
+        {
+            squadScript.shipsSpawned[i].gameObject.SetActive(boolean);
+        }
+        ship.SetActive(boolean);
+
     }
 }

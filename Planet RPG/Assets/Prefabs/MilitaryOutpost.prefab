@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f3e56a39b68b146aebca353db513c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linkedOutposts: []
+  linkedStation: {fileID: 0}
   spawnPoint: {fileID: 7806137791648421606}
   range: 500
   lvl1Pirates:
@@ -127,9 +129,11 @@ MonoBehaviour:
   nav_objLvl1: {fileID: 1705977034866155429, guid: b1c0eb27b8f5bb347a88d78ef2b23f65, type: 3}
   nav_objLvl2: {fileID: 1705977034866155429, guid: 77a68b329a802544e8a1c0c0a995ac5f, type: 3}
   nav_objLvl3: {fileID: 1705977034866155429, guid: a47ee720d2aa98c45a80b04812d96e59, type: 3}
+  outpostNavObj: {fileID: 6518200598075877750, guid: 61e0b889c17e56247af9ab5dcd1ee191, type: 3}
   createdLvl1Nav: {fileID: 0}
   createdLvl2Nav: {fileID: 0}
   createdLvl3Nav: {fileID: 0}
+  createdOutpostNavObjs: []
   key: 
 --- !u!114 &6705727898616714674
 MonoBehaviour:
@@ -220,7 +224,6 @@ MonoBehaviour:
   lvl3_ships: []
   npc_ships:
   - {fileID: 6643379399382353486, guid: 73e2537899f5a824e952a33f66af193f, type: 3}
-  - {fileID: 3365596581031562569, guid: 8fc7f478ae274b345a39d48aed361538, type: 3}
   max_dist: 300
   min_dist: 10
   max_numb: 0

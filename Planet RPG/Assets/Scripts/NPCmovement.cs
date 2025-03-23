@@ -559,7 +559,7 @@ public class NPCmovement : MonoBehaviour
                     //Debug.Log("AAAAAA");
                 }
             }
-            yield return new WaitForSeconds(Random.Range(0f, 1f));
+            yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
 
     }

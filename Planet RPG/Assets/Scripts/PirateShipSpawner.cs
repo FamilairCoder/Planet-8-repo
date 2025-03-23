@@ -27,7 +27,7 @@ public class PirateShipSpawner : MonoBehaviour
             shipsSpawned.RemoveAll(ship => ship == null);
             for (int i = 0; i < initialAmount; i++)
             {
-                if (initialShipsSpawned[i] == null)
+                if (i < initialShipsSpawned.Count && initialShipsSpawned[i] == null)
                 {
                     PlayerPrefs.SetFloat(gameObject.name + "alive" + i, 0);
                     //initialShipsSpawned.Remove(initialShipsSpawned[i]);
@@ -73,7 +73,7 @@ public class PirateShipSpawner : MonoBehaviour
             var p = Instantiate(shipsToSpawn[Random.Range(0, shipsToSpawn.Count)], transform.position, Quaternion.identity);
 
             p.GetComponent<NPCmovement>().stay_around = gameObject;
-            p.GetComponent<NPCmovement>().stay_radius = 200;
+            p.GetComponent<NPCmovement>().stay_radius = 100;
             p.GetComponent<NPCmovement>().dontRetreat = true;
             p.GetComponent<NPCmovement>().key = gameObject.name + "spawned" + i;
             shipsSpawned.Add(p);

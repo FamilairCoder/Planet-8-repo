@@ -210,7 +210,7 @@ public class MapParralax : MonoBehaviour
     private bool tracking, checkDid = true, onDid;
     private GameObject player;
     private Vector3 origScale;
-    private float origCamScale;
+    private float origCamScale, trackingTime;
     private LineRenderer lr;
 
     [Header("State Flags")]
@@ -231,6 +231,7 @@ public class MapParralax : MonoBehaviour
 
     void Update()
     {
+        trackingTime -= Time.deltaTime;
         if (on)
         {
             HandleActivationState();
@@ -243,15 +244,20 @@ public class MapParralax : MonoBehaviour
 
         if (rotate)
             transform.rotation = linked_obj.transform.rotation;
-
-        HandleTracking();
+        if (trackingTime < 0)
+        {
+            HandleTracking();
+            trackingTime = Random.Range(.05f, .15f);
+        }
+        
         HandleDeliveryText();
         AdjustScale();
     }
 
     void FixedUpdate()
     {
-        transform.position = new Vector3(linked_obj.transform.position.x, linked_obj.transform.position.y, -6);
+        if (linked_obj != null) transform.position = new Vector3(linked_obj.transform.position.x, linked_obj.transform.position.y, -6);
+        else Destroy(gameObject);
     }
 
     private void OnMouseOver()
