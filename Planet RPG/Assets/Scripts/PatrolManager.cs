@@ -69,8 +69,11 @@ public class PatrolManager : MonoBehaviour
         //p.GetComponent<PatrolID>().spawnCameFrom = GetComponent<PatrolSpawner>();
 
 
-
-        patrols.Insert((int)num, p);
+        while (patrols.Count <= num)
+        {
+            patrols.Add(null); // Fill with default values to create space
+        }
+        patrols[(int)num] = p;
     }
 
 

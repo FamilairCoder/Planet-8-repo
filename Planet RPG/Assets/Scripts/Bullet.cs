@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     public GameObject target;
     private Vector3 nextPos;
     private bool collided;
-    public bool playerMade, patrolMade;
+    public bool playerMade, patrolMade, pirateAccumulate;
     // Start is called before the first frame update
     void Start()
     {

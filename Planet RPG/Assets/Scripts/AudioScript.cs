@@ -6,16 +6,16 @@ public class AudioScript : MonoBehaviour
 {
     public static float songVolume = 1, masterVolume = .5f, SFXVolume = .5f;
     public bool isManager, forMenu, dontPitchShift;
-    private bool changing, traveling, isLaser, inMenu;
-    private float changeTimeleft, checkTime, fade = 1, saveTime;
+    private bool changing, traveling, isLaser, inMenu, nearPirateStation;
+    private float changeTimeleft, checkTime, fade = 1, saveTime, distVolumeTime;
     private Collider2D[] stationNumb, pirateNumb;
     public GameObject player;
     private Transform playerPos;
-    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery;
+    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery, pirateStation;
     private AudioClip playNext;
     private AudioSource AudioSource;    
 
-    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime;
+    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime, pirateStationTime;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -53,6 +53,7 @@ public class AudioScript : MonoBehaviour
     void Update()
     {
         saveTime -= Time.deltaTime;
+        distVolumeTime -= Time.deltaTime;
         if (saveTime < 0 && forMenu)
         {
             PlayerPrefs.SetFloat("SongVolume", songVolume);
@@ -74,13 +75,33 @@ public class AudioScript : MonoBehaviour
                 checkTime -= Time.deltaTime;
                 if (checkTime < 0)
                 {
+                    nearPirateStation = false;
                     var prev = playNext;
                     stationNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("station"));
                     pirateNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("pirates"));
+                    foreach (var item in pirateNumb)
+                    {
+                        if (item.GetComponent<PirateShipSpawner>() != null)
+                        {
+                            nearPirateStation = true;
+                            break;
+                        }
+                    }
 
-                    if (pirateNumb.Length > 0)
+                    if (nearPirateStation)
+                    {
+                        playNext = pirateStation;
+                        time = pirateStationTime;
+                    }
+                    else if (ThingSpawner.totalDeliveries > 0)
+                    {
+                        playNext = delivery;
+                        time = deliveryTime;
+                    }
+                    else if (pirateNumb.Length > 0)
                     {
                         playNext = fighting;
+                        time = fightingTime;
                     }
                     else if (AsteroidSpawner.nearPlayer)
                     {
@@ -97,11 +118,7 @@ public class AudioScript : MonoBehaviour
                         playNext = civilSpace;
                         time = civilSpaceTime;
                     }
-                    else if (ThingSpawner.totalDeliveries > 0)
-                    {
-                        playNext = delivery;
-                        time = deliveryTime;
-                    } 
+
                     else
                     {
                         playNext = travel;
@@ -138,14 +155,20 @@ public class AudioScript : MonoBehaviour
                 if (clip == civilSpace) civilSpaceTime = AudioSource.time;
                 if (clip == delivery) deliveryTime = AudioSource.time;
                 if (clip == travel) travelTime = AudioSource.time;
+                if (clip == pirateStation) pirateStationTime = AudioSource.time;
             }
 
 
         }
         else if (!forMenu)
         {
-            if (!inMenu) GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
-            else GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
+            if (distVolumeTime < 0)
+            {
+                if (!inMenu) GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
+                else GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
+                distVolumeTime = Random.Range(0f, .2f);
+            }
+
         }
         else if (forMenu)
         {

@@ -14,10 +14,16 @@ public class PlayerWeapon : MonoBehaviour
     public static bool using_weapon, basic_laser, laser_rod, laser_beam;
     public static float basic_lasers, laser_beams, laser_rods;
     private float basic_laser_cooldown, laser_rod_cooldown, laser_beam_cooldown;// = .15f;
+    [Header("Secondary Weapon stuff-----------------------")]
+    public GameObject accumulateObj;
+    public Material accumulateMat;
+    //public Color accumulateColor;
+    private GameObject createdAccumulateObj;
     [Header("Laser beam stuf-------------------")]
     public GameObject atk_point;
     public GameObject beam_explosion, lineRenderer;
     public float laser_dist, laser_dmg;
+    private HUDmanage HUD;
     //[Header("Bonuses")]
     //public float armor_bonus, dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus;
     // Start is called before the first frame update
@@ -25,7 +31,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         var ship = current_ship.GetComponent<ShipStats>();
 
-
+        HUD = FindObjectOfType<HUDmanage>();
         
     }
 
@@ -118,6 +124,66 @@ public class PlayerWeapon : MonoBehaviour
             lr.enabled = false;
 
         }
+
+        if (HUD.code_has_secondary.Count > 0)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                HoldSecondaryAttack();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                TapSecondaryAttack();
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                if (createdAccumulateObj != null && !createdAccumulateObj.GetComponent<AccumulateScript>().isFiring) { Destroy(createdAccumulateObj); PlayerMovement.accumulateSlow = 1; PlayerMovement.accumulateZoom = 1; AccumulateBar.yScale = 0; }
+            }
+        }
+            
+    }
+
+    void HoldSecondaryAttack()
+    {
+        var name = HUD.code_has_secondary[HUD.index].name;
+        if (name == "AccumulatorIcon")
+        {
+            if (createdAccumulateObj == null && (basic_laser || laser_rod || laser_beam))
+            {                
+                createdAccumulateObj = Instantiate(accumulateObj, transform.position, Quaternion.identity);
+                var script = createdAccumulateObj.GetComponent<AccumulateScript>();
+                script.mat = accumulateMat;
+                script.cameFrom = gameObject;
+                script.stats = current_ship.GetComponent<ShipStats>();
+                if (basic_laser) script.pellet = true;
+                else if (laser_rod) script.rod = true;
+                else if (laser_beam) script.beam = true;
+            }
+        }
+
+        else if (name == "EmpIcon")
+        {
+            Debug.Log("emp fire");
+        }
+
+        else if (name == "ShieldIcon")
+        {
+            Debug.Log("Shields up");
+        }
+
+    }
+    void TapSecondaryAttack()
+    {
+        var name = HUD.code_has_secondary[HUD.index].name;
+
+        if (name == "GravityWellIcon")
+        {
+            Debug.Log("Shoot blackhole");
+        }
+        else if (name == "TorpedoIcon")
+        {
+            Debug.Log("Launch missile");
+        }
     }
 
     void ActivateAttack()
@@ -128,6 +194,9 @@ public class PlayerWeapon : MonoBehaviour
             {
                 basic_laser = true;
                 using_weapon = true;
+
+                laser_rod = false;
+                laser_beam = false;
             }
                 
             else
@@ -143,6 +212,9 @@ public class PlayerWeapon : MonoBehaviour
             {
                 laser_rod = true;
                 using_weapon = true;
+
+                basic_laser = false;
+                laser_beam = false;
             }
 
             else
@@ -158,6 +230,9 @@ public class PlayerWeapon : MonoBehaviour
             {
                 laser_beam = true;
                 using_weapon = true;
+
+                basic_laser = false;
+                laser_rod = false;
             }
 
             else
@@ -168,6 +243,7 @@ public class PlayerWeapon : MonoBehaviour
 
         }
     }
+
 
     void CreateBullet(GameObject bullet, Quaternion rotation)
     {

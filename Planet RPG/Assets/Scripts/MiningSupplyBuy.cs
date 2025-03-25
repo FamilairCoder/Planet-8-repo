@@ -6,16 +6,29 @@ using UnityEngine.EventSystems;
 
 public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
 {
-    public int cost, buypart_index;
+    public int cost;
+    private int buypart_index;
     public GameObject buy_part;
-    public bool add_probe, increase_price;
+    //public bool add_probe, increase_price;
     private float delay_time;
     private bool did_delay;
+    private HUDmanage HUD;
     // Start is called before the first frame update
     void Start()
     {
-        delay_time = Random.Range(0f, .1f);
+        HUD = FindObjectOfType<HUDmanage>();
+        delay_time = .01f;
+        for(int i = 0; i < HUD.secondaries.Count; i++)
+        {
+            if (HUD.secondaries[i].name == buy_part.name) buypart_index = i;
 
+        }
+        //Debug.Log(buypart_index);
+        if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 1)
+        {
+            //if (buy_part.name == "AccumulatorIcon") Debug.Log(buy_part.name);
+            BuyPart(PlayerPrefs.GetInt("part index" + buypart_index));
+        }
     }
 
     // Update is called once per frame
@@ -24,48 +37,64 @@ public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
         delay_time -= Time.deltaTime;
         if (!did_delay && delay_time <= 0f)
         {
-            if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 1)
-            {
-                FindObjectOfType<HUDmanage>().has_secondary[buypart_index] = true;
-                FindObjectOfType<HUDmanage>().code_has_secondary.Add(buy_part);
-                FindObjectOfType<HUDmanage>().PublicGotNew();
-                if (!add_probe) transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
-                if (add_probe) ProbeUIScript.probe_amount = PlayerPrefs.GetFloat("probes", 0);
-            }
+
             did_delay = true;
         }
-        if (increase_price) transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = cost.ToString() + " photons";
+        //if (increase_price) transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = cost.ToString() + " photons";
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (HUDmanage.money >= cost)
         {
-            if (!add_probe && PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 0)
+            if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 0)
             {
-                FindObjectOfType<HUDmanage>().has_secondary[buypart_index] = true;
-                FindObjectOfType<HUDmanage>().code_has_secondary.Add(buy_part);
-                FindObjectOfType<HUDmanage>().PublicGotNew();
-                PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
-                transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
+                BuyPart();
                 HUDmanage.money -= cost;
             }
-            else if (add_probe)
+/*            else if (add_probe)
             {
                 if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 0)
                 {
-                    FindObjectOfType<HUDmanage>().has_secondary[buypart_index] = true;
-                    FindObjectOfType<HUDmanage>().code_has_secondary.Add(buy_part);
-                    FindObjectOfType<HUDmanage>().PublicGotNew();
+                    HUD.has_secondary[buypart_index] = true;
+                    HUD.code_has_secondary.Add(buy_part);
+                    HUD.PublicGotNew();
                     PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
                 }
 
                 ProbeUIScript.probe_amount++;
                 HUDmanage.money -= cost;
                 if (increase_price) cost += 50;
-            }
+            }*/
 
         }
 
+    }
+
+    void BuyPart()
+    {
+        HUD.has_secondary[buypart_index] = true;
+        PlayerPrefs.SetInt("part index" + buypart_index, HUD.code_has_secondary.Count);
+        HUD.code_has_secondary.Add(buy_part);
+        HUD.PublicGotNew();
+        PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
+        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
+    }
+    void BuyPart(int index)
+    {
+        HUD.has_secondary[buypart_index] = true;
+        var i = 0;
+        while (HUD.code_has_secondary.Count <= index)
+        {
+            HUD.code_has_secondary.Add(null);
+            //if (buy_part.name == "AccumulatorIcon") Debug.Log("added null at " + i);
+            i++;
+        }
+        //if (buy_part.name == "AccumulatorIcon") Debug.Log("Inserting at " + index);
+        HUD.code_has_secondary[index] = buy_part;
+        HUD.index = index;
+        HUD.PublicGotNew();
+        PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
+        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
     }
 }

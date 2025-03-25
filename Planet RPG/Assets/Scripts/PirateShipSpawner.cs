@@ -92,7 +92,7 @@ public class PirateShipSpawner : MonoBehaviour
                 var p = Instantiate(initialShipsToSpawn[index], pos, Quaternion.identity);
 
                 p.GetComponent<NPCmovement>().stay_around = gameObject;
-                p.GetComponent<NPCmovement>().stay_radius = 200;
+                p.GetComponent<NPCmovement>().stay_radius = 70;
                 p.GetComponent<NPCmovement>().dontRetreat = true;
                 p.GetComponent<NPCmovement>().key = gameObject.name + "initialSpawned" + i;
                 initialShipsSpawned.Add(p);

@@ -219,6 +219,7 @@ public class MapParralax : MonoBehaviour
 
     void Start()
     {
+        if (savekey == "") savekey = gameObject.name;
         if (!on) on = PlayerPrefs.GetInt(savekey + "enabled", 0) == 1;
         tracking = PlayerPrefs.GetInt(savekey + "tracking", 0) == 1;
         player = FindObjectOfType<PlayerMining>().gameObject;
@@ -244,11 +245,11 @@ public class MapParralax : MonoBehaviour
 
         if (rotate)
             transform.rotation = linked_obj.transform.rotation;
-        if (trackingTime < 0)
-        {
-            HandleTracking();
-            trackingTime = Random.Range(.05f, .15f);
-        }
+        //if (trackingTime < 0)
+        //{
+        HandleTracking();
+        //    trackingTime = Random.Range(.05f, .15f);
+        //}
         
         HandleDeliveryText();
         AdjustScale();

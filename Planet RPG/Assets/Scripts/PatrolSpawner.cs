@@ -60,7 +60,11 @@ public class PatrolSpawner : MonoBehaviour
         PlayerPrefs.SetInt("index" + id, index);
         PlayerPrefs.Save();
         //key += 1;
-        spawnedPatrols.Insert((int)id, p);
+        while (spawnedPatrols.Count <= id)
+        {
+            spawnedPatrols.Add(null); // Fill with default values to create space
+        }
+        spawnedPatrols[(int)id] = p;
 
         if (PlayerPrefs.GetFloat("taken" + id + key, 0) == 1)
         {

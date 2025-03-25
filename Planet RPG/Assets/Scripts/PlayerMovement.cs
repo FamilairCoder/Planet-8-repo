@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float zoomspd;
     public static bool dead;
     private float spd, turning_spd, spd_up, spd_down, dead_time = 3;
-    public static float target_zoom, beam_slow;
+    public static float target_zoom, beam_slow, accumulateSlow = 1, accumulateZoom = 1;
 
     private float zoom_offset;
     private bool did_position, concreteMovement;
@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public List<StationStats> stationPoses = new List<StationStats>();
 
     public GameObject concreteText, healingParticle;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,11 +110,11 @@ public class PlayerMovement : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
 
             // Smoothly rotate the ship towards the target angle
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * accumulateSlow * Time.deltaTime);
         }
 
 
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd);
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * accumulateSlow);
 
 
 
@@ -258,6 +260,7 @@ public class PlayerMovement : MonoBehaviour
             Camera.main.orthographicSize = target_zoom;
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, 10, 80);
             Camera.main.orthographicSize += zoom_offset;
+            Camera.main.orthographicSize *= accumulateZoom;
         }
         else
         {
