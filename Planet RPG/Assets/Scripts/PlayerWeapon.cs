@@ -16,14 +16,17 @@ public class PlayerWeapon : MonoBehaviour
     private float basic_laser_cooldown, laser_rod_cooldown, laser_beam_cooldown;// = .15f;
     [Header("Secondary Weapon stuff-----------------------")]
     public GameObject accumulateObj;
-    public Material accumulateMat;
-    //public Color accumulateColor;
-    private GameObject createdAccumulateObj;
+    public GameObject empBullet, torpedo, shield, gravityWellBullet;
+    public Material accumulateMat, empMat;
+    public Color shieldColor;
+    private GameObject createdAccumulateObj, createdShield;
+   
     [Header("Laser beam stuf-------------------")]
     public GameObject atk_point;
     public GameObject beam_explosion, lineRenderer;
     public float laser_dist, laser_dmg;
     private HUDmanage HUD;
+    public float empTime;
     //[Header("Bonuses")]
     //public float armor_bonus, dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus;
     // Start is called before the first frame update
@@ -60,22 +63,22 @@ public class PlayerWeapon : MonoBehaviour
         basic_laser_cooldown -= Time.deltaTime;
         laser_rod_cooldown -= Time.deltaTime;
         if (!TextInputScript.typing) ActivateAttack();
-        
-        if (Input.GetMouseButton(0) && !PlayerMovement.dead)
+        empTime -= Time.deltaTime;
+        if (Input.GetMouseButton(0) && !PlayerMovement.dead && !AccumulateScript.playerCharging && empTime <= 0)
         {
             if (basic_laser && basic_laser_cooldown < 0)
             {
                 var ship = current_ship.GetComponent<ShipStats>();
                 var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + Random.Range(-3f, 3f));
-                CreateBullet(basic_laser_bullet, rot);
+                CreateBullet(basic_laser_bullet, rot, false, false);
                 basic_laser_cooldown = Mathf.Clamp(.2f * (1 - ship.firerate_bonus), .015f, 99);
             }
             if (laser_rod && laser_rod_cooldown < 0)
             {
                 var ship = current_ship.GetComponent<ShipStats>();
-                var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + Random.Range(-3f, 3f));
-                CreateBullet(laser_rod_bullet, rot);
-                laser_rod_cooldown = Mathf.Clamp(.15f * (1 - ship.firerate_bonus), .025f, 99);
+                var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + Random.Range(-1f, 1f));
+                CreateBullet(laser_rod_bullet, rot, false, false);
+                laser_rod_cooldown = Mathf.Clamp(.3f * (1 - ship.firerate_bonus), .025f, 99);
             }
             if (laser_beam)
             {
@@ -91,6 +94,7 @@ public class PlayerWeapon : MonoBehaviour
                     {
                         hit = c.point;
                         obj = c.collider.gameObject;
+                        break;
                     }
 
                 }
@@ -137,7 +141,35 @@ public class PlayerWeapon : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(1))
             {
-                if (createdAccumulateObj != null && !createdAccumulateObj.GetComponent<AccumulateScript>().isFiring) { Destroy(createdAccumulateObj); PlayerMovement.accumulateSlow = 1; PlayerMovement.accumulateZoom = 1; AccumulateBar.yScale = 0; }
+                if (createdAccumulateObj != null && !createdAccumulateObj.GetComponent<AccumulateScript>().isFiring) 
+                { 
+                    Destroy(createdAccumulateObj); 
+                    PlayerMovement.accumulateSlow = 1; 
+                    PlayerMovement.accumulateZoom = 1; 
+                    AccumulateBar.yScale = 0; 
+                    AccumulateScript.playerCharging = false;
+                    PostProcessManager.abberation = 0;
+                }
+                if (createdShield != null)
+                {
+                    Destroy(createdShield);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+            {
+                if (createdAccumulateObj != null && !createdAccumulateObj.GetComponent<AccumulateScript>().isFiring)
+                {
+                    Destroy(createdAccumulateObj);
+                    PlayerMovement.accumulateSlow = 1;
+                    PlayerMovement.accumulateZoom = 1;
+                    AccumulateBar.yScale = 0;
+                    AccumulateScript.playerCharging = false;
+                    PostProcessManager.abberation = 0;
+                }
+                if (createdShield != null)
+                {
+                    Destroy(createdShield);
+                }
             }
         }
             
@@ -163,12 +195,28 @@ public class PlayerWeapon : MonoBehaviour
 
         else if (name == "EmpIcon")
         {
-            Debug.Log("emp fire");
+            empTime -= Time.deltaTime;
+            if (empTime < 0)
+            {
+                var ship = current_ship.GetComponent<ShipStats>();
+                var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+                CreateBullet(empBullet, rot, true, false);
+                empTime = .5f;
+            }
         }
 
         else if (name == "ShieldIcon")
         {
-            Debug.Log("Shields up");
+            if (createdShield == null)
+            {
+                createdShield = Instantiate(shield, transform.position, Quaternion.identity);
+                var script = createdShield.GetComponent<ShieldStayOn>();
+                script.stayOn = transform.GetChild(0).transform.GetChild(0).gameObject;
+                createdShield.tag = transform.GetChild(0).transform.GetChild(0).tag;
+                createdShield.layer = transform.GetChild(0).transform.GetChild(0).gameObject.layer;
+                createdShield.GetComponent<SpriteRenderer>().color = shieldColor;
+
+            }
         }
 
     }
@@ -178,11 +226,14 @@ public class PlayerWeapon : MonoBehaviour
 
         if (name == "GravityWellIcon")
         {
-            Debug.Log("Shoot blackhole");
+
+            var b = Instantiate(gravityWellBullet, transform.position, Quaternion.identity);
+            b.GetComponent<GravityWellBullet>().dir = transform.up;
         }
         else if (name == "TorpedoIcon")
         {
-            Debug.Log("Launch missile");
+            var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+            CreateBullet(torpedo, rot, false, true);
         }
     }
 
@@ -245,7 +296,7 @@ public class PlayerWeapon : MonoBehaviour
     }
 
 
-    void CreateBullet(GameObject bullet, Quaternion rotation)
+    void CreateBullet(GameObject bullet, Quaternion rotation, bool emp, bool isTorpedo)
     {
         var ship = current_ship.GetComponent<ShipStats>();
         var b = Instantiate(bullet, transform.position, rotation);
@@ -253,5 +304,7 @@ public class PlayerWeapon : MonoBehaviour
         b.GetComponent<Bullet>().came_from = gameObject;
         b.GetComponent<Bullet>().playerMade = true;
         b.GetComponent<Bullet>().dmg *= (1 + ship.dmg_bonus);
+        if (emp) b.GetComponent<Bullet>().empMat = empMat;
+        b.GetComponent<Bullet>().torpedo = isTorpedo;
     }
 }

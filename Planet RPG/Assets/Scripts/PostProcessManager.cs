@@ -10,7 +10,7 @@ public class PostProcessManager : MonoBehaviour
 
     public PostProcessVolume postProcessingVolume; // Assign in Inspector    
 
-
+    public static float abberation;
     private Bloom bloomSetting;   
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,9 @@ public class PostProcessManager : MonoBehaviour
         //if (postProcessingVolume.profile.TryGetSettings(out bloom))
         //{
         bloomSetting.intensity.value = PlayerPrefs.GetFloat("bloom intensity", 0.4f);
-        bloomSetting.threshold.value = PlayerPrefs.GetFloat("bloom threshold", 0.7f);        
+        bloomSetting.threshold.value = PlayerPrefs.GetFloat("bloom threshold", 0.7f);
+
+        postProcessingVolume.profile.GetSetting<ChromaticAberration>().intensity.value = abberation;
             //bloom.intensity.value += 1 * Time.deltaTime;
         //}
 

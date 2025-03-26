@@ -21,10 +21,10 @@ public class NPCmovement : MonoBehaviour
     public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader, dontRetreat;
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
-    public GameObject target;
+    public GameObject target, empParticle;
     private float turning_spd, spd, delay_time = .1f, beam_slow, fleet_slow = 1 , saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
     private bool did, boost = false;
-    public float rand_time;
+    public float rand_time, stunTime;
     public Vector3 dir;
     private Vector3 movedir;
     private Vector3 offset, target_point;
@@ -34,6 +34,7 @@ public class NPCmovement : MonoBehaviour
     public Transform playerPos;
     private PatrolID patrolID;
 
+    public bool gravityWellCaught;
     // Start is called before the first frame update
     void Start()
     {
@@ -125,6 +126,10 @@ public class NPCmovement : MonoBehaviour
 
     private void Update()
     {
+
+
+
+
         if (Input.GetMouseButtonDown(0) && is_pirate && PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && GetComponent<Collider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && !HUDmanage.on_map)
         {
             PatrolManager.holdFire = false;
@@ -180,7 +185,7 @@ public class NPCmovement : MonoBehaviour
         //if (is_pirate)
         spd = ship.spd * (1 + ship.thrust_bonus);
         turning_spd = ship.turning_spd * (1 + ship.turnspd_bonus);
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * beam_slow * fleet_slow);
+        if (!gravityWellCaught) rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * beam_slow * fleet_slow);
 
         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
@@ -435,6 +440,16 @@ public class NPCmovement : MonoBehaviour
             }
 
         }
+        if (stunTime > 0)
+        {
+            stunTime -= Time.deltaTime;
+            //Debug.Log(stunTime);
+            StopLaserbeams();
+        }
+        else
+        {
+            empParticle = null;
+        }
     }
 
 
@@ -496,24 +511,28 @@ public class NPCmovement : MonoBehaviour
 
     private void FireWeapons()
     {
-        foreach (GameObject w in weapons)
+        if (stunTime <= 0)
         {
-            var weapon = w.GetComponent<NPCweapon>();
-            if (!weapon.laser_beam)
+            foreach (GameObject w in weapons)
             {
-                weapon.Attack();
-                weapon.target_tag = target.tag;
-                weapon.dmg_bonus = GetComponent<ShipStats>().dmg_bonus;
-                weapon.firerate_bonus = GetComponent<ShipStats>().firerate_bonus;
-            }
-            else
-            {
-                weapon.target_tag = target.tag;
-                weapon.is_firing = true;
-                beam_slow = .75f;
-                weapon.dist = detect_radius;
+                var weapon = w.GetComponent<NPCweapon>();
+                if (!weapon.laser_beam)
+                {
+                    weapon.Attack();
+                    weapon.target_tag = target.tag;
+                    weapon.dmg_bonus = GetComponent<ShipStats>().dmg_bonus;
+                    weapon.firerate_bonus = GetComponent<ShipStats>().firerate_bonus;
+                }
+                else
+                {
+                    weapon.target_tag = target.tag;
+                    weapon.is_firing = true;
+                    beam_slow = .75f;
+                    weapon.dist = detect_radius;
+                }
             }
         }
+
     }
     private void StopLaserbeams()
     {

@@ -9,7 +9,7 @@ public class DespawnTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spr = GetComponent<SpriteRenderer>();
+        if (GetComponent<SpriteRenderer>() != null) spr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -17,7 +17,7 @@ public class DespawnTimer : MonoBehaviour
     {
         timeleft -= Time.deltaTime;
 
-        spr.color = Color.Lerp(new Color(1, 1, 1, 0), new Color(1, 1, 1, 1), timeleft / 20);
+        if (GetComponent<SpriteRenderer>() != null) spr.color = Color.Lerp(new Color(1, 1, 1, 0), new Color(1, 1, 1, 1), timeleft / 20);
         if (timeleft < 5f && GetComponent<Rigidbody2D>() != null)
         {
             Destroy(GetComponent<Rigidbody2D>());

@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     public GameObject death_explosion;
     public Sprite ruin;
     public Sprite orig_sprite;
-    public bool gets_ruined;
+    public bool gets_ruined, isShield;
     public GameObject trail, linked_diagnosis;
     private float saveTime;
     private SpriteRenderer spr;
@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
         if (GetComponentInParent<PatrolID>() != null) isPatrol = true;
         else if (GetComponentInParent<NPCmovement>() != null && GetComponentInParent<NPCmovement>().is_pirate) isPirate = true;
         spr = GetComponent<SpriteRenderer>();
-        if (!isStation && !reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
+        if (!isShield && !isStation && !reportDmg && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
         {
             if (transform.parent.GetComponent<ShipStats>().npc)
             {
@@ -116,6 +116,7 @@ public class Health : MonoBehaviour
             {
                 if (!isStation)
                 {
+                    if (isShield) Destroy(gameObject);
                     if (trail != null)
                     {
                         trail.SetActive(false);
@@ -155,7 +156,7 @@ public class Health : MonoBehaviour
                     GetComponent<Animator>().enabled = true;
 
                 if (orig_sprite != null && spr.sprite != null) spr.sprite = orig_sprite;
-                if (spr != null) spr.color = new Color(1f, 1f, 1f);
+                if (spr != null && !isShield) spr.color = new Color(1f, 1f, 1f);
 
                 if (isStation)
                 {
@@ -227,10 +228,14 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         spr = GetComponent<SpriteRenderer>();
         orig_sprite = GetComponent<SpriteRenderer>().sprite;
+        if (isShield)
+        {
+            yield break;
+        }
         while (true)
         {
 
-            if (!isStation && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
+            if (!isShield && !isStation && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
             {
                 if (transform.parent.GetComponent<ShipStats>().npc)
                 {

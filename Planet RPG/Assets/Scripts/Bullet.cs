@@ -7,25 +7,50 @@ public class Bullet : MonoBehaviour
     //public AudioClip hitSFX;
     public GameObject explosion, came_from;
     public float spd, dmg;
-    private float lifetime = 2;
+    private float lifetime = 2, torpedoSpd;
     public string target_tag;
     public bool missile;
     public float turn_spd;
     public GameObject target;
     private Vector3 nextPos;
     private bool collided;
-    public bool playerMade, patrolMade, pirateAccumulate;
+    public bool playerMade, patrolMade, pirateAccumulate, torpedo;
+    public bool isPirate;
+    [Header("For emp stuff-------------------")]
+    public bool emp;
+    public GameObject empParticles;
+    public Material empMat;
+    
     // Start is called before the first frame update
     void Start()
     {
         if (missile) lifetime = 8;
+        if (torpedo)
+        {
+            torpedoSpd = 15f;
+            RaycastHit2D[] hit = null;
+            if (!isPirate) hit = Physics2D.RaycastAll(transform.position, transform.up, 50, LayerMask.GetMask("pirates"));
+            else hit = Physics2D.RaycastAll(transform.position, transform.up, 50);
+            foreach (var a in hit)
+            {
+                var col = a.collider;
+                if (col.GetComponent<Health>() != null && col.GetComponent<Health>().hp > 0 && (came_from.transform.parent == null || !col.gameObject.transform.IsChildOf(came_from.transform.parent)))
+                {
+                    if (!isPirate || HUDmanage.pirateTags.Contains(col.tag))
+                    {
+                        target = col.gameObject;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         lifetime -= Time.deltaTime;
-        if (missile) spd = Mathf.Lerp(60, 5, lifetime / 8);
+        if (missile) spd = Mathf.Lerp(60, torpedoSpd, lifetime / 8);
         if (lifetime < 4) turn_spd = 0;
         if (lifetime < 0)
         {
@@ -55,8 +80,43 @@ public class Bullet : MonoBehaviour
 
                     Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
                     c.collider.GetComponent<Health>().hp -= dmg;
+
                     if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
                     {
+                        /*                        if (emp)
+                                                {
+
+                                                    if (c.collider.transform.parent.GetComponent<NPCmovement>().empParticle == null)
+                                                    {
+                                                        var p = Instantiate(empParticles, c.point, Quaternion.identity);
+                                                        if (!isPirate || c.collider.transform.parent.GetComponent<NPCmovement>().is_patrol)
+                                                        {
+                                                            c.collider.transform.parent.GetComponent<NPCmovement>().empParticle = p;
+                                                            p.GetComponent<ParticleStayOn>().stayOn = c.collider.transform.parent.gameObject;
+                                                        }
+                                                        else if (!isPirate && c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
+                                                        {
+
+                                                            p.GetComponent<ParticleStayOn>().stayOn = c.collider.transform.parent.transform.parent.gameObject;
+                                                        }
+
+                                                        p.GetComponent<ParticleStayOn>().mat = empMat;
+                                                    }
+
+                                                    if (!isPirate || c.collider.transform.parent.GetComponent<NPCmovement>().is_patrol)
+                                                    {
+                                                        c.collider.transform.parent.GetComponent<NPCmovement>().stunTime += 1;
+                                                    }
+
+                                                    else if (!isPirate && c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
+                                                    {
+                                                        c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>().empTime += 1;
+                                                    }
+
+
+
+                                                }*/
+                        TriggerEMP(c.collider);
                         if (playerMade)
                         {
                             //Debug.Log("player made");
@@ -131,6 +191,7 @@ public class Bullet : MonoBehaviour
                 collision.GetComponent<Health>().hp -= dmg;
                 if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
                 {
+                    TriggerEMP(collision);
                     var chance = Random.Range(0f, 1f);
                     if (playerMade)
                     {
@@ -170,4 +231,42 @@ public class Bullet : MonoBehaviour
         if (came_from.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent.GetComponent<NPCmovement>().is_pirate && HUDmanage.pirateTags.Contains(c.tag)) return true;
         else return false;
     }
+
+    void TriggerEMP(Collider2D collision)
+    {
+        if (emp)
+        {
+
+            if (collision.transform.parent.GetComponent<NPCmovement>().empParticle == null)
+            {
+                var p = Instantiate(empParticles, collision.transform.position, Quaternion.identity);
+                if (!isPirate || collision.transform.parent.GetComponent<NPCmovement>().is_patrol)
+                {
+                    collision.transform.parent.GetComponent<NPCmovement>().empParticle = p;
+                    p.GetComponent<ParticleStayOn>().stayOn = collision.transform.parent.gameObject;
+                }
+                else if (!isPirate && collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
+                {
+
+                    p.GetComponent<ParticleStayOn>().stayOn = collision.transform.parent.transform.parent.gameObject;
+                }
+
+                p.GetComponent<ParticleStayOn>().mat = empMat;
+            }
+
+            if (!isPirate || collision.transform.parent.GetComponent<NPCmovement>().is_patrol)
+            {
+                collision.transform.parent.GetComponent<NPCmovement>().stunTime += 1;
+            }
+
+            else if (!isPirate && collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
+            {
+                collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>().empTime += 1;
+            }
+
+
+
+        }
+    }
+
 }

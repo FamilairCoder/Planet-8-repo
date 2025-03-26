@@ -10,7 +10,7 @@ public class SelfDestruct : MonoBehaviour, IPointerDownHandler
     public GameObject explosion;
     private GameObject player;
     public ShipStats shipStats;
-    private float checkTime, amount_broken;
+    private float checkTime, amount_broken, thrusterAmount;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,10 +28,12 @@ public class SelfDestruct : MonoBehaviour, IPointerDownHandler
                 if (shipStats != null)
                 {
                     amount_broken = 0;
+                    thrusterAmount = 0;
                     foreach (var t in shipStats.thrusters)
                     {
                         if (t.activeSelf)
                         {
+                            thrusterAmount++;
                             if (t.GetComponent<Health>() != null && t.GetComponent<Health>().hp <= 0)
                             {
                                 amount_broken++;
@@ -45,7 +47,7 @@ public class SelfDestruct : MonoBehaviour, IPointerDownHandler
             }
    
         }
-        if (amount_broken == shipStats.thrusters.Count) { GetComponent<Image>().enabled = true; transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true; }
+        if (amount_broken == thrusterAmount) { GetComponent<Image>().enabled = true; transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = true; }
         else { GetComponent<Image>().enabled = false; transform.GetChild(0).GetComponent<TextMeshProUGUI>().enabled = false; }
 
     }
@@ -53,7 +55,7 @@ public class SelfDestruct : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (amount_broken == shipStats.thrusters.Count)
+        if (amount_broken == thrusterAmount)
         {
 
             shipStats.core.GetComponent<Health>().hp = 0;

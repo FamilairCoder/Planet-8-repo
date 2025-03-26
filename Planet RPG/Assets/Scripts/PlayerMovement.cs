@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject concreteText, healingParticle;
 
-
+    public bool gravityWellCaught;
     // Start is called before the first frame update
     void Start()
     {
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * accumulateSlow);
+        if (!gravityWellCaught) rb.velocity = Vector2.ClampMagnitude(rb.velocity, spd * accumulateSlow);
 
 
 
@@ -201,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
 
         
         
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !AccumulateScript.playerCharging)
         {
             if (!inhibited)
             {

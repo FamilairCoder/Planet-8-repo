@@ -51,7 +51,7 @@ public class HUDmanage : MonoBehaviour
         playerReference = FindObjectOfType<PlayerMovement>().gameObject;
         pirateTags = pirateTagsEditor;
         //get rid of this--------------------------
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         //get rid of this--------------------------
 
 
