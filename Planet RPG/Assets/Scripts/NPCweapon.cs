@@ -166,7 +166,7 @@ public class NPCweapon : MonoBehaviour
             if (atk_point2 != null)
             {
                 rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + Random.Range(-atk_spread, atk_spread));
-                b = Instantiate(bullet, atk_point.transform.position, rot);
+                b = Instantiate(bullet, atk_point2.transform.position, rot);
                 b.GetComponent<Bullet>().target_tag = target_tag;
                 b.GetComponent<Bullet>().came_from = gameObject;
                 b.GetComponent<Bullet>().dmg *= (1 + dmg_bonus);

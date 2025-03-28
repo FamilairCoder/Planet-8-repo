@@ -38,8 +38,11 @@ public class HUDmanage : MonoBehaviour
     public static AudioSource bountySound;
 
     public static GameObject playerReference;
+    public static Material pirateSecondaryMatRef;
     public static List<string> pirateTags = new List<string>();
+    [Header("for various npc needs------------------------")]
     public List<string> pirateTagsEditor = new List<string>();
+    public Material pirateSecondaryMat;
 
     public static bool pauseMenu;
 
@@ -50,6 +53,8 @@ public class HUDmanage : MonoBehaviour
         bountySound = FindObjectOfType<PlayerMovement>().bountySound;
         playerReference = FindObjectOfType<PlayerMovement>().gameObject;
         pirateTags = pirateTagsEditor;
+        pirateSecondaryMatRef = pirateSecondaryMat;
+
         //get rid of this--------------------------
         PlayerPrefs.DeleteAll();
         //get rid of this--------------------------

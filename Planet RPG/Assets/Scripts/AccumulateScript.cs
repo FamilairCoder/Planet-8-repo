@@ -16,6 +16,8 @@ public class AccumulateScript : MonoBehaviour
     public static bool playerCharging;
     private float chargeTime, fireTime, shootTime, laserTime;
     private bool shotRod;
+    private bool tookEnergy;
+    public string targetTag;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +36,19 @@ public class AccumulateScript : MonoBehaviour
         {
             transform.position = cameFrom.transform.position;
             chargeTime += Time.deltaTime;
-            if (!isPirate) playerCharging = true;
-            if (!isPirate)
+            var chargeRatio = chargeTime / 5f;
+            if (!isPirate && chargeTime <= 5)
             {
-                var chargeRatio = chargeTime / 5f;
+                playerCharging = true;
+                
                 PlayerMovement.accumulateSlow = Mathf.Clamp01(Mathf.Lerp(1, .05f, chargeRatio));
                 PlayerMovement.accumulateZoom = Mathf.Clamp01(Mathf.Lerp(1, .75f, chargeRatio));
                 PostProcessManager.abberation = Mathf.Clamp01(Mathf.Lerp(0, .5f, chargeRatio));
                 AccumulateBar.yScale = Mathf.Lerp(0, 2.083f, chargeRatio);
+            }
+            else if (isPirate && chargeTime <= 5)
+            {
+                cameFrom.GetComponent<NPCmovement>().chargeSlow = Mathf.Clamp01(Mathf.Lerp(1, .05f, chargeRatio));
             }
             if (chargeTime > 5)
             {
@@ -53,9 +60,10 @@ public class AccumulateScript : MonoBehaviour
                 var ratio = fireTime / 3f;
                 if (!isPirate)
                 {
-                    PlayerMovement.accumulateZoom = 1;
+                    PlayerMovement.accumulateZoom = Mathf.Lerp(.75f, 1, ratio);
                     AccumulateBar.yScale = Mathf.Lerp(2.083f, 0, ratio);
-                    PostProcessManager.abberation = 0f;
+                    PostProcessManager.abberation = Mathf.Lerp(.5f, 0, ratio);
+                    if (!tookEnergy) { EnergyManagement.energy -= 50; tookEnergy = true; }
                 }
                 if (pellet)
                 {
@@ -70,7 +78,9 @@ public class AccumulateScript : MonoBehaviour
                         else b = Instantiate(piratePellet, transform.position, Quaternion.Euler(0, 0, cameFrom.transform.rotation.eulerAngles.z + Random.Range(-rot, rot)));
                         var script = b.GetComponent<Bullet>();
                         if (!isPirate) { script.target_tag = "enemy"; script.playerMade = true; }
-                        script.came_from = cameFrom;                        
+                        else { script.target_tag = targetTag; }
+                        if (isPirate) script.came_from = cameFrom.GetComponent<NPCmovement>().weapons[0];                        
+                        else script.came_from = cameFrom;
                         script.dmg *= (1 + stats.dmg_bonus);
                         if (fireTime < 2) shootTime = .01f;
                         else shootTime = .05f;
@@ -97,21 +107,30 @@ public class AccumulateScript : MonoBehaviour
                     FireLaser(cameFrom.transform.position + cameFrom.transform.right * 1, lr1);
                     FireLaser(cameFrom.transform.position, lr2);
                     FireLaser(cameFrom.transform.position - cameFrom.transform.right * 1, lr3);
-                    PlayerMovement.accumulateSlow = .01f;
+                    if (!isPirate) PlayerMovement.accumulateSlow = .01f;
+                    else cameFrom.GetComponent<NPCmovement>().chargeSlow = .01f;
 
 
                 }
                 if (fireTime >= 3)
                 {
-                    AccumulateBar.yScale = 0;
-                    PlayerMovement.accumulateSlow = 1;
-                    PostProcessManager.abberation = 0;
-                    if (!isPirate) playerCharging = false; 
+                    if (!isPirate)
+                    {
+                        AccumulateBar.yScale = 0;
+                        PlayerMovement.accumulateSlow = 1;
+                        PostProcessManager.abberation = 0;
+                        playerCharging = false;
+                        
+                    }
+                    else
+                    {
+                        cameFrom.GetComponent<NPCmovement>().chargeSlow = 1;
+                    }
                     Destroy(gameObject);
                 }
             }
         }
-        else { Destroy(gameObject); PlayerMovement.accumulateSlow = 1; AccumulateBar.yScale = 0; if (!isPirate) playerCharging = false; PostProcessManager.abberation = 0; }
+        else { Destroy(gameObject); if (!isPirate) { PlayerMovement.accumulateSlow = 1; AccumulateBar.yScale = 0; playerCharging = false; PostProcessManager.abberation = 0; } }
     }
 
     void FireLaser(Vector3 position, LineRenderer lr)

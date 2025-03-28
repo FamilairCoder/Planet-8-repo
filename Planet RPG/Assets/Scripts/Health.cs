@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     public GameObject death_explosion;
     public Sprite ruin;
     public Sprite orig_sprite;
-    public bool gets_ruined, isShield;
+    public bool gets_ruined, isShield, playerShield;
     public GameObject trail, linked_diagnosis;
     private float saveTime;
     private SpriteRenderer spr;
@@ -116,7 +116,11 @@ public class Health : MonoBehaviour
             {
                 if (!isStation)
                 {
-                    if (isShield) Destroy(gameObject);
+                    if (isShield)
+                    {
+                        Destroy(gameObject);
+                        if (playerShield) PlayerWeapon.shieldTime = 5f;
+                    }
                     if (trail != null)
                     {
                         trail.SetActive(false);

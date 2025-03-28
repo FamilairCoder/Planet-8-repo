@@ -24,6 +24,11 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (emp)
+        {
+            GetComponent<ParticleSystemRenderer>().material = empMat;
+            GetComponent<ParticleSystemRenderer>().trailMaterial = empMat;
+        }
         if (missile) lifetime = 8;
         if (torpedo)
         {
@@ -80,7 +85,7 @@ public class Bullet : MonoBehaviour
 
                     Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
                     c.collider.GetComponent<Health>().hp -= dmg;
-
+                    TriggerPlayerEMP(c.collider);
                     if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
                     {
                         /*                        if (emp)
@@ -189,9 +194,10 @@ public class Bullet : MonoBehaviour
             {
                 Instantiate(explosion, exploPos, Quaternion.identity);//, collision.transform);
                 collision.GetComponent<Health>().hp -= dmg;
+                TriggerPlayerEMP(collision);
                 if (collision.transform.parent != null && collision.transform.parent.GetComponent<NPCmovement>() != null)
                 {
-                    TriggerEMP(collision);
+                    
                     var chance = Random.Range(0f, 1f);
                     if (playerMade)
                     {
@@ -206,7 +212,7 @@ public class Bullet : MonoBehaviour
                     {
                         collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
                     }
-
+                    TriggerEMP(collision);
                 }
                 Destroy(gameObject);
             }
@@ -245,11 +251,6 @@ public class Bullet : MonoBehaviour
                     collision.transform.parent.GetComponent<NPCmovement>().empParticle = p;
                     p.GetComponent<ParticleStayOn>().stayOn = collision.transform.parent.gameObject;
                 }
-                else if (!isPirate && collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
-                {
-
-                    p.GetComponent<ParticleStayOn>().stayOn = collision.transform.parent.transform.parent.gameObject;
-                }
 
                 p.GetComponent<ParticleStayOn>().mat = empMat;
             }
@@ -259,12 +260,32 @@ public class Bullet : MonoBehaviour
                 collision.transform.parent.GetComponent<NPCmovement>().stunTime += 1;
             }
 
-            else if (!isPirate && collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
+
+
+
+        }
+    }
+    void TriggerPlayerEMP(Collider2D collision)
+    {
+        if (emp)
+        {
+            if (collision.transform.parent != null && collision.transform.parent.transform.parent != null)
             {
-                collision.transform.parent.transform.parent.GetComponent<PlayerWeapon>().empTime += 1;
+                var parentParent = collision.transform.parent.transform.parent;
+                if (parentParent.GetComponent<PlayerWeapon>() != null)
+                {
+                    if (parentParent.GetComponent<PlayerWeapon>().empParticle == null)
+                    {
+                        var p = Instantiate(empParticles, collision.transform.position, Quaternion.identity);
+                        p.GetComponent<ParticleStayOn>().stayOn = collision.transform.parent.transform.parent.gameObject;
+                        parentParent.GetComponent<PlayerWeapon>().empParticle = p;
+                        p.GetComponent<ParticleStayOn>().mat = empMat;
+                    }
+                    parentParent.GetComponent<PlayerWeapon>().empTime += 1;
+
+
+                }
             }
-
-
 
         }
     }

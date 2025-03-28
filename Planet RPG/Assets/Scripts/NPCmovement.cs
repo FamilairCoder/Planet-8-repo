@@ -1,9 +1,11 @@
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 //using static UnityEditor.PlayerSettings;
 
 public class NPCmovement : MonoBehaviour
@@ -15,6 +17,15 @@ public class NPCmovement : MonoBehaviour
     [Header("Unique Variables")]
     public List<GameObject> weapons = new List<GameObject>();
     public float bounty_cost, detect_radius, attackDistance;
+    [Header("For secondary stuff-----------------")]
+    public bool isPellet;
+    public bool isRod, isBeam;
+    private bool hasAccumulator, hasEmp, hasTorpedo, hasShield, hasGravityWell;
+    private bool hasSecondary;
+    private float energy = 100;
+    public GameObject accumulateObj, empObj, torpedoObj, gravityWellBullet, shieldObj;
+    private GameObject createdAccumulateObj, createdShield;
+    public float chargeSlow = 1;
    // public 
     [Header("Dont have to set-------")]
     public float stay_radius;
@@ -38,7 +49,8 @@ public class NPCmovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GetComponent<ParticleSystem>() != null && inhibit) { GetComponent<ParticleSystem>().Play(); Debug.Log(inhibit); }
+        chargeSlow = 1;
+        if (GetComponent<ParticleSystem>() != null && inhibit) { GetComponent<ParticleSystem>().Play(); }
         //GetComponent<ParticleSystem>().Play();
         ship = GetComponent<ShipStats>();
         rb = GetComponent<Rigidbody2D>();
@@ -53,13 +65,45 @@ public class NPCmovement : MonoBehaviour
         retreatThreshold = Random.Range(.1f, .5f);
         if (retreatThreshold < .25f) retreatThreshold = 0f;
 
-        if (is_pirate || is_patrol) StartCoroutine(FindTarget());
+        if (is_pirate || is_patrol) { StartCoroutine(FindTarget()); }
         if (is_patrol)
         {
             playerPos = HUDmanage.playerReference.transform;
             patrolID = GetComponent<PatrolID>();
         }
-        
+        if (is_pirate)
+        {
+            var hasSecondaryChance = PlayerPrefs.GetFloat(key + "hasSecondaryChance", Random.Range(0f, 1f));
+            if ((lvl == 2 && hasSecondaryChance > .75f) || (lvl == 3 && hasSecondaryChance > .5f))
+            {
+                var chance = PlayerPrefs.GetFloat(key + "secondaryChance", Random.Range(0f, 1f));
+                if (chance < .2f)
+                {
+                    hasAccumulator = true;
+                }
+                else if (chance < .4f)
+                {
+                    hasEmp = true;
+                }
+                else if (chance < .6f)
+                {
+                    hasTorpedo = true;
+
+                }
+                else if (chance < .8f)
+                {
+                    hasGravityWell = true;
+                }
+                else
+                {
+                    hasShield = true;
+                }
+            }
+            StartCoroutine(UseSecondary());
+            hasSecondary = true;
+
+        }
+
             
     }
 
@@ -117,7 +161,7 @@ public class NPCmovement : MonoBehaviour
         }
         else if (target != null)
         {
-            rb.AddForce(movedir * beam_slow * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            rb.AddForce(movedir * chargeSlow * beam_slow * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
 
         
@@ -189,7 +233,7 @@ public class NPCmovement : MonoBehaviour
 
         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * fleet_slow * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turning_spd * beam_slow * chargeSlow * fleet_slow * Time.deltaTime);
 
 
         //fleet movement
@@ -442,14 +486,16 @@ public class NPCmovement : MonoBehaviour
         }
         if (stunTime > 0)
         {
+            if (createdShield != null) Destroy(createdShield);
             stunTime -= Time.deltaTime;
             //Debug.Log(stunTime);
             StopLaserbeams();
         }
-        else
+        if (chargeSlow < 1)
         {
-            empParticle = null;
+            StopLaserbeams();
         }
+
     }
 
 
@@ -511,7 +557,7 @@ public class NPCmovement : MonoBehaviour
 
     private void FireWeapons()
     {
-        if (stunTime <= 0)
+        if (stunTime <= 0 && chargeSlow == 1)
         {
             foreach (GameObject w in weapons)
             {
@@ -582,8 +628,111 @@ public class NPCmovement : MonoBehaviour
         }
 
     }
+
+    IEnumerator UseSecondary()
+    {
+        while (true)
+        {
+            if (target != null && is_pirate && createdAccumulateObj == null && (Vector2.Distance(target.transform.position, transform.position) < detect_radius * .8f))
+            {
+                if (hasAccumulator && energy >= 50)
+                {
+                    var accumulateChance = Random.Range(0f, 1f);
+                    if (accumulateChance < .1f)
+                    {
+                        createdAccumulateObj = Instantiate(accumulateObj, transform.position, Quaternion.identity);
+                        var script = createdAccumulateObj.GetComponent<AccumulateScript>();
+                        script.mat = HUDmanage.pirateSecondaryMatRef;
+                        script.cameFrom = gameObject;
+                        script.stats = GetComponent<ShipStats>();
+                        script.isPirate = true;
+                        script.targetTag = target.tag;
+                        if (isPellet) script.pellet = true;
+                        else if (isRod) script.rod = true;
+                        else if (isBeam) script.beam = true;
+                        energy -= 50;
+                    }
+                }
+                else if (hasEmp && energy >= 10)
+                {
+                    var empChance = Random.Range(0f, 1f);
+                    if (empChance < .35f)
+                    {
+                        var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+                        var b = Instantiate(empObj, transform.position, rot);
+                        b.GetComponent<Bullet>().target_tag = target.tag;
+                        b.GetComponent<Bullet>().came_from = weapons[0];
+                        b.GetComponent<Bullet>().emp = true;
+                        b.GetComponent<Bullet>().empMat = HUDmanage.pirateSecondaryMatRef;
+                        energy -= 10f;
+                    }
+                    
+                }
+                else if (hasTorpedo && energy >= 8)
+                {
+                    var torpChance = Random.Range(0f, 1f);
+                    if (torpChance < .5f)
+                    {
+                        var rot = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+                        var b = Instantiate(torpedoObj, transform.position, rot);
+                        b.GetComponent<Bullet>().target_tag = target.tag;
+                        b.GetComponent<Bullet>().came_from = weapons[0];
+                        b.GetComponent<Bullet>().torpedo = true;
+                        b.GetComponent<Bullet>().isPirate = true;
+                        energy -= 8;
+                    }
+                    
+                }
+                else if (hasGravityWell && energy >= 20)
+                {
+                    var chance = Random.Range(0f, 1f);
+                    if (chance < .1f)
+                    {
+                        var b = Instantiate(gravityWellBullet, transform.position, Quaternion.identity);
+                        b.GetComponent<GravityWellBullet>().dir = transform.up;
+                        b.GetComponent<GravityWellBullet>().isPirate = true;
+                        energy -= 20f;
+                    }
+                }
+                else if (hasShield)
+                {
+                    if (createdShield != null)
+                    {
+                        if (energy < 6)
+                        {
+                            Destroy(createdShield);
+                        }
+                        else
+                        {
+                            energy -= 6;
+                        }
+                    }
+                    var chance = Random.Range(0f, 1f);
+                    if (chance < .2f && createdShield == null)
+                    {
+                        createdShield = Instantiate(shieldObj, transform.position, Quaternion.identity);
+                        var script = createdShield.GetComponent<ShieldStayOn>();
+                        script.stayOn = transform.GetChild(0).gameObject;
+                        script.isPirate = true;
+                        createdShield.tag = transform.GetChild(0).tag;
+                        createdShield.layer = transform.GetChild(0).gameObject.layer;
+                        createdShield.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, .25f);
+                    }
+                    else if (chance < .2f && createdShield != null)
+                    {
+                        Destroy(createdShield);
+                    }
+                }
+
+            }
+            energy += 1.5f;
+            energy = Mathf.Clamp(energy, 0, 100);
+            yield return new WaitForSeconds(1);
+        }
+    }
     private void OnEnable()
     {
         StartCoroutine(FindTarget());
+        if (hasSecondary) StartCoroutine(UseSecondary());
     }
 }

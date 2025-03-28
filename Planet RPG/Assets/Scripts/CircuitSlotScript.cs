@@ -136,6 +136,9 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
                 ship.mining_bonus -= PlayerPrefs.GetFloat("mining_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
                 ship.ore_bonus -= PlayerPrefs.GetFloat("ore_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
 
+                ship.energyRegenBonus -= PlayerPrefs.GetFloat("regenBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.energyCapacityBonus -= PlayerPrefs.GetFloat("capacityBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+
                 for (int i = 0; i < ship.transform.childCount; i++)
                 {
                     if (ship.transform.GetChild(i).GetComponent<Health>() != null)
@@ -164,6 +167,9 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
                 SaveBonus("cargo_bonus", 0);
                 SaveBonus("mining_bonus", 0);
                 SaveBonus("ore_bonus", 0);
+
+                SaveBonus("regenBonus", 0);
+                SaveBonus("capacityBonus", 0);
 
 
 
@@ -241,6 +247,9 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
             ship.mining_bonus += partScript.mining_bonus;
             ship.ore_bonus += partScript.ore_bonus;
 
+            ship.energyRegenBonus += partScript.energyRegenBonus;
+            ship.energyCapacityBonus += partScript.energyCapacityBonus;
+
 
             SaveBonus("armor_bonus", partScript.armor_bonus);
             SaveBonus("dmg_bonus", partScript.dmg_bonus);
@@ -251,6 +260,9 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
             SaveBonus("cargo_bonus", partScript.cargo_bonus);
             SaveBonus("mining_bonus", partScript.mining_bonus);
             SaveBonus("ore_bonus", partScript.ore_bonus);
+
+            SaveBonus("regenBonus", partScript.energyRegenBonus);
+            SaveBonus("capacityBonus", partScript.energyCapacityBonus);
 
             PlayerPrefs.Save();
 

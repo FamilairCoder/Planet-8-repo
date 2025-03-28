@@ -11,7 +11,7 @@ public class PartScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public bool isBasicLaser, isLaserRod, isLaserBeam;
     [Header("Bonus")]
     public float armor_bonus;
-    public float dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus, cargo_bonus, mining_bonus, ore_bonus;
+    public float dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus, cargo_bonus, mining_bonus, ore_bonus, energyRegenBonus, energyCapacityBonus;
     [Header("dont have to set-----------")]
     public bool down;
     private Vector3 orig_pos;    

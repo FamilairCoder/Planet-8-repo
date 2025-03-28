@@ -201,19 +201,23 @@ public class PlayerMovement : MonoBehaviour
 
         
         
-        if (Input.GetKey(KeyCode.LeftShift) && !AccumulateScript.playerCharging)
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            if (!inhibited)
+            if (!AccumulateScript.playerCharging)
             {
-                if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 10, .1f);
-                spd = spd_up;
-                
+                if (!inhibited)
+                {
+                    if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 10, .1f);
+                    spd = spd_up;
+
+                }
+                else
+                {
+                    spd = spd_up / 1.5f;
+                    //if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 5, .1f);                
+                }
             }
-            else
-            {
-                spd = spd_up / 1.5f;
-                //if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 5, .1f);                
-            }
+
 
         }
         else
@@ -222,6 +226,7 @@ public class PlayerMovement : MonoBehaviour
             if (!HUDmanage.on_map) zoom_offset = Mathf.Lerp(zoom_offset, 0, .1f);
             boostParticles.Stop();
         }
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (inhibited) 

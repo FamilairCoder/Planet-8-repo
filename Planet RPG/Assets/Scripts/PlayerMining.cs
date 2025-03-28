@@ -29,9 +29,9 @@ public class PlayerMining : MonoBehaviour
     void Start()
     {
         cargo_capacity = PlayerPrefs.GetFloat("cargo_capacity", 20);
-        cargo_copper = PlayerPrefs.GetFloat("cargo_copper", 0);
-        cargo_gold = PlayerPrefs.GetFloat("cargo_gold", 0);
-        cargo_iron = PlayerPrefs.GetFloat("cargo_iron", 0);
+        cargo_copper = PlayerPrefs.GetFloat("cargo_copper", 4);
+        cargo_iron = PlayerPrefs.GetFloat("cargo_iron", 2);
+        cargo_gold = PlayerPrefs.GetFloat("cargo_gold", 6);
     }
 
     // Update is called once per frame
@@ -47,6 +47,7 @@ public class PlayerMining : MonoBehaviour
         second_ore = 0 + stats.ore_bonus;
 
         cargo_amount = cargo_copper + cargo_gold + cargo_iron;
+        
         
         if (saveTime < 0)
         {

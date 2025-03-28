@@ -48,7 +48,7 @@ public class GravityWellBullet : MonoBehaviour
             if (caught[i] != null)
             {
                 Vector3 caughtDir = (new Vector2(transform.position.x, transform.position.y) - caught[i].position).normalized;
-                caught[i].AddForce(caughtDir * 50, ForceMode2D.Force);
+                caught[i].AddForce(caughtDir * 100, ForceMode2D.Force);
                 if (caught[i].GetComponent<NPCmovement>() != null) caught[i].GetComponent<NPCmovement>().gravityWellCaught = true;
                 else if (caught[i].GetComponent<PlayerMovement>() != null) caught[i].GetComponent<PlayerMovement>().gravityWellCaught = true;
             }

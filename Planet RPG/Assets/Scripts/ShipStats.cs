@@ -14,7 +14,7 @@ public class ShipStats : MonoBehaviour
     private bool madeLvl2, madelvl3, cvDid;
     [Header("Bonus")]
     public float armor_bonus;
-    public float dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus, cargo_bonus, mining_bonus, ore_bonus, bounty_bonus;
+    public float dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus, cargo_bonus, mining_bonus, ore_bonus, bounty_bonus, energyRegenBonus, energyCapacityBonus;
     [Header("Upgraded parts")]
     public List<GameObject> lvl2Parts = new List<GameObject>();
     public List<GameObject> lvl2PartsDiagnosis = new List<GameObject>();
@@ -44,6 +44,8 @@ public class ShipStats : MonoBehaviour
             mining_bonus = PlayerPrefs.GetFloat("player mining_bonus", mining_bonus);
             ore_bonus = PlayerPrefs.GetFloat("player ore_bonus", ore_bonus);
 
+            energyRegenBonus = PlayerPrefs.GetFloat("player energyRegen", energyRegenBonus);
+            energyCapacityBonus = PlayerPrefs.GetFloat("player energyCapacity", energyCapacityBonus);
 
             //var a = Instantiate(diagnosis, new(0, 0, 0), Quaternion.identity, FindObjectOfType<Canvas>().transform);
             //a.GetComponent<RectTransform>().localPosition = new Vector3(-824, -400);
@@ -110,6 +112,10 @@ public class ShipStats : MonoBehaviour
             PlayerPrefs.SetFloat("player cargo_bonus", cargo_bonus);
             PlayerPrefs.SetFloat("player mining_bonus", mining_bonus);
             PlayerPrefs.SetFloat("player ore_bonus", ore_bonus);
+
+
+            PlayerPrefs.SetFloat("player energyRegen", energyRegenBonus);
+            PlayerPrefs.SetFloat("player energyCapacity", energyCapacityBonus);
 
             if (!madeLvl2 && HUDmanage.lvl >= 2)
             {

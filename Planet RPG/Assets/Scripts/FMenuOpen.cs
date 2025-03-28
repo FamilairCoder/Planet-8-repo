@@ -16,17 +16,17 @@ public class FMenuOpen : MonoBehaviour
     {
         if (PatrolManager.patrols.Count == 0)
         {
-            GetComponent<RectTransform>().anchoredPosition = new Vector2(2111, 0);
+            GetComponent<RectTransform>().anchoredPosition = new Vector2(2111, 35);
         }
         else
         {
             if (!active)
             {
-                GetComponent<RectTransform>().anchoredPosition = new Vector2(1111, 0);
+                GetComponent<RectTransform>().anchoredPosition = new Vector2(1111, 35);
             }
             else
             {
-                GetComponent<RectTransform>().anchoredPosition = new Vector2(808, 0);
+                GetComponent<RectTransform>().anchoredPosition = new Vector2(808, 35);
             }
         }
         if (Input.GetKeyDown(KeyCode.V) && !TextInputScript.typing)
