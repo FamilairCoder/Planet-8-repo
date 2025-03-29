@@ -20,9 +20,15 @@ public class AudioScript : MonoBehaviour
     private void Awake()
     {
         var player = HUDmanage.playerReference;
+
+
+
         if (isManager || forMenu)
         {
             GetComponent<AudioSource>().volume = songVolume * masterVolume * fade;
+            songVolume = PlayerPrefs.GetFloat("SongVolume", 1);
+            masterVolume = PlayerPrefs.GetFloat("MasterVolume", .5f);
+            SFXVolume = PlayerPrefs.GetFloat("SFXVolume", .5f);
         }
         else if (player != null)
         {
@@ -37,9 +43,7 @@ public class AudioScript : MonoBehaviour
             inMenu = true;
         }
 
-        songVolume = PlayerPrefs.GetFloat("SongVolume", 1);
-        masterVolume = PlayerPrefs.GetFloat("MasterVolume", .5f);
-        SFXVolume = PlayerPrefs.GetFloat("SFXVolume", .5f);
+
     }
     void Start()
     {

@@ -33,7 +33,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
     // Update is called once per frame
     void Update()
     {
-        delayTime -= Time.deltaTime;
+/*        delayTime -= Time.deltaTime;
         if (!delayed && delayTime < 0 && station != null)
         {
             key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
@@ -51,7 +51,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
                 target_ind.SetActive(true);
             }
             delayed = true;
-        }
+        }*/
         if (tied_enemy == null)
         {
             

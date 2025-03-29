@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.552, z: 0}
-  m_LocalScale: {x: 0.3043, y: 0.3043, z: 0.66080266}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.66080266}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 4241901175462793480, guid: 1bd7615c43e15bf498cc44397d659b31, type: 3}
   came_from: {fileID: 0}
-  spd: 180
+  spd: 130
   dmg: 2
   target_tag: 
   missile: 0
@@ -59,6 +59,12 @@ MonoBehaviour:
   target: {fileID: 0}
   playerMade: 0
   patrolMade: 0
+  pirateAccumulate: 0
+  torpedo: 0
+  isPirate: 0
+  emp: 0
+  empParticles: {fileID: 0}
+  empMat: {fileID: 0}
 --- !u!212 &326290226569378938
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -291,3 +297,4 @@ MonoBehaviour:
   asteroidField: {fileID: 0}
   shipGraveyard: {fileID: 0}
   delivery: {fileID: 0}
+  pirateStation: {fileID: 0}

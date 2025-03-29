@@ -236,6 +236,12 @@ public class MapParralax : MonoBehaviour
         if (on)
         {
             HandleActivationState();
+            HandleTracking();
+            //    trackingTime = Random.Range(.05f, .15f);
+            //}
+
+            HandleDeliveryText();
+            AdjustScale();
         }
         else if (!on && !onDid)
         {
@@ -245,14 +251,19 @@ public class MapParralax : MonoBehaviour
 
         if (rotate)
             transform.rotation = linked_obj.transform.rotation;
-        //if (trackingTime < 0)
-        //{
-        HandleTracking();
-        //    trackingTime = Random.Range(.05f, .15f);
-        //}
-        
-        HandleDeliveryText();
-        AdjustScale();
+        if (trackingTime < 0)
+        {
+            if (tracking)
+            {
+                PlayerPrefs.SetInt(savekey + "tracking", 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt(savekey + "tracking", 0);
+            }
+            trackingTime = 1;
+        }
+
     }
 
     void FixedUpdate()
@@ -311,7 +322,6 @@ public class MapParralax : MonoBehaviour
     {
         if (tracking)
         {
-            PlayerPrefs.SetInt(savekey + "tracking", 1);
 
             Vector3 playerPos = player.transform.position;
             Vector3 targetPos = linked_obj.transform.position;
@@ -330,7 +340,6 @@ public class MapParralax : MonoBehaviour
         }
         else if (lr != null && track_button != null)
         {
-            PlayerPrefs.SetInt(savekey + "tracking", 0);
             lr.enabled = false;
             track_button.GetComponent<TextMeshPro>().text = "Track";
         }

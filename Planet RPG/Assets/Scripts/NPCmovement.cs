@@ -71,7 +71,7 @@ public class NPCmovement : MonoBehaviour
             playerPos = HUDmanage.playerReference.transform;
             patrolID = GetComponent<PatrolID>();
         }
-        if (is_pirate)
+        if (is_pirate && lvl > 1)
         {
             var hasSecondaryChance = PlayerPrefs.GetFloat(key + "hasSecondaryChance", Random.Range(0f, 1f));
             if ((lvl == 2 && hasSecondaryChance > .75f) || (lvl == 3 && hasSecondaryChance > .5f))
