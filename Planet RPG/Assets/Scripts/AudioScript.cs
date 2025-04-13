@@ -8,14 +8,14 @@ public class AudioScript : MonoBehaviour
     public bool isManager, forMenu, dontPitchShift;
     private bool changing, traveling, isLaser, inMenu, nearPirateStation;
     private float changeTimeleft, checkTime, fade = 1, saveTime, distVolumeTime;
-    private Collider2D[] stationNumb, pirateNumb;
+    private Collider2D[] stationNumb, pirateNumb, pirateTrainNumb;
     public GameObject player;
     private Transform playerPos;
-    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery, pirateStation;
+    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery, pirateStation, pirateTrain;
     private AudioClip playNext;
     private AudioSource AudioSource;    
 
-    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime, pirateStationTime;
+    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime, pirateStationTime, pirateTrainTime;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -83,6 +83,7 @@ public class AudioScript : MonoBehaviour
                     var prev = playNext;
                     stationNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("station"));
                     pirateNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("pirates"));
+                    pirateTrainNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("pirateTrain"));
                     foreach (var item in pirateNumb)
                     {
                         if (item.GetComponent<PirateShipSpawner>() != null)
@@ -92,7 +93,12 @@ public class AudioScript : MonoBehaviour
                         }
                     }
 
-                    if (nearPirateStation)
+                    if (pirateTrainNumb.Length > 0)
+                    {
+                        playNext = pirateTrain;
+                        time = pirateTrainTime;
+                    }
+                    else if (nearPirateStation)
                     {
                         playNext = pirateStation;
                         time = pirateStationTime;
@@ -160,6 +166,7 @@ public class AudioScript : MonoBehaviour
                 if (clip == delivery) deliveryTime = AudioSource.time;
                 if (clip == travel) travelTime = AudioSource.time;
                 if (clip == pirateStation) pirateStationTime = AudioSource.time;
+                if (clip == pirateTrain) pirateTrainTime = AudioSource.time;
             }
 
 

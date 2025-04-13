@@ -9,7 +9,7 @@ public class ParallaxMovement : MonoBehaviour
 
     public Transform playerTransform;
     private Vector3 previousCameraPosition;
-
+    private Vector3 cameraVelocity;
     void Start()
     {
         if (setPlayer) playerTransform = HUDmanage.playerReference.transform;
@@ -21,10 +21,14 @@ public class ParallaxMovement : MonoBehaviour
         previousCameraPosition = playerTransform.position;
     }
 
-    void Update()
+    void LateUpdate()
     {
         Vector3 deltaMovement = playerTransform.position - previousCameraPosition;
-        transform.position += new Vector3(deltaMovement.x * parallaxFactor, deltaMovement.y * parallaxFactor, 0);
+        //deltaMovement = Camera.main.velocity;
+        cameraVelocity = (playerTransform.position - previousCameraPosition) / Time.deltaTime;
+
+        transform.position += new Vector3(cameraVelocity.x * parallaxFactor, cameraVelocity.y * parallaxFactor, 0) * Time.deltaTime;
         previousCameraPosition = playerTransform.position;
+        //Debug.Log(Camera.main.velocity);
     }
 }
