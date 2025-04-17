@@ -73,92 +73,10 @@ public class Bullet : MonoBehaviour
 
         }
 
-        nextPos = transform.position + transform.up * spd * Time.deltaTime;
-        RaycastHit2D[] hit = Physics2D.RaycastAll(nextPos, transform.up, spd * Time.deltaTime);
-        foreach (var c in hit)
-        {
-            //Debug.Log(c);
-            if (came_from != null && target_tag != "" && target_tag != null && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
-            {
-                if (c.collider.CompareTag(target_tag) || (came_from.GetComponent<StationWeapon>() != null && came_from.GetComponent<StationWeapon>().isPirate && HUDmanage.pirateTags.Contains(c.collider.tag)) || (came_from.transform.parent != null && CheckPirateTags(c)))
-                {
-
-                    Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
-                    c.collider.GetComponent<Health>().hp -= dmg;
-                    TriggerPlayerEMP(c.collider);
-                    if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
-                    {
-                        /*                        if (emp)
-                                                {
-
-                                                    if (c.collider.transform.parent.GetComponent<NPCmovement>().empParticle == null)
-                                                    {
-                                                        var p = Instantiate(empParticles, c.point, Quaternion.identity);
-                                                        if (!isPirate || c.collider.transform.parent.GetComponent<NPCmovement>().is_patrol)
-                                                        {
-                                                            c.collider.transform.parent.GetComponent<NPCmovement>().empParticle = p;
-                                                            p.GetComponent<ParticleStayOn>().stayOn = c.collider.transform.parent.gameObject;
-                                                        }
-                                                        else if (!isPirate && c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
-                                                        {
-
-                                                            p.GetComponent<ParticleStayOn>().stayOn = c.collider.transform.parent.transform.parent.gameObject;
-                                                        }
-
-                                                        p.GetComponent<ParticleStayOn>().mat = empMat;
-                                                    }
-
-                                                    if (!isPirate || c.collider.transform.parent.GetComponent<NPCmovement>().is_patrol)
-                                                    {
-                                                        c.collider.transform.parent.GetComponent<NPCmovement>().stunTime += 1;
-                                                    }
-
-                                                    else if (!isPirate && c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>() != null)
-                                                    {
-                                                        c.collider.transform.parent.transform.parent.GetComponent<PlayerWeapon>().empTime += 1;
-                                                    }
+        BulletMove(transform.position + transform.up * spd * Time.deltaTime);
 
 
 
-                                                }*/
-                        TriggerEMP(c.collider);
-                        if (playerMade)
-                        {
-                            //Debug.Log("player made");
-                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
-                            var chance = Random.Range(0f, 1f);
-                            if (chance < .3f)// && (came_from.transform.parent != null ))
-                            {
-                                c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
-                            }
-                        }
-                        else if (patrolMade)
-                        {
-                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
-                        }
-                        var chancea = Random.Range(0f, 1f);
-                        if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null)
-                        {
-                            c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
-                        }
-
-                    }
-                    Destroy(gameObject);
-                    break;
-                }
-
-            }
-
-        }
-        //if (hit.collider != null)
-        //{
-
-        //    Collision(hit.collider, hit.point);
-        //}
-
-        transform.position = nextPos;
-
-        
     }
 /*    void FixedUpdate()
     {
@@ -226,6 +144,56 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             
         }
+    }
+    
+    
+    public void BulletMove(Vector3 next)
+    {
+        RaycastHit2D[] hit = Physics2D.RaycastAll(next, transform.up, spd * Time.deltaTime);
+        foreach (var c in hit)
+        {
+            //Debug.Log(c);
+            if (came_from != null && target_tag != "" && target_tag != null && (came_from.transform.parent == null || !c.collider.gameObject.transform.IsChildOf(came_from.transform.parent)) && c.collider.gameObject.GetComponent<Health>() != null && c.collider.gameObject.GetComponent<Health>().hp > 0)
+            {
+                if (c.collider.CompareTag(target_tag) || (came_from.GetComponent<StationWeapon>() != null && came_from.GetComponent<StationWeapon>().isPirate && HUDmanage.pirateTags.Contains(c.collider.tag)) || (came_from.transform.parent != null && CheckPirateTags(c)))
+                {
+
+                    Instantiate(explosion, c.point, Quaternion.identity);//, collision.transform);
+                    c.collider.GetComponent<Health>().hp -= dmg;
+                    TriggerPlayerEMP(c.collider);
+                    if (c.collider.transform.parent != null && c.collider.transform.parent.GetComponent<NPCmovement>() != null)
+                    {
+                        TriggerEMP(c.collider);
+                        if (playerMade)
+                        {
+                            //Debug.Log("player made");
+                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                            var chance = Random.Range(0f, 1f);
+                            if (chance < .3f)// && (came_from.transform.parent != null ))
+                            {
+                                c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
+                            }
+                        }
+                        else if (patrolMade)
+                        {
+                            c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                        }
+                        var chancea = Random.Range(0f, 1f);
+                        if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null)
+                        {
+                            c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                        }
+
+                    }
+                    Destroy(gameObject);
+                    break;
+                }
+
+            }
+
+        }
+
+        transform.position = next;
     }
     bool CheckPirateTags(RaycastHit2D c)
     {

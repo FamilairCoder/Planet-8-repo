@@ -22,25 +22,27 @@ public class AudioScript : MonoBehaviour
         var player = HUDmanage.playerReference;
 
 
-
+        //if (gameObject.name == "PirateTrain") Debug.Log(player);
         if (isManager || forMenu)
         {
             GetComponent<AudioSource>().volume = songVolume * masterVolume * fade;
             songVolume = PlayerPrefs.GetFloat("SongVolume", 1);
             masterVolume = PlayerPrefs.GetFloat("MasterVolume", .5f);
             SFXVolume = PlayerPrefs.GetFloat("SFXVolume", .5f);
+            
         }
         else if (player != null)
         {
+            
             playerPos = player.gameObject.transform;
             GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
         }
-        else if(player == null)
+        else if (player == null)
         {
             GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
             if (!dontPitchShift) GetComponent<AudioSource>().pitch = Random.Range(.5f, 1.5f);
-            inMenu = true;
+            if (gameObject.name != "PirateTrain" && gameObject.name != "PirateTrain (1)")inMenu = true;
         }
 
 
@@ -175,7 +177,7 @@ public class AudioScript : MonoBehaviour
         {
             if (distVolumeTime < 0)
             {
-                if (!inMenu) GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, playerPos.position) / 100);
+                if (!inMenu) { GetComponent<AudioSource>().volume = Mathf.Lerp(SFXVolume * masterVolume, 0, Vector2.Distance(transform.position, HUDmanage.playerReference.gameObject.transform.position) / 100);  }
                 else GetComponent<AudioSource>().volume = SFXVolume * masterVolume;
                 distVolumeTime = Random.Range(0f, .2f);
             }

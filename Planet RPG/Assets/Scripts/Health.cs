@@ -110,7 +110,11 @@ public class Health : MonoBehaviour
 
             }
 
+            if (cracks != null)
+            {
 
+                cracks.color = Color.Lerp(new Color(1, 1, 1, .5f), new Color(0, 0, 0, 0), hp / orig_hp);
+            }
 
             if (hp <= 0)
             {
@@ -162,11 +166,7 @@ public class Health : MonoBehaviour
                 if (orig_sprite != null && spr.sprite != null) spr.sprite = orig_sprite;
                 if (spr != null && !isShield) spr.color = new Color(1f, 1f, 1f);
 
-                if (isStation)
-                {
-                    
-                    cracks.color = Color.Lerp(new Color(1, 1, 1, .5f), new Color(0, 0, 0, 0), hp / orig_hp);
-                }
+
 
             }
         }

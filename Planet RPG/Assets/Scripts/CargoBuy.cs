@@ -26,7 +26,7 @@ public class CargoBuy : MonoBehaviour
                 if (PlayerMining.cargo_iron > 0) { PlayerMining.cargo_iron -= 1; HUDmanage.money += 8; }
                 if (PlayerMining.cargo_gold > 0) { PlayerMining.cargo_gold -= 1; HUDmanage.money += 15; }
                 player_particles.Play();
-                buy_time = .05f;
+                buy_time = .075f;
             }
         }
     }

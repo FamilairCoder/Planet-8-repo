@@ -34,7 +34,7 @@ public class ShieldStayOn : MonoBehaviour
         else if (isPirate || EnergyManagement.energy < 4)
         {
             Destroy(gameObject);
-            if (!isPirate) PlayerWeapon.shieldTime = 5f;
+            if (!isPirate) PlayerWeapon.shieldTime = 2f;
         }
     }
 }

@@ -13,6 +13,7 @@ public class TrainPathFollower : MonoBehaviour
     public bool draft;
     public List<Transform> cars = new List<Transform>();
     public List<Rigidbody2D> caught = new List<Rigidbody2D>();
+    public List<Bullet> caughtB = new List<Bullet>();
 
     Vector3 lastPosition;
     Vector2 velocity;
@@ -34,7 +35,17 @@ public class TrainPathFollower : MonoBehaviour
         foreach(var a in caught)
         {
             if (a == null) continue;
+
             a.transform.position += (transform.position - lastPosition);
+
+        }
+
+        foreach (var a in caughtB)
+        {
+            if (a == null) continue;
+            a.BulletMove(a.transform.position + (transform.position - lastPosition));
+
+
         }
     }
     private void FixedUpdate()
@@ -94,14 +105,33 @@ public class TrainPathFollower : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Rigidbody2D>() != null)
             {
-                if (headTrain != null && !headTrain.caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                if (collision.GetComponent<Bullet>() == null)
                 {
-                    headTrain.caught.Add(collision.gameObject.GetComponent<Rigidbody2D>());
+                    if (headTrain != null && !headTrain.caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                    {
+                        headTrain.caught.Add(collision.gameObject.GetComponent<Rigidbody2D>());
+                    }
+                    else if (headTrain == null && !caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                    {
+                        caught.Add(collision.gameObject.GetComponent<Rigidbody2D>());
+                    }
                 }
-                else if (headTrain == null && !caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                else
                 {
-                    caught.Add(collision.gameObject.GetComponent<Rigidbody2D>());
+                    if (headTrain != null && !headTrain.caughtB.Contains(collision.gameObject.GetComponent<Bullet>()))
+                    {
+                        headTrain.caughtB.Add(collision.gameObject.GetComponent<Bullet>());
+                    }
+                    else if (headTrain == null && !caughtB.Contains(collision.gameObject.GetComponent<Bullet>()))
+                    {
+                        caughtB.Add(collision.gameObject.GetComponent<Bullet>());
+                    }
                 }
+
+
+
+
+
 
                 if (collision.gameObject.GetComponent<PlayerMovement>() != null)
                 {
@@ -120,14 +150,36 @@ public class TrainPathFollower : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Rigidbody2D>() != null)
             {
-                if (headTrain != null && headTrain.caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+
+                if (collision.GetComponent<Bullet>() == null)
                 {
-                    headTrain.caught.Remove(collision.gameObject.GetComponent<Rigidbody2D>());
+                    if (headTrain != null && headTrain.caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                    {
+                        headTrain.caught.Remove(collision.gameObject.GetComponent<Rigidbody2D>());
+
+                    }
+                    else if (headTrain == null && caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+                    {
+                        caught.Remove(collision.gameObject.GetComponent<Rigidbody2D>());
+
+                    }
                 }
-                else if (headTrain == null && caught.Contains(collision.gameObject.GetComponent<Rigidbody2D>()))
+
+                else
                 {
-                    caught.Remove(collision.gameObject.GetComponent<Rigidbody2D>());
+                    if (headTrain != null && headTrain.caughtB.Contains(collision.gameObject.GetComponent<Bullet>()))
+                    {
+                        headTrain.caughtB.Remove(collision.gameObject.GetComponent<Bullet>());
+                    }
+                    else if (headTrain == null && caughtB.Contains(collision.gameObject.GetComponent<Bullet>()))
+                    {
+                        caughtB.Remove(collision.gameObject.GetComponent<Bullet>());
+                    }
                 }
+
+
+
+
 
                 if (collision.gameObject.GetComponent<PlayerMovement>() != null)
                 {

@@ -10,6 +10,7 @@ public class GravityWellBullet : MonoBehaviour
     private bool played;
     public List<Rigidbody2D> caught = new List<Rigidbody2D>();
     public bool isPirate;
+    public AudioSource activateSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,7 @@ public class GravityWellBullet : MonoBehaviour
             if (!played)
             {
                 transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+                activateSound.Play();
                 played = true;
             }
             if (lifeTime <= 0)

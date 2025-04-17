@@ -23,6 +23,7 @@ public class PlayerWeapon : MonoBehaviour
     public static float shieldTime;
     private float shieldEnergyTime;
     private float fireEmpTime;
+    public AudioSource shieldDeactivateSound;
 
     [Header("Laser beam stuf-------------------")]
     public GameObject atk_point;
@@ -312,6 +313,7 @@ public class PlayerWeapon : MonoBehaviour
         }
         if (createdShield != null)
         {
+            if (!shieldDeactivateSound.isPlaying) shieldDeactivateSound.Play();
             Destroy(createdShield);
             shieldTime = 3f;
         }

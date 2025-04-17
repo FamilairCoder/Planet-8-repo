@@ -25,6 +25,7 @@ namespace PathCreation.Utility
             // Go through all segments and split up into vertices
             for (int segmentIndex = 0; segmentIndex < bezierPath.NumSegments; segmentIndex++)
             {
+                
                 Vector3[] segmentPoints = bezierPath.GetPointsInSegment(segmentIndex);
                 float estimatedSegmentLength = CubicBezierUtility.EstimateCurveLength(segmentPoints[0], segmentPoints[1], segmentPoints[2], segmentPoints[3]);
                 int divisions = Mathf.CeilToInt(estimatedSegmentLength * accuracy);

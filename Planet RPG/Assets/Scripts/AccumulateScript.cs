@@ -8,6 +8,7 @@ public class AccumulateScript : MonoBehaviour
     [Header("For Laserbeam--------------")]
     public GameObject beamExplosion;
     public LineRenderer lr1, lr2, lr3;
+    public AudioSource laserSound;
     [Header("Dont set------------------")]
     public GameObject cameFrom;
     public ShipStats stats;
@@ -109,7 +110,7 @@ public class AccumulateScript : MonoBehaviour
                     FireLaser(cameFrom.transform.position - cameFrom.transform.right * 1, lr3);
                     if (!isPirate) PlayerMovement.accumulateSlow = .01f;
                     else cameFrom.GetComponent<NPCmovement>().chargeSlow = .01f;
-
+                    if (!laserSound.isPlaying) laserSound.Play();
 
                 }
                 if (fireTime >= 3)
