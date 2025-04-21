@@ -38,6 +38,7 @@ public class MenuScript : MonoBehaviour
                 GetComponent<RectTransform>().localPosition = away_pos;
                 if (forPatrol) Destroy(gameObject);
                 gameObject.SetActive(false);
+                HUDmanage.DONT = .3f;
 
             }
         }

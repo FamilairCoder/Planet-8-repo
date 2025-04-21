@@ -18,14 +18,22 @@ public class GraveyardRuinSpawner : MonoBehaviour
         player = FindObjectOfType<PlayerMining>().gameObject;
         for (int i = 0; i < amount; i++)
         {
-            var dist = Mathf.Sqrt(Random.Range(min_dist * min_dist, max_dist * max_dist));
-            var vec = Random.Range(0f, 360f);
+            var key = gameObject.name + i;
+            var dist = PlayerPrefs.GetFloat(key + "dist", Mathf.Sqrt(Random.Range(min_dist * min_dist, max_dist * max_dist)));
+            var vec = PlayerPrefs.GetFloat(key + "vec", Random.Range(0f, 360f));
             var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
-            var r = Instantiate(ruins[Random.Range(0, ruins.Count)], pos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            var index = PlayerPrefs.GetInt(key + "index", Random.Range(0, ruins.Count));
+            var rot = PlayerPrefs.GetFloat(key + "rot", Random.Range(0, 360));
+            var r = Instantiate(ruins[index], pos, Quaternion.Euler(0, 0, rot));
             if (r.GetComponent<Despawn>() != null) Destroy(r.GetComponent<Despawn>());
 
             spawned_ruins.Add(r);
+            PlayerPrefs.SetFloat(key + "dist", dist);
+            PlayerPrefs.SetFloat(key + "vec", vec);
+            PlayerPrefs.SetFloat(key + "index", index);
+            PlayerPrefs.SetFloat(key + "rot", rot);
         }
+        PlayerPrefs.Save();
     }
 
     // Update is called once per frame

@@ -26,14 +26,22 @@ public class OpenMenu : MonoBehaviour
 
         if (!PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map && !opened && !HUDmanage.pauseMenu)
         {
-            //Debug.Log("AAAAAAAAAAA");
-            if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || !menu.GetComponent<MenuScript>().active))
+            Debug.Log("AAAAAAAAAAA");
+            if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || (menu != null && !menu.GetComponent<MenuScript>().active) || GetComponent<RecordSet>() != null))
             {
                 //Debug.Log("BBBBBBB");
                 if (!forPatrol)
                 {
-                    menu.GetComponent<MenuScript>().active = true;
-                    menu.SetActive(true);
+                    if (GetComponent<RecordSet>() == null)
+                    {
+                        menu.GetComponent<MenuScript>().active = true;
+                        menu.SetActive(true);
+                    }
+                    else
+                    {
+                        RecordTextManager.active = true;
+                        RecordTextManager.index = GetComponent<RecordSet>().index;
+}
                 }
                 else
                 {
@@ -54,6 +62,11 @@ public class OpenMenu : MonoBehaviour
         {
             thisOpened = false;
             opened = false;
+
+        }
+        if (thisOpened && GetComponent<RecordSet>() != null && !RecordTextManager.active)
+        {
+            thisOpened = false;
         }
     }
 

@@ -45,6 +45,7 @@ public class HUDmanage : MonoBehaviour
     public Material pirateSecondaryMat;
 
     public static bool pauseMenu;
+    public static float DONT;
 
     private float secondDelay = .5f;
     //public GameObject pauseMenuObj;
@@ -78,6 +79,7 @@ public class HUDmanage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DONT -= Time.deltaTime;
 
         Application.targetFrameRate = -1;
 
@@ -130,7 +132,8 @@ public class HUDmanage : MonoBehaviour
             map.SetActive(false);
             on_map = false;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && !OpenMenu.opened && !on_map && !PatrolManager.focusFire)
+        
+        else if (DONT <= 0 && Input.GetKeyDown(KeyCode.Escape) && !OpenMenu.opened && !on_map && !PatrolManager.focusFire)
         {
             if (!pauseMenu)
             {
@@ -143,6 +146,7 @@ public class HUDmanage : MonoBehaviour
                 pauseMenu = false;
             }
         }
+        
 
 
         if (PlayerMining.cargo_amount > 0)
