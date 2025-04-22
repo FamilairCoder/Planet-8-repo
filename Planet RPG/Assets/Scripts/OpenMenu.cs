@@ -26,7 +26,7 @@ public class OpenMenu : MonoBehaviour
 
         if (!PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map && !opened && !HUDmanage.pauseMenu)
         {
-            Debug.Log("AAAAAAAAAAA");
+            
             if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || (menu != null && !menu.GetComponent<MenuScript>().active) || GetComponent<RecordSet>() != null))
             {
                 //Debug.Log("BBBBBBB");

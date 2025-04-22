@@ -20,36 +20,41 @@ public class NPCweapon : MonoBehaviour
     {
         if (randomWeapon)
         {
-            var npcM = GetComponentInParent<NPCmovement>();
             var chance = Random.Range(0f, 1f);
-            if (chance < .3f)
+            if (GetComponentInParent<PatrolID>() == null)
             {
-                laser_beam = true;
-                npcM.attackDistance = 10;
-            }
-            else if (chance < .6f)
-            {
-                laserBullet = true;
-                bullet = laserbullet;
+                var npcM = GetComponentInParent<NPCmovement>();
+                chance = Random.Range(0f, 1f);
+                if (chance < .3f)
+                {
+                    laser_beam = true;
+                    npcM.attackDistance = 10;
+                }
+                else if (chance < .6f)
+                {
+                    laserBullet = true;
+                    bullet = laserbullet;
 
-                atk_spd = .2f;
-                atk_spread = 5;
-                npcM.attackDistance = 3;
+                    atk_spd = .2f;
+                    atk_spread = 5;
+                    npcM.attackDistance = 3;
+                }
+                else
+                {
+                    laserRod = true;
+                    bullet = rod;
+
+                    atk_spd = .2f;
+                    atk_spread = 1;
+                    npcM.attackDistance = 5;
+                }
             }
+
+
+
+
+
             else
-            {
-                laserRod = true;
-                bullet = rod;
-
-                atk_spd = .2f;
-                atk_spread = 1;
-                npcM.attackDistance = 5;
-            }
-
-
-
-
-            if (GetComponentInParent<PatrolID>() != null)
             {
                 
                 var id = GetComponentInParent<PatrolID>().id.ToString();

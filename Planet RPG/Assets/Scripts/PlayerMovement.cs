@@ -289,7 +289,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector2 direction)
     {
-        GetComponent<Rigidbody2D>().AddForce(direction * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        var rb = GetComponent<Rigidbody2D>();
+        
+        Vector2 velocity = rb.velocity;
+
+        // Only reduce opposing velocity, not the entire movement
+        float opposingSpeed = Vector2.Dot(velocity, -direction);
+
+        if (opposingSpeed > 0f)
+        {
+            Vector2 opposingVelocity = -direction * opposingSpeed;
+            rb.velocity -= opposingVelocity * 0.5f; // Adjust 0.5f to control dampening strength
+        }
+        rb.AddForce(direction * spd * Time.fixedDeltaTime, ForceMode2D.Impulse);
     }
 
 

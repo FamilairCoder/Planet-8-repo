@@ -33,7 +33,7 @@ public class NPCmovement : MonoBehaviour
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target, empParticle;
-    private float turning_spd, spd, delay_time = .1f, beam_slow, fleet_slow = 1 , saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
+    private float turning_spd, spd, delay_time = .1f, beam_slow = 1, fleet_slow = 1 , saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
     private bool did, boost = false;
     public float rand_time, stunTime;
     public Vector3 dir;
@@ -587,7 +587,7 @@ public class NPCmovement : MonoBehaviour
             if (w.GetComponent<NPCweapon>().laser_beam)
             {
                 w.GetComponent<NPCweapon>().is_firing = false;
-                //beam_slow = 1f;
+                beam_slow = 1f;
             }
         }
     }

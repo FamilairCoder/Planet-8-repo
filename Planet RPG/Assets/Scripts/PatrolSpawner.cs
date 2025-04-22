@@ -116,7 +116,7 @@ public class PatrolSpawner : MonoBehaviour
                     //Debug.Log(PlayerPrefs.GetFloat(key + "alive" + i));
                     if (PlayerPrefs.GetFloat("alive" + i + key, 1) == 0)
                     {
-                        spawnedPatrols.Remove(spawnedPatrols[i]);
+                        if (spawnedPatrols[i] == null) spawnedPatrols.Remove(spawnedPatrols[i]);
                         SpawnPatrol(i);
 
                     }

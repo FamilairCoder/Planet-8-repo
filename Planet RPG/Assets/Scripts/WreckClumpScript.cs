@@ -5,7 +5,6 @@ using UnityEngine;
 public class WreckClumpScript : MonoBehaviour
 {
     private float hp = 20;
-    public SpriteRenderer cracks;
     public GameObject explosion, recodObj, photonObj;
     public Sprite recordSpr, photonSpr;
     private string key;
@@ -49,8 +48,7 @@ public class WreckClumpScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var full = new Color(1f, 1f, 1f, .5f);
-        cracks.color = Color.Lerp(full, new Color(1f, 1f, 1f, 0f), hp / 20);
+
         if (hp <= 0)
         {
             Destroy(gameObject);
@@ -70,7 +68,6 @@ public class WreckClumpScript : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             hp -= .5f;
-            Debug.Log(hp);
         }
     }
 
