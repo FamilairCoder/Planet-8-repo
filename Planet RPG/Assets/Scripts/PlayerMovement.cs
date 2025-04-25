@@ -327,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //get rid of this
-        transform.position = new(0, 0);
+        transform.position = new(-12331, 1151);
         Debug.Log("pos set to 0, 0");
         //get rid of this
 

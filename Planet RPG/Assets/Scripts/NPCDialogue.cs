@@ -9,6 +9,7 @@ public class NPCDialogue : MonoBehaviour
     private GameObject createdDialogue;
     private bool spinning, inDanger, threatening, retreating;
     private float timeleft = 3f, threatenTime = 3f;
+    public float threatenChance;
     private NPCmovement npcM;
     // Start is called before the first frame update
     void Start()
@@ -57,7 +58,7 @@ public class NPCDialogue : MonoBehaviour
         if (!threatening && npcM.target != null)
         {
             var chance = Random.Range(0f, 1f);
-            if (chance < .5f)
+            if (chance > threatenChance)
             {
                 if (createdDialogue != null) Destroy(createdDialogue);
                 var d = Instantiate(manager.dialogueBox, transform.position, Quaternion.identity);

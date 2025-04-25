@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -16,7 +17,7 @@ public class PlayerWeapon : MonoBehaviour
     private float basic_laser_cooldown, laser_rod_cooldown, laser_beam_cooldown;// = .15f;
     [Header("Secondary Weapon stuff-----------------------")]
     public GameObject accumulateObj;
-    public GameObject empBullet, torpedo, shield, gravityWellBullet, energyText, oreText;
+    public GameObject empBullet, torpedo, shield, gravityWellBullet, energyText, oreText, shieldCooldownText;
     public Material accumulateMat, empMat;
     public Color shieldColor;
     private GameObject createdAccumulateObj, createdShield;
@@ -148,6 +149,9 @@ public class PlayerWeapon : MonoBehaviour
 
         if (HUD.code_has_secondary.Count > 0)
         {
+            shieldTime -= Time.deltaTime;
+            shieldEnergyTime -= Time.deltaTime;
+            fireEmpTime -= Time.deltaTime;
             if (Input.GetMouseButton(1))
             {
                 HoldSecondaryAttack();
@@ -170,7 +174,6 @@ public class PlayerWeapon : MonoBehaviour
         var name = HUD.code_has_secondary[HUD.index].name;
         if (name == "AccumulatorIcon")
         {
-            shieldEnergyTime -= Time.deltaTime;
             if (createdAccumulateObj == null && (basic_laser || laser_rod || laser_beam))
             {         
                 if (EnergyManagement.energy >= 50)
@@ -195,7 +198,7 @@ public class PlayerWeapon : MonoBehaviour
 
         else if (name == "EmpIcon")
         {
-            fireEmpTime -= Time.deltaTime;
+            
             if (fireEmpTime < 0)
             {
                 if (EnergyManagement.energy >= 10)
@@ -218,8 +221,7 @@ public class PlayerWeapon : MonoBehaviour
 
         else if (name == "ShieldIcon")
         {
-            shieldTime -= Time.deltaTime;
-            shieldEnergyTime -= Time.deltaTime;
+
             if (createdShield == null && shieldTime < 0)
             {
                 
@@ -241,6 +243,11 @@ public class PlayerWeapon : MonoBehaviour
                     shieldEnergyTime = 1f;
                 }
                 
+            }
+            else if (createdShield == null && shieldTime > 0 && shieldEnergyTime < 0)
+            {
+                Instantiate(shieldCooldownText, transform.position, Quaternion.identity).GetComponent<TextMeshPro>().text = "shield on cooldown: " + (Mathf.Round(shieldTime * 10) / 10).ToString() + "sec";
+                shieldEnergyTime = 1f;
             }
 
         }

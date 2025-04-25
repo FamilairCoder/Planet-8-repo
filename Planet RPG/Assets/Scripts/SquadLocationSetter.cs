@@ -26,7 +26,7 @@ public class SquadLocationSetter : MonoBehaviour
                 g.transform.position = pos;
                 g.transform.parent = transform.parent;
                 s.GetComponent<NPCmovement>().squadPoint = g;
-                s.GetComponent<NPCmovement>().squadLeader = transform.parent.gameObject;
+                s.GetComponent<NPCmovement>().squadLeader = transform.parent.gameObject;                
                 //s.GetComponent<ShipStats>().spd = spd;
                 s.AddComponent<Despawn>();
             }
@@ -39,6 +39,7 @@ public class SquadLocationSetter : MonoBehaviour
                 s.GetComponent<NPCmovement>().inSquad = true;
                 s.GetComponent<NPCmovement>().playerPos = gameObject.transform;
                 s.GetComponent<NPCmovement>().squadKey = key + "ship" + i;
+                s.GetComponent<NPCDialogue>().threatenChance = .5f;
 
                 shipsSpawned.Add(s);
             }

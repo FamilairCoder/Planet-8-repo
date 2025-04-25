@@ -138,7 +138,7 @@ public class Bullet : MonoBehaviour
             
         }
 
-        else if (collision.CompareTag("asteroid"))
+        else if (collision.CompareTag("asteroid") || collision.CompareTag("wreck") || collision.CompareTag("big_wreck"))
         {
             Instantiate(explosion, exploPos, Quaternion.identity);//, collision.transform);
             Destroy(gameObject);
