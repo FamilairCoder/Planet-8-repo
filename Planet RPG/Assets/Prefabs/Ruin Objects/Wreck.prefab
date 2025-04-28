@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2809543229584347205}
   - component: {fileID: 126248173201076195}
   - component: {fileID: 2811136892017016326}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wreck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6459081440e5f46b0eb2e6a6aa2ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  postProcessingVolume: {fileID: 0}
 --- !u!50 &126248173201076195
 Rigidbody2D:
   serializedVersion: 4
@@ -230,7 +231,7 @@ GameObject:
   - component: {fileID: 2970674708210759564}
   - component: {fileID: 303154459026860957}
   - component: {fileID: 3758002694921606485}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Collision
   m_TagString: wreck
   m_Icon: {fileID: 0}
@@ -606,6 +607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -627,6 +632,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7369281607997781559, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_LocalPosition.x
@@ -689,6 +698,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5667245687966153024, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: ShapeModule.radius.value
@@ -804,6 +817,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -874,6 +891,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -936,6 +957,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6717476556393880280, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7627927164512340222, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -955,6 +980,10 @@ PrefabInstance:
     - target: {fileID: 9069962038140220473, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
       propertyPath: m_Name
       value: Insides
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069962038140220473, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -977,6 +1006,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3349043142606454244, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_SortingLayer

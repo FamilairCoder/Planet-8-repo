@@ -26,7 +26,7 @@ public class ShipStats : MonoBehaviour
     public List<int> filled = new List<int>();
     public float amount_broken, slow_spd;
     public bool boosting;
-    private float boostspd = 40;
+    private float boostspd = 40, prefsTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -103,20 +103,26 @@ public class ShipStats : MonoBehaviour
                 }
                 cvDid = true;
             }
-            PlayerPrefs.SetFloat("player armor_bonus", armor_bonus);
-            PlayerPrefs.SetFloat("player dmg_bonus", dmg_bonus);
-            PlayerPrefs.SetFloat("player firerate_bonus", firerate_bonus);
-            PlayerPrefs.SetFloat("player thrust_bonus", thrust_bonus);
-            PlayerPrefs.SetFloat("player turnspd_bonus", turnspd_bonus);
+            prefsTime -= Time.deltaTime;
+            if (prefsTime <= 0)
+            {
+                PlayerPrefs.SetFloat("player armor_bonus", armor_bonus);
+                PlayerPrefs.SetFloat("player dmg_bonus", dmg_bonus);
+                PlayerPrefs.SetFloat("player firerate_bonus", firerate_bonus);
+                PlayerPrefs.SetFloat("player thrust_bonus", thrust_bonus);
+                PlayerPrefs.SetFloat("player turnspd_bonus", turnspd_bonus);
 
-            PlayerPrefs.SetFloat("player cargo_bonus", cargo_bonus);
-            PlayerPrefs.SetFloat("player mining_bonus", mining_bonus);
-            PlayerPrefs.SetFloat("player ore_bonus", ore_bonus);
+                PlayerPrefs.SetFloat("player cargo_bonus", cargo_bonus);
+                PlayerPrefs.SetFloat("player mining_bonus", mining_bonus);
+                PlayerPrefs.SetFloat("player ore_bonus", ore_bonus);
 
 
-            PlayerPrefs.SetFloat("player energyRegen", energyRegenBonus);
-            PlayerPrefs.SetFloat("player energyCapacity", energyCapacityBonus);
+                PlayerPrefs.SetFloat("player energyRegen", energyRegenBonus);
+                PlayerPrefs.SetFloat("player energyCapacity", energyCapacityBonus);
+                prefsTime = 1;
+            }
 
+            
             if (!madeLvl2 && HUDmanage.lvl >= 2)
             {
                 foreach (GameObject p in lvl2Parts)

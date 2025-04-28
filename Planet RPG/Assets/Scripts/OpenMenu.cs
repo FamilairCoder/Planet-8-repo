@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class OpenMenu : MonoBehaviour
 {
     public GameObject menu;
-    public bool forPatrol;
+    public bool forPatrol, bigRecord;
     public float hireCost;
     public static bool opened = false;
     private bool thisOpened = false;
@@ -27,9 +27,10 @@ public class OpenMenu : MonoBehaviour
         if (!PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0) && GetComponent<Collider2D>().OverlapPoint(mousePos) && !HUDmanage.on_map && !opened && !HUDmanage.pauseMenu)
         {
             
-            if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || (menu != null && !menu.GetComponent<MenuScript>().active) || GetComponent<RecordSet>() != null))
+            if (!PlayerWeapon.using_weapon && ((forPatrol && createdMenu == null && !GetComponent<PatrolID>().taken) || (menu != null && menu.GetComponent<MenuScript>() != null && !menu.GetComponent<MenuScript>().active) || GetComponent<RecordSet>() != null || bigRecord))
             {
                 //Debug.Log("BBBBBBB");
+                //if ()
                 if (!forPatrol)
                 {
                     if (GetComponent<RecordSet>() == null)

@@ -58,6 +58,7 @@ public class HUDmanage : MonoBehaviour
 
         //get rid of this--------------------------
         PlayerPrefs.DeleteAll();
+        Debug.Log("deleting all playerprefs");
         //get rid of this--------------------------
 
 
@@ -72,6 +73,7 @@ public class HUDmanage : MonoBehaviour
 
         //get rid of this--------------------------
         money = 10000;
+        Debug.Log("set money to 10000");
         //get rid of this--------------------------
     }
 

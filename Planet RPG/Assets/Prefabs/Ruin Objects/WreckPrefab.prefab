@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8977019458483939875}
   - component: {fileID: 4313563903007538796}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Collision
   m_TagString: wreck
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2814426788959858311}
   - component: {fileID: 5983001881151147126}
   - component: {fileID: 2994636452490885596}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: WreckPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6459081440e5f46b0eb2e6a6aa2ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  postProcessingVolume: {fileID: 0}
 --- !u!50 &2994636452490885596
 Rigidbody2D:
   serializedVersion: 4
@@ -257,9 +258,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6717476556393880280, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 9069962038140220473, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
       propertyPath: m_Name
       value: Insides
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069962038140220473, guid: 826e1ef71020cdc4d9db0722c2c09088, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

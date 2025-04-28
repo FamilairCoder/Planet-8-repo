@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 939432809451777542}
   - component: {fileID: 5832469917648784516}
   - component: {fileID: 5015336524823171860}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Insides
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 4987313148903555917}
   - component: {fileID: 5462520930234270478}
   - component: {fileID: 6807095843078134642}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Collision
   m_TagString: wreck
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7131535719126984759}
   - component: {fileID: 5014180503574891147}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Scratches (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2489680647141359661}
   - component: {fileID: 3227494129033609347}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Scratches
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,7 +655,7 @@ GameObject:
   - component: {fileID: 1830550556224042922}
   - component: {fileID: 95038484725925464}
   - component: {fileID: 3508795857876468581}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wreck5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -754,6 +754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6459081440e5f46b0eb2e6a6aa2ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  postProcessingVolume: {fileID: 0}
 --- !u!50 &95038484725925464
 Rigidbody2D:
   serializedVersion: 4
@@ -998,6 +999,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DustParticles (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 5667245687966153024, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 4.26
@@ -1068,6 +1073,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DustParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7369281607997781559, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.151
@@ -1129,6 +1138,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5667245687966153024, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: ShapeModule.radius.value
@@ -1199,6 +1212,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7369281607997781559, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1314,6 +1331,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1387,6 +1408,10 @@ PrefabInstance:
     - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
       propertyPath: m_Name
       value: WreckClump (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1462,6 +1487,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1536,6 +1565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1557,6 +1590,10 @@ PrefabInstance:
     - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: m_Name
       value: DustParticles (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 639897043659186042, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5667245687966153024, guid: 83efad040a4e7924e83d1edab5ad1c02, type: 3}
       propertyPath: ShapeModule.radius.value
@@ -1680,6 +1717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WreckClump
       objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1753,6 +1794,10 @@ PrefabInstance:
     - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
       propertyPath: m_Name
       value: WreckClump (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300654249673057568, guid: 90c95e5629c5cea4e8ed4d9faef6fdb7, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

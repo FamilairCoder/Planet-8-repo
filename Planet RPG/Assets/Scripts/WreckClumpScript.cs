@@ -13,7 +13,7 @@ public class WreckClumpScript : MonoBehaviour
     void Start()
     {
         
-        var scal = transform.localScale.x * Random.Range(1.5f, .75f);
+        var scal = transform.localScale.x * Random.Range(.75f, 1.5f);
         transform.localScale = new Vector3(scal, scal, scal);
         transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
         

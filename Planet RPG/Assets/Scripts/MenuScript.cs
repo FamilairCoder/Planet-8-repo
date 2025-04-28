@@ -17,7 +17,7 @@ public class MenuScript : MonoBehaviour
     {
         player = FindObjectOfType<PlayerMining>().gameObject;
         StartCoroutine(Delay());
-        if (!forPatrol)
+        if (!forPatrol && station != null)
         {
             restockAdd = PlayerPrefs.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
             StartCoroutine(RestockTime());
@@ -32,7 +32,7 @@ public class MenuScript : MonoBehaviour
         {
             //GetComponent<RectTransform>().localPosition = Vector2.Lerp(GetComponent<RectTransform>().localPosition, active_pos, .1f);
             GetComponent<RectTransform>().localPosition = active_pos;
-            if (Input.GetKeyDown(KeyCode.Escape) || Vector2.Distance(station.transform.position, player.transform.position) > 150 || HUDmanage.on_map)
+            if (Input.GetKeyDown(KeyCode.Escape) || (station != null && Vector2.Distance(station.transform.position, player.transform.position) > 150) || HUDmanage.on_map)
             {
                 active = false;
                 GetComponent<RectTransform>().localPosition = away_pos;

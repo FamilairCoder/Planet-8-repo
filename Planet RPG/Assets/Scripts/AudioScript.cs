@@ -6,16 +6,18 @@ public class AudioScript : MonoBehaviour
 {
     public static float songVolume = 1, masterVolume = .5f, SFXVolume = .5f;
     public bool isManager, forMenu, dontPitchShift;
-    private bool changing, traveling, isLaser, inMenu, nearPirateStation;
+    
     private float changeTimeleft, checkTime, fade = 1, saveTime, distVolumeTime;
-    private Collider2D[] stationNumb, pirateNumb, pirateTrainNumb;
+    private Collider2D[] stationNumb, pirateNumb, pirateTrainNumb, bigWrecks;
     public GameObject player;
     private Transform playerPos;
-    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery, pirateStation, pirateTrain;
+    
     private AudioClip playNext;
-    private AudioSource AudioSource;    
+    private AudioSource AudioSource;
 
-    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime, pirateStationTime, pirateTrainTime;
+    private bool changing, traveling, isLaser, inMenu, nearPirateStation;
+    public AudioClip civilSpace, travel, fighting, asteroidField, shipGraveyard, delivery, pirateStation, pirateTrain, bigWreckSong;
+    private float time, civilSpaceTime, travelTime, fightingTime, asteroidFieldTime, shipGraveyardTime, deliveryTime, pirateStationTime, pirateTrainTime, bigWreckTime;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -86,6 +88,7 @@ public class AudioScript : MonoBehaviour
                     stationNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("station"));
                     pirateNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("pirates"));
                     pirateTrainNumb = Physics2D.OverlapCircleAll(player.transform.position, 100, LayerMask.GetMask("pirateTrain"));
+                    bigWrecks = Physics2D.OverlapCircleAll(player.transform.position, .01f, LayerMask.GetMask("bigWreck"));
                     foreach (var item in pirateNumb)
                     {
                         if (item.GetComponent<PirateShipSpawner>() != null)
@@ -99,6 +102,11 @@ public class AudioScript : MonoBehaviour
                     {
                         playNext = pirateTrain;
                         time = pirateTrainTime;
+                    }
+                    else if (bigWrecks.Length > 0)
+                    {
+                        playNext = bigWreckSong;
+                        time = bigWreckTime;
                     }
                     else if (nearPirateStation)
                     {
@@ -169,6 +177,7 @@ public class AudioScript : MonoBehaviour
                 if (clip == travel) travelTime = AudioSource.time;
                 if (clip == pirateStation) pirateStationTime = AudioSource.time;
                 if (clip == pirateTrain) pirateTrainTime = AudioSource.time;
+                if (clip == bigWreckSong) bigWreckTime = AudioSource.time;
             }
 
 

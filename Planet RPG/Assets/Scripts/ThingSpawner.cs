@@ -78,7 +78,9 @@ public class ThingSpawner : MonoBehaviour
  
                 var astHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("asteroids"));
                 var stationHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("station"));
-                if (stationHit.Length <= 0 && astHit.Length <= 0)
+                var wreckHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("wreck"));
+                var bigWreck = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("bigWreck"));
+                if (stationHit.Length <= 0 && astHit.Length <= 0 && wreckHit.Length <= 0 && bigWreck.Length <= 0)
                 {
                     if (totalDeliveries > 0)
                     {

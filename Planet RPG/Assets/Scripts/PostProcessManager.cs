@@ -27,7 +27,7 @@ public class PostProcessManager : MonoBehaviour
         bloomSetting.intensity.value = PlayerPrefs.GetFloat("bloom intensity", 0.4f);
         bloomSetting.threshold.value = PlayerPrefs.GetFloat("bloom threshold", 0.7f);
 
-        postProcessingVolume.profile.GetSetting<ChromaticAberration>().intensity.value = abberation;
+        //postProcessingVolume.profile.GetSetting<ChromaticAberration>().intensity.value = abberation;
             //bloom.intensity.value += 1 * Time.deltaTime;
         //}
 
