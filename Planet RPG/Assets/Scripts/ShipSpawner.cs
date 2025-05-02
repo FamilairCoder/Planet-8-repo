@@ -281,6 +281,14 @@ public class ShipSpawner : MonoBehaviour
             if (n != null && n.GetComponent<NPCmovement>().attackedByPlayer == false)
             {
                 n.SetActive(boolean);
+                if (n.GetComponent<CargoShipCreator>() != null)
+                {
+                    var cargoList = n.GetComponent<CargoShipCreator>().createdCargo;
+                    for(int j = 0; j < cargoList.Count; j++)
+                    {
+                        cargoList[j].SetActive(boolean);
+                    }
+                }
             }
             else
             {

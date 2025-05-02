@@ -58,6 +58,13 @@ MonoBehaviour:
   turn_spd: 0
   target: {fileID: 0}
   playerMade: 0
+  patrolMade: 0
+  pirateAccumulate: 0
+  torpedo: 0
+  isPirate: 0
+  emp: 0
+  empParticles: {fileID: 0}
+  empMat: {fileID: 0}
 --- !u!212 &4063018559739895537
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -163,7 +170,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3819355019172887093}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -180,7 +187,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!82 &-635561807134629342
 AudioSource:
@@ -300,3 +307,6 @@ MonoBehaviour:
   asteroidField: {fileID: 0}
   shipGraveyard: {fileID: 0}
   delivery: {fileID: 0}
+  pirateStation: {fileID: 0}
+  pirateTrain: {fileID: 0}
+  bigWreckSong: {fileID: 0}

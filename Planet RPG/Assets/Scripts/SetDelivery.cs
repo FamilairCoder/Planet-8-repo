@@ -158,7 +158,7 @@ public class SetDelivery : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         {
             setTime -= Time.deltaTime;
            // PlayerPrefs.SetFloat(key + "setTime" + timesClicked, setTime);
-            if (setTime < 0)
+            if (setTime < 0 && station.GetComponent<StationStats>().linked_stations.Count > 0)
             {
                 
                 var linked = station.GetComponent<StationStats>().linked_stations;

@@ -129,6 +129,14 @@ MonoBehaviour:
   missile: 1
   turn_spd: 5
   target: {fileID: 0}
+  playerMade: 0
+  patrolMade: 0
+  pirateAccumulate: 0
+  torpedo: 0
+  isPirate: 0
+  emp: 0
+  empParticles: {fileID: 0}
+  empMat: {fileID: 0}
 --- !u!61 &3349782009848087424
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,7 +190,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3426752428431154068}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

@@ -469,7 +469,7 @@ public class NPCmovement : MonoBehaviour
                 boost = false;
             }
 
-            if (Vector2.Distance(target.transform.position, transform.position) < 150f) { PlayerBash.bash = true; Debug.Log("BOOOOOOOOOOOOOOOOOOST!!!!!!!!!!!!!"); }
+            if (Vector2.Distance(target.transform.position, transform.position) < 150f) { PlayerBash.bash = true; }
             else PlayerBash.bash = false;
 
 

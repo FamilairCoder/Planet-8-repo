@@ -83,7 +83,7 @@ public class HUDmanage : MonoBehaviour
     {
         DONT -= Time.deltaTime;
 
-        Application.targetFrameRate = -1;
+        //Application.targetFrameRate = -1;
 
         foreach ( SetDelivery sds in sd )
         {
@@ -256,6 +256,7 @@ public class HUDmanage : MonoBehaviour
                 side_secondary_ui.SetActive(false);
                 secondary_ui.SetActive(false);
             }
+            secondDelay = .3f;
         }
         for (int i = 0; i < active_bounties.Count; i++)
         {

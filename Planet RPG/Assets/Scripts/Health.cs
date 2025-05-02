@@ -135,6 +135,7 @@ public class Health : MonoBehaviour
                         else
                         {
                             spr.color = new Color(.5f, .5f, .5f);
+                            if (GetComponent<LineRenderer>() != null) GetComponent<LineRenderer>().enabled = false;
                         }
                         GetComponent<Collider2D>().enabled = false;
                         if (GetComponent<Animator>() != null) GetComponent<Animator>().enabled = false;
