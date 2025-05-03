@@ -149,11 +149,28 @@ public class NPCDialogue : MonoBehaviour
                 }
                 else
                 {
-                    script.text = manager.patrolTakenSpinDialogue[Random.Range(0, manager.patrolTakenSpinDialogue.Count)];
+                    if (tag == "player")
+                    {
+                        Debug.Log("hit player");
+                        script.text = manager.patrolTakenSpinDialogue[Random.Range(0, manager.patrolTakenSpinDialogue.Count)];
+                    }
+                    else if (tag == "npc")
+                    {
+                        Debug.Log("hit npc");
+                        script.text = manager.patrolNpcTakenSpin[Random.Range(0, manager.patrolNpcTakenSpin.Count)];
+                    }
+                    
                 }
                 
             }
+
+
             spinning = true;
+            if (script.text == "")
+            {
+                Destroy(createdDialogue);
+                spinning = false;
+            }
         }
     }
 

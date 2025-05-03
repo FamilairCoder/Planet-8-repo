@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     public List<string> patrolSpinDialogue = new List<string>();
     public List<string> patrolThreat = new List<string>();
     public List<string> patrolTakenSpinDialogue = new List<string>();
+    public List<string> patrolNpcTakenSpin = new List<string>();
     public List<string> npcToPatrolSpin = new List<string>();
     // Start is called before the first frame update
     void Start()

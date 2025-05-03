@@ -14,7 +14,7 @@ public class ThingSpawner : MonoBehaviour
     public static float totalDeliveries;
     public string key;
     private float checkTime, pirateChance, pirateDelay = .2f, objIncrease, astIncrease;
-    private Vector3 currentPos;
+    private Vector3 currentPos, lastPos;
     private bool pirateDid;
     private int pirateNumb;
 
@@ -22,6 +22,7 @@ public class ThingSpawner : MonoBehaviour
     void Start()
     {
         currentPos = transform.position;
+        lastPos = transform.position;
         totalDeliveries = PlayerPrefs.GetFloat(key + "totalD", 0);
 
 /*        for (int i = 0; i < 000; i++)
@@ -73,9 +74,8 @@ public class ThingSpawner : MonoBehaviour
             PlayerPrefs.SetFloat(key + "totalD", totalDeliveries);
             PlayerPrefs.Save();
 
-            if (Vector2.Distance(currentPos, transform.position) > 150)
+            if (Vector2.Distance(currentPos, transform.position) > 150 && (transform.position - lastPos).sqrMagnitude > .01f)
             {
- 
                 var astHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("asteroids"));
                 var stationHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("station"));
                 var wreckHit = Physics2D.OverlapCircleAll(transform.position, 200, LayerMask.GetMask("wreck"));
@@ -167,6 +167,9 @@ public class ThingSpawner : MonoBehaviour
             }
             checkTime = 1;
         }
+
+
+        lastPos = transform.position;
     }
 
 
@@ -177,7 +180,7 @@ public class ThingSpawner : MonoBehaviour
         //var vec = Random.Range(-offsetRadius, offsetRadius);
         //var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
 
-        var playerDirection = transform.up;
+        var playerDirection = (transform.position - lastPos).normalized;
 
         // Randomly offset the angle by a small amount to either side of the direction
         float randomAngle = Random.Range(-offsetRadius, offsetRadius);

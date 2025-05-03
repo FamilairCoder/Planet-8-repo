@@ -17,8 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public static float target_zoom, beam_slow, accumulateSlow = 1, accumulateZoom = 1;
 
     private float zoom_offset;
-    private bool did_position, concreteMovement;
-    public bool inhibited;
+    private bool did_position;
+    public bool inhibited, concreteMovement;
 
     private Vector2 respawnPos;
     public List<StationStats> stationPoses = new List<StationStats>();
@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
         else concreteMovement = false;
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
         {
             if (concreteMovement)
             {

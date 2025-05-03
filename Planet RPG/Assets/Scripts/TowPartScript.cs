@@ -32,7 +32,13 @@ public class TowPartScript : MonoBehaviour
                 Destroy(gameObject);
             }
             checkTime = .1f;
-            if (PlayerMovement.dead) Destroy(gameObject);
+            if (PlayerMovement.dead) 
+            {
+                stationTo.GetComponent<SetNav>().deliverAmount -= 1;
+                ThingSpawner.totalDeliveries -= 1;
+                linkedDelivery.CompleteDelivery();
+                Destroy(gameObject);             
+            }
         }
     }
 }

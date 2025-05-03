@@ -12,6 +12,7 @@ public class OpenMenu : MonoBehaviour
     private bool thisOpened = false;
     [Header("dont set--------------------")]
     public GameObject createdMenu;
+    public GameObject tiedIndicated;
     // Start is called before the first frame update
     void Start()
     {
