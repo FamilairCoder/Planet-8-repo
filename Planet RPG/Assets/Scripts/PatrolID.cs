@@ -18,7 +18,7 @@ public class PatrolID : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stayDist = PlayerPrefs.GetFloat("stayDist", 20);
+        stayDist = SaveManager.GetFloat("stayDist", 20);
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class PatrolID : MonoBehaviour
             PatrolManager.patrols.Add(gameObject);
             didTaken = true;
         }
-        PlayerPrefs.SetFloat("taken" + id, 1);
-        PlayerPrefs.Save();
+        SaveManager.SetFloat("taken" + id, 1);
+        
     }
 }

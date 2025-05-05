@@ -22,8 +22,8 @@ public class MapParralax : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.GetInt(savekey + "enabled", 0) == 1) on = true;
-        if (PlayerPrefs.GetInt(savekey + "tracking", 0) == 1) tracking = true;
+        if (SaveManager.GetInt(savekey + "enabled", 0) == 1) on = true;
+        if (SaveManager.GetInt(savekey + "tracking", 0) == 1) tracking = true;
         player = FindObjectOfType<PlayerMining>().gameObject;
         origScale = transform.localScale;
         origCamScale = 1500;
@@ -37,7 +37,7 @@ public class MapParralax : MonoBehaviour
         {
             if (!did)
             {
-                PlayerPrefs.SetInt(savekey + "enabled", 1);
+                SaveManager.SetInt(savekey + "enabled", 1);
                 did = true;
             }
             onDid = false;
@@ -114,7 +114,7 @@ public class MapParralax : MonoBehaviour
         if (rotate) transform.rotation = linked_obj.transform.rotation;
         if (tracking)
         {
-            PlayerPrefs.SetInt(savekey + "tracking", 1);
+            SaveManager.SetInt(savekey + "tracking", 1);
 
             var player_pos = player.transform.position;
             var other_pos = linked_obj.transform.position;
@@ -131,7 +131,7 @@ public class MapParralax : MonoBehaviour
         }
         else if (GetComponent<LineRenderer>() != null && track_button != null)
         {
-            PlayerPrefs.SetInt(savekey + "tracking", 0);
+            SaveManager.SetInt(savekey + "tracking", 0);
             lr.enabled = false;
             track_button.GetComponent<TextMeshPro>().text = "Track";
         }
@@ -220,8 +220,8 @@ public class MapParralax : MonoBehaviour
     void Start()
     {
         if (savekey == "") savekey = gameObject.name;
-        if (!on) on = PlayerPrefs.GetInt(savekey + "enabled", 0) == 1;
-        tracking = PlayerPrefs.GetInt(savekey + "tracking", 0) == 1;
+        if (!on) on = SaveManager.GetInt(savekey + "enabled", 0) == 1;
+        tracking = SaveManager.GetInt(savekey + "tracking", 0) == 1;
         player = FindObjectOfType<PlayerMining>().gameObject;
         origScale = transform.localScale;
         origCamScale = 1500;
@@ -232,7 +232,7 @@ public class MapParralax : MonoBehaviour
 
     void Update()
     {
-        trackingTime -= Time.deltaTime;
+        
         if (on)
         {
             HandleActivationState();
@@ -242,6 +242,21 @@ public class MapParralax : MonoBehaviour
 
             HandleDeliveryText();
             AdjustScale();
+            if (rotate)
+                transform.rotation = linked_obj.transform.rotation;
+            trackingTime -= Time.deltaTime;
+            if (trackingTime < 0)
+            {
+                if (tracking)
+                {
+                    SaveManager.SetInt(savekey + "tracking", 1);
+                }
+                else
+                {
+                    SaveManager.SetInt(savekey + "tracking", 0);
+                }
+                trackingTime = Random.Range(2f, 5f);
+            }
         }
         else if (!on && !onDid)
         {
@@ -249,20 +264,8 @@ public class MapParralax : MonoBehaviour
             onDid = true;
         }
 
-        if (rotate)
-            transform.rotation = linked_obj.transform.rotation;
-        if (trackingTime < 0)
-        {
-            if (tracking)
-            {
-                PlayerPrefs.SetInt(savekey + "tracking", 1);
-            }
-            else
-            {
-                PlayerPrefs.SetInt(savekey + "tracking", 0);
-            }
-            trackingTime = 1;
-        }
+
+
 
     }
 
@@ -299,7 +302,7 @@ public class MapParralax : MonoBehaviour
     {
         if (!did)
         {
-            PlayerPrefs.SetInt(savekey + "enabled", 1);
+            SaveManager.SetInt(savekey + "enabled", 1);
             did = true;
         }
 

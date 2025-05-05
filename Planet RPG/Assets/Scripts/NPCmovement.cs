@@ -26,6 +26,7 @@ public class NPCmovement : MonoBehaviour
     public GameObject accumulateObj, empObj, torpedoObj, gravityWellBullet, shieldObj;
     private GameObject createdAccumulateObj, createdShield;
     public float chargeSlow = 1;
+    public Material secondaryMat;
    // public 
     [Header("Dont have to set-------")]
     public float stay_radius;
@@ -65,7 +66,7 @@ public class NPCmovement : MonoBehaviour
         retreatThreshold = Random.Range(.1f, .5f);
         if (retreatThreshold < .25f) retreatThreshold = 0f;
 
-        if (is_pirate || is_patrol) { StartCoroutine(FindTarget()); }
+        
         if (is_patrol)
         {
             playerPos = HUDmanage.playerReference.transform;
@@ -73,10 +74,10 @@ public class NPCmovement : MonoBehaviour
         }
         if (is_pirate && lvl > 1)
         {
-            var hasSecondaryChance = PlayerPrefs.GetFloat(key + "hasSecondaryChance", Random.Range(0f, 1f));
+            var hasSecondaryChance = SaveManager.GetFloat(key + "hasSecondaryChance", Random.Range(0f, 1f));
             if ((lvl == 2 && hasSecondaryChance > .75f) || (lvl == 3 && hasSecondaryChance > .5f))
             {
-                var chance = PlayerPrefs.GetFloat(key + "secondaryChance", Random.Range(0f, 1f));
+                var chance = SaveManager.GetFloat(key + "secondaryChance", Random.Range(0f, 1f));
                 if (chance < .2f)
                 {
                     hasAccumulator = true;
@@ -218,8 +219,8 @@ public class NPCmovement : MonoBehaviour
             }
             if (did && saveTime < 0)
             {
-                PlayerPrefs.SetFloat(key + "positionx", transform.position.x);
-                PlayerPrefs.SetFloat(key + "positiony", transform.position.y);
+                SaveManager.SetFloat(key + "positionx", transform.position.x);
+                SaveManager.SetFloat(key + "positiony", transform.position.y);
                 saveTime = 3f;
             }
         }
@@ -527,8 +528,8 @@ public class NPCmovement : MonoBehaviour
 
     float FloatSaveKey(string name, float default_value)
     {
-        var f = PlayerPrefs.GetFloat(key + name, default_value);
-        PlayerPrefs.SetFloat(key + name, f);
+        var f = SaveManager.GetFloat(key + name, default_value);
+        SaveManager.SetFloat(key + name, f);
         return f;
 
     }
@@ -642,7 +643,7 @@ public class NPCmovement : MonoBehaviour
                     {
                         createdAccumulateObj = Instantiate(accumulateObj, transform.position, Quaternion.identity);
                         var script = createdAccumulateObj.GetComponent<AccumulateScript>();
-                        script.mat = HUDmanage.pirateSecondaryMatRef;
+                        script.mat = secondaryMat;
                         script.cameFrom = gameObject;
                         script.stats = GetComponent<ShipStats>();
                         script.isPirate = true;
@@ -663,7 +664,7 @@ public class NPCmovement : MonoBehaviour
                         b.GetComponent<Bullet>().target_tag = target.tag;
                         b.GetComponent<Bullet>().came_from = weapons[0];
                         b.GetComponent<Bullet>().emp = true;
-                        b.GetComponent<Bullet>().empMat = HUDmanage.pirateSecondaryMatRef;
+                        b.GetComponent<Bullet>().empMat = secondaryMat;
                         energy -= 10f;
                     }
                     
@@ -732,7 +733,7 @@ public class NPCmovement : MonoBehaviour
     }
     private void OnEnable()
     {
-        StartCoroutine(FindTarget());
+        if (is_pirate || is_patrol) { StartCoroutine(FindTarget()); }
         if (hasSecondary) StartCoroutine(UseSecondary());
     }
 }

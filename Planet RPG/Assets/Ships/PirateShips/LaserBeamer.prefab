@@ -53,8 +53,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 89570c55adadd2c40a36634ce247e418, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 4142605709165754113}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &2748551976690472213
 SpriteRenderer:
@@ -403,8 +413,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 89570c55adadd2c40a36634ce247e418, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 1816167372850833528}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &5014205121504302025
 SpriteRenderer:
@@ -577,8 +597,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 4a8ee1c1f9098814fb2f115cc23d0c57, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 0
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &1379099777583111635
 SpriteRenderer:
@@ -924,6 +954,8 @@ MonoBehaviour:
   mining_bonus: 0
   ore_bonus: 0
   bounty_bonus: 0
+  energyRegenBonus: 0
+  energyCapacityBonus: 0
   lvl2Parts: []
   lvl2PartsDiagnosis: []
   lvl3Parts: []
@@ -956,6 +988,16 @@ MonoBehaviour:
   bounty_cost: 100
   detect_radius: 60
   attackDistance: 10
+  isPellet: 0
+  isRod: 0
+  isBeam: 0
+  accumulateObj: {fileID: 0}
+  empObj: {fileID: 0}
+  torpedoObj: {fileID: 0}
+  gravityWellBullet: {fileID: 0}
+  shieldObj: {fileID: 0}
+  chargeSlow: 1
+  secondaryMat: {fileID: 2100000, guid: 8013adc1db7c8854fa466a371db4f01e, type: 2}
   stay_radius: 0
   has_bounty: 0
   inhibit: 0
@@ -963,13 +1005,21 @@ MonoBehaviour:
   attackedByPlayer: 0
   retreat: 0
   found_danger: 0
+  inSquad: 0
+  pirateLeader: 0
+  dontRetreat: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
   target: {fileID: 0}
+  empParticle: {fileID: 0}
   rand_time: 0
+  stunTime: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+  squadKey: 
+  playerPos: {fileID: 0}
+  gravityWellCaught: 0
 --- !u!50 &4208639602984825742
 Rigidbody2D:
   serializedVersion: 4
@@ -5901,6 +5951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
+  threatenChance: 0
 --- !u!1 &7790163932036053081
 GameObject:
   m_ObjectHideFlags: 0
@@ -5956,8 +6007,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 8009ca6a5f1f4d74199a0ab9e138bb01, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!114 &6242817715427726587
 MonoBehaviour:

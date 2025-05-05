@@ -125,22 +125,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
+        if (SaveManager.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
         else concreteMovement = false;
 
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
         {
             if (concreteMovement)
             {
-                PlayerPrefs.SetInt("ConcreteMovement", 0);
+                SaveManager.SetInt("ConcreteMovement", 0);
                 Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement off";
-                PlayerPrefs.Save();
+                
             }
             else
             {
-                PlayerPrefs.SetInt("ConcreteMovement", 1);
+                SaveManager.SetInt("ConcreteMovement", 1);
                 Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement on";
-                PlayerPrefs.Save();
+                
             }
         }
 
@@ -309,20 +309,20 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         
-        if (PlayerPrefs.GetFloat("first spawn", 1) == 1)
+        if (SaveManager.GetFloat("first spawn", 1) == 1)
         {
-
+            Debug.Log("first spawning");
             transform.position = stationPoses[Random.Range(0, stationPoses.Count)].spawnPoint;
-            PlayerPrefs.SetFloat("first spawn", 0);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat("first spawn", 0);
+            
         }
         else
         {
 
-            transform.position = new Vector2(PlayerPrefs.GetFloat("player positionx", 0), PlayerPrefs.GetFloat("player positiony", 0));
+            transform.position = new Vector2(SaveManager.GetFloat("player positionx", 0), SaveManager.GetFloat("player positiony", 0));
         }
-        var x = PlayerPrefs.GetFloat("respawnX", respawnPos.x);
-        var y = PlayerPrefs.GetFloat("respawnY", respawnPos.y);
+        var x = SaveManager.GetFloat("respawnX", respawnPos.x);
+        var y = SaveManager.GetFloat("respawnY", respawnPos.y);
         respawnPos = new Vector2(x, y);
 
 
@@ -334,9 +334,9 @@ public class PlayerMovement : MonoBehaviour
 
         while (true)
         {
-            PlayerPrefs.SetFloat("player positionx", transform.position.x);
-            PlayerPrefs.SetFloat("player positiony", transform.position.y);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat("player positionx", transform.position.x);
+            SaveManager.SetFloat("player positiony", transform.position.y);
+            
 
 
             var hit = Physics2D.OverlapCircleAll(transform.position, 50f, LayerMask.GetMask("station"));
@@ -347,9 +347,9 @@ public class PlayerMovement : MonoBehaviour
                     if (a.transform.parent != null && a.GetComponentInParent<StationStats>() != null)
                     {
                         respawnPos = a.GetComponentInParent<StationStats>().spawnPoint;
-                        PlayerPrefs.SetFloat("respawnX", respawnPos.x);
-                        PlayerPrefs.SetFloat("respawnY", respawnPos.y);
-                        PlayerPrefs.Save();
+                        SaveManager.SetFloat("respawnX", respawnPos.x);
+                        SaveManager.SetFloat("respawnY", respawnPos.y);
+                        
                     }
                 }
             }

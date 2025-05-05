@@ -58,9 +58,9 @@ public class NPCweapon : MonoBehaviour
             {
                 
                 var id = GetComponentInParent<PatrolID>().id.ToString();
-                if (PlayerPrefs.GetFloat("alive" + id, 1) == 1)
+                if (SaveManager.GetFloat("alive" + id, 1) == 1)
                 {
-                    chance = PlayerPrefs.GetFloat(id + "weaponChance" + transform.GetSiblingIndex(), Random.Range(0f, 1f));
+                    chance = SaveManager.GetFloat(id + "weaponChance" + transform.GetSiblingIndex(), Random.Range(0f, 1f));
                 }
                 else
                 {
@@ -92,8 +92,8 @@ public class NPCweapon : MonoBehaviour
 
 
 
-                PlayerPrefs.SetFloat(id + "weaponChance" + transform.GetSiblingIndex(), chance);
-                PlayerPrefs.Save();
+                SaveManager.SetFloat(id + "weaponChance" + transform.GetSiblingIndex(), chance);
+                
             }
 
 

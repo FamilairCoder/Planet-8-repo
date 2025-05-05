@@ -47,7 +47,7 @@ public class HUDmanage : MonoBehaviour
     public static bool pauseMenu;
     public static float DONT;
 
-    private float secondDelay = .5f;
+    private float secondDelay = .5f, saveFileTime;
     //public GameObject pauseMenuObj;
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class HUDmanage : MonoBehaviour
     void Start()
     {
         index = 0;
-        money = PlayerPrefs.GetFloat("money", 0);
+        money = SaveManager.GetFloat("money", 0);
 
 
         //get rid of this--------------------------
@@ -83,6 +83,14 @@ public class HUDmanage : MonoBehaviour
     {
         DONT -= Time.deltaTime;
 
+        saveFileTime -= Time.deltaTime;
+        if (saveFileTime < 0)
+        {
+            SaveManager.SetFloat("lvl", lvl);
+            saveFileTime = 1;
+        }
+       
+
         //Application.targetFrameRate = -1;
 
         foreach ( SetDelivery sds in sd )
@@ -92,7 +100,7 @@ public class HUDmanage : MonoBehaviour
         }
 
 
-        PlayerPrefs.SetFloat("money", money);
+        SaveManager.SetFloat("money", money);
 
         money_text.GetComponent<TextMeshProUGUI>().text = Mathf.Round(money).ToString();
 

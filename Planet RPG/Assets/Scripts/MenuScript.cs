@@ -19,7 +19,7 @@ public class MenuScript : MonoBehaviour
         StartCoroutine(Delay());
         if (!forPatrol && station != null)
         {
-            restockAdd = PlayerPrefs.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
+            restockAdd = SaveManager.GetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", 0);
             StartCoroutine(RestockTime());
         }
 
@@ -66,8 +66,8 @@ public class MenuScript : MonoBehaviour
 
         while (true)
         {
-            PlayerPrefs.SetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", restockAdd);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat(station.GetComponent<ShipSpawner>().savekey + "menu restock addition", restockAdd);
+            
             if (restockAdd > 0) restockAdd--;
             yield return new WaitForSeconds(10f);
         }

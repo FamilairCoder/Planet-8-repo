@@ -103,9 +103,9 @@ public class ShipSpawner : MonoBehaviour
     {
         for (int i = 0; i < max_numb;)
         {
-            if (PlayerPrefs.GetFloat(savekey + numb + "alivelvl1", 1) == 1)
+            if (SaveManager.GetFloat(savekey + numb + "alivelvl1", 1) == 1)
             {
-                PlayerPrefs.SetFloat(savekey + numb + "alivelvl1", 1);
+                SaveManager.SetFloat(savekey + numb + "alivelvl1", 1);
                 SpawnShip(ships, 1, numb);
                 i++;
             }
@@ -114,9 +114,9 @@ public class ShipSpawner : MonoBehaviour
 
         for (int i = 0; i < max_numb;)
         {
-            if (PlayerPrefs.GetFloat(savekey + numblvl2 + "alivelvl2", 1) == 1)
+            if (SaveManager.GetFloat(savekey + numblvl2 + "alivelvl2", 1) == 1)
             {
-                PlayerPrefs.SetFloat(savekey + numblvl2 + "alivelvl2", 1);
+                SaveManager.SetFloat(savekey + numblvl2 + "alivelvl2", 1);
                 SpawnShip(lvl2_ships, 2, numblvl2);
                 i++;
             }
@@ -124,9 +124,9 @@ public class ShipSpawner : MonoBehaviour
         }
         for (int i = 0; i < max_numb;)
         {
-            if (PlayerPrefs.GetFloat(savekey + numblvl3 + "alivelvl3", 1) == 1)
+            if (SaveManager.GetFloat(savekey + numblvl3 + "alivelvl3", 1) == 1)
             {
-                PlayerPrefs.SetFloat(savekey + numblvl3 + "alivelvl3", 1);
+                SaveManager.SetFloat(savekey + numblvl3 + "alivelvl3", 1);
                 SpawnShip(lvl3_ships, 3, numblvl3);
                 i++;
             }
@@ -145,9 +145,9 @@ public class ShipSpawner : MonoBehaviour
         {
             if (spawned_ships.Count < max_numb)
             {
-                if (PlayerPrefs.GetFloat(savekey + numb + "alive", 1) == 1)
+                if (SaveManager.GetFloat(savekey + numb + "alive", 1) == 1)
                 {
-                    PlayerPrefs.SetFloat(savekey + numb + "alive", 1);
+                    SaveManager.SetFloat(savekey + numb + "alive", 1);
                     SpawnShip(ships, 1, numb);
                     i++;
                 }
@@ -163,9 +163,9 @@ public class ShipSpawner : MonoBehaviour
         {
             if (spawned_shipsLvl2.Count < max_numb)
             {
-                if (PlayerPrefs.GetFloat(savekey + numblvl2 + "alive", 1) == 1)
+                if (SaveManager.GetFloat(savekey + numblvl2 + "alive", 1) == 1)
                 {
-                    PlayerPrefs.SetFloat(savekey + numblvl2 + "alive", 1);
+                    SaveManager.SetFloat(savekey + numblvl2 + "alive", 1);
                     SpawnShip(lvl2_ships, 2, numblvl2);
                     i++;
                 }
@@ -180,9 +180,9 @@ public class ShipSpawner : MonoBehaviour
         {
             if (spawned_shipsLvl3.Count < max_numb)
             {
-                if (PlayerPrefs.GetFloat(savekey + numblvl3 + "alive", 1) == 1)
+                if (SaveManager.GetFloat(savekey + numblvl3 + "alive", 1) == 1)
                 {
-                    PlayerPrefs.SetFloat(savekey + numblvl3 + "alive", 1);
+                    SaveManager.SetFloat(savekey + numblvl3 + "alive", 1);
                     SpawnShip(lvl3_ships, 3, numblvl3);
                     i++;
                 }
@@ -262,15 +262,15 @@ public class ShipSpawner : MonoBehaviour
 
     float FloatSaveKey(string name, float default_value, float numb)
     {
-        var f = PlayerPrefs.GetFloat(savekey + name + numb, default_value);
-        PlayerPrefs.SetFloat(savekey + name + numb, f);
+        var f = SaveManager.GetFloat(savekey + name + numb, default_value);
+        SaveManager.SetFloat(savekey + name + numb, f);
         return f;
     }
 
     int IntSaveKey(string name, int default_value, float numb)
     {
-        var i = PlayerPrefs.GetInt(savekey + name + numb, default_value);
-        PlayerPrefs.SetInt(savekey + name + numb, i);
+        var i = SaveManager.GetInt(savekey + name + numb, default_value);
+        SaveManager.SetInt(savekey + name + numb, i);
         return i;
     }
     void ChangeActive(List<GameObject> list, bool boolean)

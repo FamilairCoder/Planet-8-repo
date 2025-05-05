@@ -18,7 +18,7 @@ public class ProbeUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerPrefs.SetFloat("probes", probe_amount);
+        SaveManager.SetFloat("probes", probe_amount);
         if (is_current)
         {
             is_current_static = true;

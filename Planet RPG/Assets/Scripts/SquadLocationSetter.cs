@@ -30,7 +30,7 @@ public class SquadLocationSetter : MonoBehaviour
                 //s.GetComponent<ShipStats>().spd = spd;
                 s.AddComponent<Despawn>();
             }
-            else if (PlayerPrefs.GetFloat(key + "ship" + i + "alive", 1) == 1)
+            else if (SaveManager.GetFloat(key + "ship" + i + "alive", 1) == 1)
             {
                 var dist = Random.Range(0, 20);
                 var vec = Random.Range(0f, 360f);

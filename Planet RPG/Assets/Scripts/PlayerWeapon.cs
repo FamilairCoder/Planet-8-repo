@@ -33,6 +33,8 @@ public class PlayerWeapon : MonoBehaviour
     private HUDmanage HUD;
     public float empTime;
     public GameObject empParticle;
+
+    private float saveFileTime;
     //[Header("Bonuses")]
     //public float armor_bonus, dmg_bonus, firerate_bonus, thrust_bonus, turnspd_bonus;
     // Start is called before the first frame update
@@ -47,6 +49,15 @@ public class PlayerWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        saveFileTime -= Time.deltaTime;
+        if (saveFileTime < 0)
+        {
+            SaveManager.SetFloat("basic laser", basic_lasers);
+            SaveManager.SetFloat("laser beam", laser_beams);
+            SaveManager.SetFloat("laser rod", laser_rods);
+            saveFileTime = 1;
+        }
+
 
         if (basic_lasers > 0 && !Weapons.Contains(basic_laser_icon))
         {

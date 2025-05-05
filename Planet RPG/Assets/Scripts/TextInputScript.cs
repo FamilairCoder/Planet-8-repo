@@ -13,7 +13,7 @@ public class TextInputScript : MonoBehaviour
     {
         GetComponent<TMP_InputField>().onEndEdit.AddListener(EditExit);
         GetComponent<TMP_InputField>().onSelect.AddListener(EditEnter);
-        GetComponent<TMP_InputField>().text = PlayerPrefs.GetFloat("stayDist", 20).ToString();
+        GetComponent<TMP_InputField>().text = SaveManager.GetFloat("stayDist", 20).ToString();
     }
 
     // Update is called once per frame
@@ -30,8 +30,8 @@ public class TextInputScript : MonoBehaviour
             //Debug.Log(result);
             PatrolID.stayDist = result;
             GetComponent<TMP_InputField>().text = result.ToString();
-            PlayerPrefs.SetFloat("stayDist", result);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat("stayDist", result);
+            
         }
         else
         {

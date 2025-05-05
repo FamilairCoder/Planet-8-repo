@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 public class LoadingSceneManager : MonoBehaviour
 {
     public static int sceneToLoad;
+    public static Sprite spr, stationSpr, shipSpr;
+    public SpriteRenderer stationObj, shipObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,9 @@ public class LoadingSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        spr = GetComponent<SpriteRenderer>().sprite;
+        stationSpr = stationObj.sprite;
+        shipSpr = shipObj.sprite;
     }
 
     IEnumerator SceneLoad()

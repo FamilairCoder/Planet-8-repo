@@ -24,10 +24,10 @@ public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
 
         }
         //Debug.Log(buypart_index);
-        if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 1)
+        if (SaveManager.GetInt("part " + buypart_index + " bought", 0) == 1)
         {
             //if (buy_part.name == "AccumulatorIcon") Debug.Log(buy_part.name);
-            BuyPart(PlayerPrefs.GetInt("part index" + buypart_index));
+            BuyPart(SaveManager.GetInt("part index" + buypart_index));
         }
     }
 
@@ -47,19 +47,19 @@ public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
     {
         if (HUDmanage.money >= cost)
         {
-            if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 0)
+            if (SaveManager.GetInt("part " + buypart_index + " bought", 0) == 0)
             {
                 BuyPart();
                 HUDmanage.money -= cost;
             }
 /*            else if (add_probe)
             {
-                if (PlayerPrefs.GetInt("part " + buypart_index + " bought", 0) == 0)
+                if (SaveManager.GetInt("part " + buypart_index + " bought", 0) == 0)
                 {
                     HUD.has_secondary[buypart_index] = true;
                     HUD.code_has_secondary.Add(buy_part);
                     HUD.PublicGotNew();
-                    PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
+                    SaveManager.SetInt("part " + buypart_index + " bought", 1);
                 }
 
                 ProbeUIScript.probe_amount++;
@@ -74,10 +74,10 @@ public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
     void BuyPart()
     {
         HUD.has_secondary[buypart_index] = true;
-        PlayerPrefs.SetInt("part index" + buypart_index, HUD.code_has_secondary.Count);
+        SaveManager.SetInt("part index" + buypart_index, HUD.code_has_secondary.Count);
         HUD.code_has_secondary.Add(buy_part);
         HUD.PublicGotNew();
-        PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
+        SaveManager.SetInt("part " + buypart_index + " bought", 1);
         transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
     }
     void BuyPart(int index)
@@ -94,7 +94,7 @@ public class MiningSupplyBuy : MonoBehaviour, IPointerDownHandler
         HUD.code_has_secondary[index] = buy_part;
         HUD.index = index;
         HUD.PublicGotNew();
-        PlayerPrefs.SetInt("part " + buypart_index + " bought", 1);
+        SaveManager.SetInt("part " + buypart_index + " bought", 1);
         transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Bought";
     }
 }

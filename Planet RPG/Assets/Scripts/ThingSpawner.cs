@@ -23,23 +23,23 @@ public class ThingSpawner : MonoBehaviour
     {
         currentPos = transform.position;
         lastPos = transform.position;
-        totalDeliveries = PlayerPrefs.GetFloat(key + "totalD", 0);
+        totalDeliveries = SaveManager.GetFloat(key + "totalD", 0);
 
 /*        for (int i = 0; i < 000; i++)
         {
-            var x = PlayerPrefs.GetFloat("bgruins x" + i, Random.Range(-8000f, 8000f));
-            var y = PlayerPrefs.GetFloat("bgruins y" + i, Random.Range(-8000f, 8000f));
-            var rot = PlayerPrefs.GetFloat("bgruins rot" + i, Random.Range(0f, 360f));
-            var index = PlayerPrefs.GetInt("bgruins index" + i, Random.Range(0, ruins.Count));
+            var x = SaveManager.GetFloat("bgruins x" + i, Random.Range(-8000f, 8000f));
+            var y = SaveManager.GetFloat("bgruins y" + i, Random.Range(-8000f, 8000f));
+            var rot = SaveManager.GetFloat("bgruins rot" + i, Random.Range(0f, 360f));
+            var index = SaveManager.GetInt("bgruins index" + i, Random.Range(0, ruins.Count));
             var pos = new Vector2(x, y);
             var r = Instantiate(ruins[index], pos, Quaternion.identity, ruinParent);
             r.transform.localRotation = Quaternion.Euler(0, 0, rot);
-            PlayerPrefs.SetFloat("bgruins x" + i, x);
-            PlayerPrefs.SetFloat("bgruins y" + i, y);
-            PlayerPrefs.SetFloat("bgruins rot" + i, rot);
-            PlayerPrefs.SetInt("bgruins index" + i, index);
+            SaveManager.SetFloat("bgruins x" + i, x);
+            SaveManager.SetFloat("bgruins y" + i, y);
+            SaveManager.SetFloat("bgruins rot" + i, rot);
+            SaveManager.SetInt("bgruins index" + i, index);
         }*/
-        PlayerPrefs.Save();
+        
     }
 
     // Update is called once per frame
@@ -51,10 +51,10 @@ public class ThingSpawner : MonoBehaviour
         {
             for (int i = 0; i < totalDeliveries; i++)
             {
-                if (PlayerPrefs.GetInt(key + "pirateAlive" + pirateNumb, 0) == 1)
+                if (SaveManager.GetInt(key + "pirateAlive" + pirateNumb, 0) == 1)
                 {
-                    var type = PlayerPrefs.GetInt(key + "pirateType" + pirateNumb, Random.Range(0, pirateShips.Count));
-                    PlayerPrefs.SetInt(key + "pirateType" + pirateNumb, type);
+                    var type = SaveManager.GetInt(key + "pirateType" + pirateNumb, Random.Range(0, pirateShips.Count));
+                    SaveManager.SetInt(key + "pirateType" + pirateNumb, type);
 
                     var p = Spawn(pirateShips[type], 150, 0);
                     p.GetComponent<NPCmovement>().key = "spawned pirate " + pirateNumb;
@@ -64,15 +64,15 @@ public class ThingSpawner : MonoBehaviour
                     spawnedPirateShips.Insert(pirateNumb, p);
                 }
 
-                PlayerPrefs.Save();
+                
                 pirateNumb++;
             }
             pirateDid = true;
         }*/
         if (checkTime < 0)
         {
-            PlayerPrefs.SetFloat(key + "totalD", totalDeliveries);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat(key + "totalD", totalDeliveries);
+            
 
             if (Vector2.Distance(currentPos, transform.position) > 150 && (transform.position - lastPos).sqrMagnitude > .01f)
             {
@@ -99,8 +99,8 @@ public class ThingSpawner : MonoBehaviour
                                 //var dist = 100;
                                 //var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
                                 //var p = Instantiate(pirateShips[Random.Range(0, pirateShips.Count)], pos, Quaternion.identity);
-                                var type = PlayerPrefs.GetInt(key + "pirateType" + pirateNumb, Random.Range(0, pirateShips.Count));
-                                PlayerPrefs.SetInt(key + "pirateType" + pirateNumb, type);
+                                var type = SaveManager.GetInt(key + "pirateType" + pirateNumb, Random.Range(0, pirateShips.Count));
+                                SaveManager.SetInt(key + "pirateType" + pirateNumb, type);
 
                                 GameObject p = null;                                
                                 var lvlchance = Random.Range(0f, 1f);

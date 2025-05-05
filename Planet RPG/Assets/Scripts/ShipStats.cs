@@ -34,18 +34,18 @@ public class ShipStats : MonoBehaviour
 
         if (!npc)
         {
-            armor_bonus = PlayerPrefs.GetFloat("player armor_bonus", armor_bonus);
-            dmg_bonus = PlayerPrefs.GetFloat("player dmg_bonus", dmg_bonus);
-            firerate_bonus = PlayerPrefs.GetFloat("player firerate_bonus", firerate_bonus);
-            thrust_bonus = PlayerPrefs.GetFloat("player thrust_bonus", thrust_bonus);
-            turnspd_bonus = PlayerPrefs.GetFloat("player turnspd_bonus", turnspd_bonus);
+            armor_bonus = SaveManager.GetFloat("player armor_bonus", armor_bonus);
+            dmg_bonus = SaveManager.GetFloat("player dmg_bonus", dmg_bonus);
+            firerate_bonus = SaveManager.GetFloat("player firerate_bonus", firerate_bonus);
+            thrust_bonus = SaveManager.GetFloat("player thrust_bonus", thrust_bonus);
+            turnspd_bonus = SaveManager.GetFloat("player turnspd_bonus", turnspd_bonus);
 
-            cargo_bonus = PlayerPrefs.GetFloat("player cargo_bonus", cargo_bonus);
-            mining_bonus = PlayerPrefs.GetFloat("player mining_bonus", mining_bonus);
-            ore_bonus = PlayerPrefs.GetFloat("player ore_bonus", ore_bonus);
+            cargo_bonus = SaveManager.GetFloat("player cargo_bonus", cargo_bonus);
+            mining_bonus = SaveManager.GetFloat("player mining_bonus", mining_bonus);
+            ore_bonus = SaveManager.GetFloat("player ore_bonus", ore_bonus);
 
-            energyRegenBonus = PlayerPrefs.GetFloat("player energyRegen", energyRegenBonus);
-            energyCapacityBonus = PlayerPrefs.GetFloat("player energyCapacity", energyCapacityBonus);
+            energyRegenBonus = SaveManager.GetFloat("player energyRegen", energyRegenBonus);
+            energyCapacityBonus = SaveManager.GetFloat("player energyCapacity", energyCapacityBonus);
 
             //var a = Instantiate(diagnosis, new(0, 0, 0), Quaternion.identity, FindObjectOfType<Canvas>().transform);
             //a.GetComponent<RectTransform>().localPosition = new Vector3(-824, -400);
@@ -74,7 +74,7 @@ public class ShipStats : MonoBehaviour
             }
         }
         
-        StartCoroutine(CalculateHealth());
+        
 
     }
 
@@ -106,19 +106,19 @@ public class ShipStats : MonoBehaviour
             prefsTime -= Time.deltaTime;
             if (prefsTime <= 0)
             {
-                PlayerPrefs.SetFloat("player armor_bonus", armor_bonus);
-                PlayerPrefs.SetFloat("player dmg_bonus", dmg_bonus);
-                PlayerPrefs.SetFloat("player firerate_bonus", firerate_bonus);
-                PlayerPrefs.SetFloat("player thrust_bonus", thrust_bonus);
-                PlayerPrefs.SetFloat("player turnspd_bonus", turnspd_bonus);
+                SaveManager.SetFloat("player armor_bonus", armor_bonus);
+                SaveManager.SetFloat("player dmg_bonus", dmg_bonus);
+                SaveManager.SetFloat("player firerate_bonus", firerate_bonus);
+                SaveManager.SetFloat("player thrust_bonus", thrust_bonus);
+                SaveManager.SetFloat("player turnspd_bonus", turnspd_bonus);
 
-                PlayerPrefs.SetFloat("player cargo_bonus", cargo_bonus);
-                PlayerPrefs.SetFloat("player mining_bonus", mining_bonus);
-                PlayerPrefs.SetFloat("player ore_bonus", ore_bonus);
+                SaveManager.SetFloat("player cargo_bonus", cargo_bonus);
+                SaveManager.SetFloat("player mining_bonus", mining_bonus);
+                SaveManager.SetFloat("player ore_bonus", ore_bonus);
 
 
-                PlayerPrefs.SetFloat("player energyRegen", energyRegenBonus);
-                PlayerPrefs.SetFloat("player energyCapacity", energyCapacityBonus);
+                SaveManager.SetFloat("player energyRegen", energyRegenBonus);
+                SaveManager.SetFloat("player energyCapacity", energyCapacityBonus);
                 prefsTime = 1;
             }
 
@@ -232,7 +232,7 @@ public class ShipStats : MonoBehaviour
                 Instantiate(core.GetComponent<Health>().death_explosion, transform.position, Quaternion.identity);
 
                 if (GetComponent<NPCmovement>().retreat) PlayerBash.bash = false;
-                PlayerPrefs.SetFloat(GetComponent<NPCmovement>().key + "alive", 0);
+                SaveManager.SetFloat(GetComponent<NPCmovement>().key + "alive", 0);
 
                 if (GetComponent<NPCmovement>().giveBounty)
                 {
@@ -244,8 +244,8 @@ public class ShipStats : MonoBehaviour
                 }
                 if (GetComponent<PatrolID>()  != null)
                 {
-                    PlayerPrefs.SetFloat("alive" + GetComponent<PatrolID>().id, 0);
-                    PlayerPrefs.SetFloat("taken" + GetComponent<PatrolID>().id, 0);
+                    SaveManager.SetFloat("alive" + GetComponent<PatrolID>().id, 0);
+                    SaveManager.SetFloat("taken" + GetComponent<PatrolID>().id, 0);
 
                     DeleteChildHealthPrefs(GetComponent<PatrolID>().id);
                     
@@ -256,9 +256,9 @@ public class ShipStats : MonoBehaviour
                 }
                 if (GetComponent<NPCmovement>().inSquad || GetComponent<NPCmovement>().pirateLeader)
                 {
-                    PlayerPrefs.SetFloat(GetComponent<NPCmovement>().squadKey + "alive", 0);
+                    SaveManager.SetFloat(GetComponent<NPCmovement>().squadKey + "alive", 0);
                 }
-                PlayerPrefs.Save();
+                
                 Destroy(gameObject);
             }
         }
@@ -286,14 +286,14 @@ public class ShipStats : MonoBehaviour
     }
     private void OnEnable()
     {
-        StartCoroutine(CalculateHealth());
+        if (!npc) StartCoroutine(CalculateHealth());
     }
     void DeleteChildHealthPrefs(string key)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            PlayerPrefs.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "hp");
-            PlayerPrefs.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "orig_hp");
+            SaveManager.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "hp");
+            SaveManager.DeleteKey(key + transform.GetChild(i).GetSiblingIndex() + "orig_hp");
         }
     }
 }

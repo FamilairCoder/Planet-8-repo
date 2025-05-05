@@ -14,13 +14,13 @@ public class PatrolManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        numb = PlayerPrefs.GetFloat("numb of patrols", 0);
+        numb = SaveManager.GetFloat("numb of patrols", 0);
         for (int i = 0; i < numb; i++)
         {
             //Debug.Log("looping");
-            var id = PlayerPrefs.GetString("id" + i);
-            //Debug.Log(PlayerPrefs.GetFloat(key + "alive" + i));
-            if (PlayerPrefs.GetFloat("alive" + id, 1) == 1)
+            var id = SaveManager.GetString("id" + i);
+            //Debug.Log(SaveManager.GetFloat(key + "alive" + i));
+            if (SaveManager.GetFloat("alive" + id, 1) == 1)
             {
                 //Debug.Log("spawning");
                 //patrols.Remove(patrols[i]);
@@ -54,7 +54,7 @@ public class PatrolManager : MonoBehaviour
 
     void SpawnPatrol(string id, float num)
     {
-        var index = PlayerPrefs.GetInt("index" + id, Random.Range(0, patrols.Count));
+        var index = SaveManager.GetInt("index" + id, Random.Range(0, patrols.Count));
         //Debug.Log(index);
         var dist = Random.Range(10, 20);
         var vec = Random.Range(0f, 360f);
@@ -82,7 +82,7 @@ public class PatrolManager : MonoBehaviour
     {
         while (true)
         {
-            PlayerPrefs.SetFloat("numb of patrols", patrols.Count);
+            SaveManager.SetFloat("numb of patrols", patrols.Count);
             //Debug.Log(patrols.Count);
             for(int i = 0; i < patrols.Count; i++)
             {
@@ -90,14 +90,14 @@ public class PatrolManager : MonoBehaviour
                 if (p != null)
                 {
                     var pID = p.GetComponent<PatrolID>();
-                    if (PlayerPrefs.GetFloat("alive" + pID.id) == 1)
+                    if (SaveManager.GetFloat("alive" + pID.id) == 1)
                     {
-                        PlayerPrefs.SetString("id" + i, pID.id);
+                        SaveManager.SetString("id" + i, pID.id);
                     }
                 }
 
             }
-            PlayerPrefs.Save();
+            
             yield return new WaitForSeconds(1f);
         }
 

@@ -14,7 +14,7 @@ public class EnergyManagement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        energy = PlayerPrefs.GetFloat("player energy", 100);
+        energy = SaveManager.GetFloat("player energy", 100);
         HUD = FindObjectOfType<HUDmanage>();
         activePos = GetComponent<RectTransform>().anchoredPosition;
         StartCoroutine(EnergyRegen());
@@ -46,7 +46,7 @@ public class EnergyManagement : MonoBehaviour
                 energy += 1 + stats.energyRegenBonus;
             }
             energy = Mathf.Clamp(energy, 0, (100 + stats.energyCapacityBonus));
-            PlayerPrefs.SetFloat("player energy", energy);
+            SaveManager.SetFloat("player energy", energy);
             yield return new WaitForSeconds(1);
         }
     }

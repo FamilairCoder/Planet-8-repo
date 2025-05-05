@@ -42,6 +42,7 @@ public class ButtonSceneChange : MonoBehaviour, IPointerClickHandler
         {
             HUDmanage.pauseMenu = false;
             LoadingSceneManager.sceneToLoad = toSceneIndex;
+            PlayerPrefs.Save();
             SceneManager.LoadScene(2);
         }
     }

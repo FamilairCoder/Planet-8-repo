@@ -67,7 +67,7 @@ public class AudioScript : MonoBehaviour
             PlayerPrefs.SetFloat("SongVolume", songVolume);
             PlayerPrefs.SetFloat("MasterVolume", masterVolume);
             PlayerPrefs.SetFloat("SFXVolume", SFXVolume);
-            PlayerPrefs.Save();
+            
 
             saveTime = .1f;
         }

@@ -23,7 +23,7 @@ public class PatrolSpawner : MonoBehaviour
 
         for (int i = 0; i < numb; i++)
         {
-            if (PlayerPrefs.GetFloat("alive" + i + key, 1) == 1)
+            if (SaveManager.GetFloat("alive" + i + key, 1) == 1)
             {
                 SpawnPatrol(i);
             }
@@ -33,7 +33,7 @@ public class PatrolSpawner : MonoBehaviour
             }
             
         }
-        createTimeleft = PlayerPrefs.GetFloat(key + "timeleft", 600);
+        createTimeleft = SaveManager.GetFloat(key + "timeleft", 600);
         StartCoroutine(CheckSpawned());
     }
 
@@ -45,7 +45,7 @@ public class PatrolSpawner : MonoBehaviour
 
     void SpawnPatrol(float id)
     {
-        var index = PlayerPrefs.GetInt("index" + id, Random.Range(0, patrols.Count));
+        var index = SaveManager.GetInt("index" + id, Random.Range(0, patrols.Count));
 
         var dist = Random.Range(0, maxDist);
         var vec = Random.Range(0f, 360f);
@@ -56,9 +56,9 @@ public class PatrolSpawner : MonoBehaviour
         p.GetComponent<PatrolID>().id = id + key;
         p.GetComponent<PatrolID>().spawnCameFrom = GetComponent<PatrolSpawner>();
 
-        PlayerPrefs.SetFloat("alive" + id + key, 1);
-        PlayerPrefs.SetInt("index" + id, index);
-        PlayerPrefs.Save();
+        SaveManager.SetFloat("alive" + id + key, 1);
+        SaveManager.SetInt("index" + id, index);
+        
         //key += 1;
         while (spawnedPatrols.Count <= id)
         {
@@ -66,7 +66,7 @@ public class PatrolSpawner : MonoBehaviour
         }
         spawnedPatrols[(int)id] = p;
 
-        if (PlayerPrefs.GetFloat("taken" + id + key, 0) == 1)
+        if (SaveManager.GetFloat("taken" + id + key, 0) == 1)
         {
             p.SetActive(false);
         }
@@ -100,8 +100,8 @@ public class PatrolSpawner : MonoBehaviour
                 
                 if (spawnedPatrols[i] == null)
                 {
-                    PlayerPrefs.SetFloat("alive" + i + key, 0);
-                    PlayerPrefs.DeleteKey("index" + i + key);
+                    SaveManager.SetFloat("alive" + i + key, 0);
+                    SaveManager.DeleteKey("index" + i + key);
                     
                 }
 
@@ -113,8 +113,8 @@ public class PatrolSpawner : MonoBehaviour
             {
                 for (int i = 0; i < numb; i++)
                 {
-                    //Debug.Log(PlayerPrefs.GetFloat(key + "alive" + i));
-                    if (PlayerPrefs.GetFloat("alive" + i + key, 1) == 0)
+                    //Debug.Log(SaveManager.GetFloat(key + "alive" + i));
+                    if (SaveManager.GetFloat("alive" + i + key, 1) == 0)
                     {
                         if (spawnedPatrols[i] == null) spawnedPatrols.Remove(spawnedPatrols[i]);
                         SpawnPatrol(i);
@@ -123,8 +123,8 @@ public class PatrolSpawner : MonoBehaviour
                 }
                 createTimeleft = 600;
             }
-            PlayerPrefs.SetFloat(key + "timeleft", createTimeleft);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat(key + "timeleft", createTimeleft);
+            
             //Debug.Log(createTimeleft);
             createTimeleft -= 1;
 

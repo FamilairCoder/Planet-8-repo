@@ -69,11 +69,11 @@ public class FleetShipSpawner : MonoBehaviour
 
     GameObject SpawnShip(List<GameObject> list, float lvl)
     {
-        if (PlayerPrefs.GetFloat(key + "leader" + lvl + "alive", 1) == 1)
+        if (SaveManager.GetFloat(key + "leader" + lvl + "alive", 1) == 1)
         {
-            var listIndex = PlayerPrefs.GetInt(key + "list index" + lvl, Random.Range(0, list.Count));
-            var xpos = PlayerPrefs.GetFloat(key + "positionx" + lvl, Random.Range(-range, range));
-            var ypos = PlayerPrefs.GetFloat(key + "positiony" + lvl, Random.Range(-range, range));
+            var listIndex = SaveManager.GetInt(key + "list index" + lvl, Random.Range(0, list.Count));
+            var xpos = SaveManager.GetFloat(key + "positionx" + lvl, Random.Range(-range, range));
+            var ypos = SaveManager.GetFloat(key + "positiony" + lvl, Random.Range(-range, range));
             var pos = new Vector3(spawnPoint.transform.position.x + xpos, spawnPoint.transform.position.y + ypos);
             var a = Instantiate(list[listIndex], pos, Quaternion.identity);
             a.GetComponent<NPCmovement>().pirateLeader = true;
@@ -93,8 +93,8 @@ public class FleetShipSpawner : MonoBehaviour
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    var ind = PlayerPrefs.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
-                    PlayerPrefs.SetInt(key + "pirate1 index" + lvl + i, ind);
+                    var ind = SaveManager.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
+                    SaveManager.SetInt(key + "pirate1 index" + lvl + i, ind);
                     sq.shipsToSpawn.Add(lvl1Pirates[ind]);
                 }
 
@@ -103,58 +103,58 @@ public class FleetShipSpawner : MonoBehaviour
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    chance = PlayerPrefs.GetFloat(key + "chance" + lvl + i, Random.Range(0f, 1f));
+                    chance = SaveManager.GetFloat(key + "chance" + lvl + i, Random.Range(0f, 1f));
                     if (chance < .5f)
                     {
-                        var ind = PlayerPrefs.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
-                        PlayerPrefs.SetInt(key + "pirate1 index" + lvl + i, ind);
+                        var ind = SaveManager.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
+                        SaveManager.SetInt(key + "pirate1 index" + lvl + i, ind);
                         sq.shipsToSpawn.Add(lvl1Pirates[ind]);
                     }
                     else
                     {
-                        var ind = PlayerPrefs.GetInt(key + "pirate2 index" + lvl + i, Random.Range(0, lvl2Pirates.Count));
-                        PlayerPrefs.SetInt(key + "pirate2 index" + lvl + i, ind);
+                        var ind = SaveManager.GetInt(key + "pirate2 index" + lvl + i, Random.Range(0, lvl2Pirates.Count));
+                        SaveManager.SetInt(key + "pirate2 index" + lvl + i, ind);
                         //Debug.Log(ind);
                         sq.shipsToSpawn.Add(lvl2Pirates[ind]);
                     }
-                    PlayerPrefs.SetFloat(key + "chance" + lvl + i, chance);
+                    SaveManager.SetFloat(key + "chance" + lvl + i, chance);
                 }
             }
             else
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    chance = PlayerPrefs.GetFloat(key + "chance" + lvl + i, Random.Range(0f, 1f));
+                    chance = SaveManager.GetFloat(key + "chance" + lvl + i, Random.Range(0f, 1f));
                     if (chance < .3f)
                     {
-                        var ind = PlayerPrefs.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
-                        PlayerPrefs.SetInt(key + "pirate1 index" + lvl + i, ind);
+                        var ind = SaveManager.GetInt(key + "pirate1 index" + lvl + i, Random.Range(0, lvl1Pirates.Count));
+                        SaveManager.SetInt(key + "pirate1 index" + lvl + i, ind);
                         sq.shipsToSpawn.Add(lvl1Pirates[ind]);
                     }
                     else if (chance < .7f)
                     {
-                        var ind = PlayerPrefs.GetInt(key + "pirate2 index" + lvl + i, Random.Range(0, lvl2Pirates.Count));
-                        PlayerPrefs.SetInt(key + "pirate2 index" + lvl + i, ind);
+                        var ind = SaveManager.GetInt(key + "pirate2 index" + lvl + i, Random.Range(0, lvl2Pirates.Count));
+                        SaveManager.SetInt(key + "pirate2 index" + lvl + i, ind);
                         sq.shipsToSpawn.Add(lvl2Pirates[ind]);
                     }
                     else
                     {
-                        var ind = PlayerPrefs.GetInt(key + "pirate3 index" + lvl + i, Random.Range(0, lvl3Pirates.Count));
-                        PlayerPrefs.SetInt(key + "pirate3 index" + lvl + i, ind);
+                        var ind = SaveManager.GetInt(key + "pirate3 index" + lvl + i, Random.Range(0, lvl3Pirates.Count));
+                        SaveManager.SetInt(key + "pirate3 index" + lvl + i, ind);
                         sq.shipsToSpawn.Add(lvl3Pirates[ind]);
                     }
-                    PlayerPrefs.SetFloat(key + "chance" + lvl + i, chance);
+                    SaveManager.SetFloat(key + "chance" + lvl + i, chance);
                 }
             }
             sq.amount = sq.shipsToSpawn.Count;
             sq.key = key + "leader" + lvl;
 
-            PlayerPrefs.SetFloat(key + "list index" + lvl, listIndex);
-            PlayerPrefs.SetFloat(key + "positionx" + lvl, xpos);
-            PlayerPrefs.SetFloat(key + "positiony" + lvl, ypos);
+            SaveManager.SetFloat(key + "list index" + lvl, listIndex);
+            SaveManager.SetFloat(key + "positionx" + lvl, xpos);
+            SaveManager.SetFloat(key + "positiony" + lvl, ypos);
 
 
-            PlayerPrefs.Save();
+            
 
             return a;
         }

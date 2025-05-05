@@ -17,7 +17,7 @@ public class UnlockParts : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.GetInt(key + transform.GetSiblingIndex() + "bought", 0) == 1)
+        if (SaveManager.GetInt(key + transform.GetSiblingIndex() + "bought", 0) == 1)
         {
             HUDmanage.lvl++;
             bought = true;
@@ -32,7 +32,7 @@ public class UnlockParts : MonoBehaviour, IPointerClickHandler
             if (HUDmanage.money < cost) text.GetComponent<TextMeshProUGUI>().color = cantColor;
             else text.GetComponent<TextMeshProUGUI>().color = buyColor;
 
-            if (PlayerPrefs.GetInt(key + transform.GetSiblingIndex() + "bought", 0) == 1)
+            if (SaveManager.GetInt(key + transform.GetSiblingIndex() + "bought", 0) == 1)
             {
                 HUDmanage.lvl++;
                 bought = true;
@@ -62,8 +62,8 @@ public class UnlockParts : MonoBehaviour, IPointerClickHandler
             HUDmanage.lvl++;
             HUDmanage.money -= cost;
             bought = true;
-            PlayerPrefs.SetInt(key + transform.GetSiblingIndex() + "bought", 1);
-            PlayerPrefs.Save();
+            SaveManager.SetInt(key + transform.GetSiblingIndex() + "bought", 1);
+            
         }
     }
 

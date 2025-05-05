@@ -58,8 +58,8 @@ public class AsteroidSpawner : MonoBehaviour
     }
     float FloatSaveKey(string name, float numb, float default_value)
     {
-        var f = PlayerPrefs.GetFloat(savekey + "" + name + "" + numb, default_value);
-        PlayerPrefs.SetFloat(savekey + "" + name + "" + numb, f);
+        var f = SaveManager.GetFloat(savekey + "" + name + "" + numb, default_value);
+        SaveManager.SetFloat(savekey + "" + name + "" + numb, f);
         return f;
     }
 
@@ -103,16 +103,16 @@ public class AsteroidSpawner : MonoBehaviour
     {
         for (int i = 0; i < max_dist / 4; i++)
         {
-            if (PlayerPrefs.GetInt(savekey + i + "alive", 1) == 0) 
+            if (SaveManager.GetInt(savekey + i + "alive", 1) == 0) 
             { 
-                PlayerPrefs.DeleteKey(savekey + i + "x"); 
-                PlayerPrefs.DeleteKey(savekey + i + "y");
+                SaveManager.DeleteKey(savekey + i + "x"); 
+                SaveManager.DeleteKey(savekey + i + "y");
 
-                PlayerPrefs.DeleteKey(savekey + "ore_dist" + i);
-                PlayerPrefs.DeleteKey(savekey + "ore_distReal" + i);
-                PlayerPrefs.SetInt(savekey + i + "alive", 1);
+                SaveManager.DeleteKey(savekey + "ore_dist" + i);
+                SaveManager.DeleteKey(savekey + "ore_distReal" + i);
+                SaveManager.SetInt(savekey + i + "alive", 1);
 
-                PlayerPrefs.Save();
+                
             }
             var ore_chance = FloatSaveKey("orechance", i, Random.Range(0f, 1f));
 
@@ -161,7 +161,7 @@ public class AsteroidSpawner : MonoBehaviour
                 a.GetComponent<AsteroidInfo>().key = savekey + i;
                 //var a = Instantiate(ore_asteroids[Random.Range(0, ore_asteroids.Count)], pos, Quaternion.Euler(0, 0, Random.Range(0f, 360f)), transform);
                 a.GetComponent<AsteroidInfo>().has_ore = true;
-                a.transform.localScale = new Vector3(PlayerPrefs.GetFloat(a.GetComponent<AsteroidInfo>().key + "x", scalx), PlayerPrefs.GetFloat(a.GetComponent<AsteroidInfo>().key + "y", scalx));
+                a.transform.localScale = new Vector3(SaveManager.GetFloat(a.GetComponent<AsteroidInfo>().key + "x", scalx), SaveManager.GetFloat(a.GetComponent<AsteroidInfo>().key + "y", scalx));
                 spawnedAsteroids.Add(a);
             }
             //yield return new WaitForSeconds(.005f);

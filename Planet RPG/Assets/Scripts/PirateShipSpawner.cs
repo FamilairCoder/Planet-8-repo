@@ -29,7 +29,7 @@ public class PirateShipSpawner : MonoBehaviour
             {
                 if (i < initialShipsSpawned.Count && initialShipsSpawned[i] == null)
                 {
-                    PlayerPrefs.SetFloat(gameObject.name + "alive" + i, 0);
+                    SaveManager.SetFloat(gameObject.name + "alive" + i, 0);
                     //initialShipsSpawned.Remove(initialShipsSpawned[i]);
                 }
             }
@@ -56,8 +56,8 @@ public class PirateShipSpawner : MonoBehaviour
                 }
             }
 
-            PlayerPrefs.SetFloat(gameObject.name + "amountSpawned", shipsSpawned.Count);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat(gameObject.name + "amountSpawned", shipsSpawned.Count);
+            
             timeleft = Random.Range(.25f, .5f);
         }
 
@@ -68,7 +68,7 @@ public class PirateShipSpawner : MonoBehaviour
     private IEnumerator Spawn()
     {
         yield return new WaitForSeconds(.5f);
-        for (int i = 0; i < PlayerPrefs.GetFloat(gameObject.name + "amountSpawned", 0); i++)
+        for (int i = 0; i < SaveManager.GetFloat(gameObject.name + "amountSpawned", 0); i++)
         {
             var p = Instantiate(shipsToSpawn[Random.Range(0, shipsToSpawn.Count)], transform.position, Quaternion.identity);
 
@@ -83,12 +83,12 @@ public class PirateShipSpawner : MonoBehaviour
         for (int i = 0; i < initialAmount; i++)
         {
             //Debug.Log(i);
-            if (PlayerPrefs.GetFloat(gameObject.name + "alive" + i, 1) == 1)
+            if (SaveManager.GetFloat(gameObject.name + "alive" + i, 1) == 1)
             {
                 var dist = Random.Range(0f, 50f);
                 var vec = Random.Range(0f, 360f);
                 var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
-                var index = PlayerPrefs.GetInt(gameObject.name + "index" + i, Random.Range(0, initialShipsToSpawn.Count));
+                var index = SaveManager.GetInt(gameObject.name + "index" + i, Random.Range(0, initialShipsToSpawn.Count));
                 var p = Instantiate(initialShipsToSpawn[index], pos, Quaternion.identity);
 
                 p.GetComponent<NPCmovement>().stay_around = gameObject;
@@ -96,7 +96,7 @@ public class PirateShipSpawner : MonoBehaviour
                 p.GetComponent<NPCmovement>().dontRetreat = true;
                 p.GetComponent<NPCmovement>().key = gameObject.name + "initialSpawned" + i;
                 initialShipsSpawned.Add(p);
-                PlayerPrefs.SetInt(gameObject.name + "index" + i, Random.Range(0, initialShipsToSpawn.Count));
+                SaveManager.SetInt(gameObject.name + "index" + i, Random.Range(0, initialShipsToSpawn.Count));
             }
             else
             {

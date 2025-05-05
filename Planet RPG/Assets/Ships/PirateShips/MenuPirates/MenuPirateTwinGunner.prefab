@@ -68,6 +68,7 @@ MonoBehaviour:
   thrusters:
   - {fileID: 2784197353850847750}
   total_hp: 0
+  origHp: 0
   armor_bonus: 0
   dmg_bonus: 0
   firerate_bonus: 1
@@ -77,12 +78,17 @@ MonoBehaviour:
   mining_bonus: 0
   ore_bonus: 0
   bounty_bonus: 0
+  energyRegenBonus: 0
+  energyCapacityBonus: 0
   lvl2Parts: []
   lvl2PartsDiagnosis: []
   lvl3Parts: []
   lvl3PartsDiagnosis: []
   images: 
   filled: 
+  amount_broken: 0
+  slow_spd: 0
+  boosting: 0
 --- !u!114 &5234742760729196205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,23 +103,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_pirate: 1
   is_npc: 0
+  is_patrol: 0
   for_menu: 1
   lvl: 1
+  boostParticles: {fileID: 0}
   weapons:
   - {fileID: 5961717167450208047}
   - {fileID: 3123235159797598685}
   bounty_cost: 100
   detect_radius: 60
+  attackDistance: 0
+  isPellet: 0
+  isRod: 0
+  isBeam: 0
+  accumulateObj: {fileID: 0}
+  empObj: {fileID: 0}
+  torpedoObj: {fileID: 0}
+  gravityWellBullet: {fileID: 0}
+  shieldObj: {fileID: 0}
+  chargeSlow: 1
+  secondaryMat: {fileID: 2100000, guid: 8013adc1db7c8854fa466a371db4f01e, type: 2}
   stay_radius: 0
   has_bounty: 0
   inhibit: 0
   giveBounty: 0
+  attackedByPlayer: 0
+  retreat: 0
+  found_danger: 0
+  inSquad: 0
+  pirateLeader: 0
+  dontRetreat: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
+  target: {fileID: 0}
+  empParticle: {fileID: 0}
   rand_time: 0
+  stunTime: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+  squadKey: 
+  playerPos: {fileID: 0}
+  gravityWellCaught: 0
 --- !u!50 &7062366476120097590
 Rigidbody2D:
   serializedVersion: 4
@@ -5085,8 +5116,19 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 69adcd0316f20f54986857e0ab3405ff, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 0
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
+  reportDmg: 0
 --- !u!212 &5389455099668903714
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5289,8 +5331,19 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 2c5d639ea611a2d4eb0b12ba5731f95f, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
+  reportDmg: 0
 --- !u!212 &8705241256157658145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5463,8 +5516,19 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 4e5838852825b35488684b7572fb44b2, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
+  reportDmg: 0
 --- !u!114 &1894738269074677166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5485,7 +5549,12 @@ MonoBehaviour:
   atk_dmg_add: 0
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0
@@ -5673,8 +5742,19 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: ddea00a841acda24f8fd5c42894e6af2, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
+  reportDmg: 0
 --- !u!114 &4125137465058156396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5695,7 +5775,12 @@ MonoBehaviour:
   atk_dmg_add: 0
   beam_dmg: 0
   laser_beam: 0
+  randomWeapon: 0
+  laserbullet: {fileID: 0}
+  rod: {fileID: 0}
   is_firing: 0
+  laserBullet: 0
+  laserRod: 0
   dmg_bonus: 0
   firerate_bonus: 0
   dist: 0

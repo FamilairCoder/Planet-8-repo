@@ -29,6 +29,11 @@ public class Health : MonoBehaviour
     [Header("For test dummy stuf---------------------------")]
     public bool reportDmg;
     private float dmgTime = 1, startHP;
+
+    private ShipStats saveShip;
+    private string savePatrolKey, savePirateKey;
+    private int saveSiblingIndex;
+    private bool saveNpcCheck;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,32 +45,32 @@ public class Health : MonoBehaviour
         {
             if (transform.parent.GetComponent<ShipStats>().npc)
             {
-                if (isPatrol)// && PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + "alive", 1) == 1)
+                if (isPatrol)// && SaveManager.GetFloat(GetComponentInParent<PatrolID>().id + "alive", 1) == 1)
                 {
-                    hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
-                    orig_hp = PlayerPrefs.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
+                    hp = SaveManager.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
+                    orig_hp = SaveManager.GetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", hp);
                 }
-                else if (isPirate)// && PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1) == 1)
+                else if (isPirate)// && SaveManager.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1) == 1)
                 {
-                    hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
-                    orig_hp = PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
+                    hp = SaveManager.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
+                    orig_hp = SaveManager.GetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", hp);
                 }
 /*                else
                 {
-                    if (isPatrol) PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + "alive", 1);
-                    else if (isPirate) PlayerPrefs.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1);
+                    if (isPatrol) SaveManager.SetFloat(GetComponentInParent<PatrolID>().id + "alive", 1);
+                    else if (isPirate) SaveManager.GetFloat(transform.parent.GetComponent<NPCmovement>().key + "alive", 1);
                 }*/
 
 
             }
             else
             {
-                hp = PlayerPrefs.GetFloat("player" + transform.GetSiblingIndex() + "hp", hp);
-                orig_hp = PlayerPrefs.GetFloat("player" + transform.GetSiblingIndex() + "orig_hp", hp);
+                hp = SaveManager.GetFloat("player" + transform.GetSiblingIndex() + "hp", hp);
+                orig_hp = SaveManager.GetFloat("player" + transform.GetSiblingIndex() + "orig_hp", hp);
 
             }
-            StartCoroutine(saveRoutine());
-            StartCoroutine(healRoutine());
+
+
         }        
         else if (!isStation)
         {
@@ -73,8 +78,8 @@ public class Health : MonoBehaviour
         }
         else if (isStation)
         {
-            hp = PlayerPrefs.GetFloat(gameObject.name + "hp", hp);
-            orig_hp = PlayerPrefs.GetFloat(gameObject.name + "orig_hp", hp);
+            hp = SaveManager.GetFloat(gameObject.name + "hp", hp);
+            orig_hp = SaveManager.GetFloat(gameObject.name + "orig_hp", hp);
             if (hp <= 0)
             {
                 var a = Instantiate(ruinObj, transform.position, transform.rotation);
@@ -208,7 +213,7 @@ public class Health : MonoBehaviour
                 Destroy(a.GetComponent<DespawnTimer>());
                 a.GetComponent<SpriteRenderer>().sprite = ruin;
 
-                PlayerPrefs.SetFloat(gameObject.name + "alive", 0);
+                SaveManager.SetFloat(gameObject.name + "alive", 0);
 
                 if (bounty > 0)
                 {
@@ -217,7 +222,7 @@ public class Health : MonoBehaviour
                 }
                 if (!largeDeath) Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(5, 5);
                 else Instantiate(explosion, transform.position, Quaternion.identity).transform.localScale = new Vector3(7, 7);
-                PlayerPrefs.Save();
+                //();
                 Destroy(gameObject);
 
 
@@ -233,42 +238,63 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         spr = GetComponent<SpriteRenderer>();
         orig_sprite = GetComponent<SpriteRenderer>().sprite;
-        if (isShield)
+        if (isShield || (!isStation && !(!isShield && !isStation && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)))
         {
             yield break;
+        }
+        else if (!isStation)
+        {
+            saveNpcCheck = true;
+            saveShip = transform.parent.GetComponent<ShipStats>();
+            if (saveShip.npc)
+            {
+                if (isPatrol)
+                {
+                    savePatrolKey = GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex();
+                }
+                else if (isPirate)
+                {
+                    savePirateKey = transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex();
+                }
+            }
+            else
+            {
+                saveSiblingIndex = transform.GetSiblingIndex();
+            }
+
         }
         while (true)
         {
 
-            if (!isShield && !isStation && transform.parent.GetComponent<ShipStats>() != null && !transform.parent.GetComponent<ShipStats>().ignore_key)
+            if (saveNpcCheck)
             {
-                if (transform.parent.GetComponent<ShipStats>().npc)
+                if (saveShip.npc)
                 {
 
                     if (isPatrol)
                     {
-                        PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "hp", hp);
-                        PlayerPrefs.SetFloat(GetComponentInParent<PatrolID>().id + transform.GetSiblingIndex() + "orig_hp", orig_hp);
+                        SaveManager.SetFloat(savePatrolKey + "hp", hp);
+                        SaveManager.SetFloat(savePatrolKey + "orig_hp", orig_hp);
                     }
                     else if (isPirate)
                     {
-                        PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "hp", hp);
-                        PlayerPrefs.SetFloat(transform.parent.GetComponent<NPCmovement>().key + transform.GetSiblingIndex() + "orig_hp", orig_hp);
+                        SaveManager.SetFloat(savePirateKey + "hp", hp);
+                        SaveManager.SetFloat(savePirateKey + "orig_hp", orig_hp);
                     }
 
                 }
                 else
                 {
-                    PlayerPrefs.SetFloat("player" + transform.GetSiblingIndex() + "hp", hp);
-                    PlayerPrefs.SetFloat("player" + transform.GetSiblingIndex() + "orig_hp", orig_hp);
+                    SaveManager.SetFloat("player" + saveSiblingIndex + "hp", hp);
+                    SaveManager.SetFloat("player" + saveSiblingIndex + "orig_hp", orig_hp);
                 }
             }
             else if (isStation)
             {
-                PlayerPrefs.SetFloat(gameObject.name + "hp", hp);
-                PlayerPrefs.SetFloat(gameObject.name + "orig_hp", orig_hp);
+                SaveManager.SetFloat(gameObject.name + "hp", hp);
+                SaveManager.SetFloat(gameObject.name + "orig_hp", orig_hp);
             }
-            yield return new WaitForSeconds(Random.Range(4f, 6f));
+            yield return new WaitForSeconds(Random.Range(5f, 10f));
         }
         
     }
@@ -295,8 +321,13 @@ public class Health : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(saveRoutine());
-        StartCoroutine(healRoutine());
+        if (GetComponentInParent<NPCmovement>() == null || !GetComponentInParent<NPCmovement>().for_menu)
+        {
+            StartCoroutine(saveRoutine());
+
+
+            StartCoroutine(healRoutine());
+        }
     }
 
 }

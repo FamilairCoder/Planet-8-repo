@@ -18,7 +18,7 @@ public class WreckClumpScript : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
         
         key = transform.parent.name + gameObject.name;
-        var chance = PlayerPrefs.GetFloat(key + "chance", Random.Range(0f, 1f));
+        var chance = SaveManager.GetFloat(key + "chance", Random.Range(0f, 1f));
         if (chance < .75f)
         {
             photon = true;
@@ -29,7 +29,7 @@ public class WreckClumpScript : MonoBehaviour
             rec = true;
             GetComponent<SpriteRenderer>().sprite = recordSpr;
         }
-        if (PlayerPrefs.GetInt(key + "mined", 0) == 1)
+        if (SaveManager.GetInt(key + "mined", 0) == 1)
         {
             if (rec)
             {
@@ -41,8 +41,8 @@ public class WreckClumpScript : MonoBehaviour
         }
 
 
-        PlayerPrefs.SetFloat(key + "chance", chance);
-        PlayerPrefs.Save();
+        SaveManager.SetFloat(key + "chance", chance);
+        
     }
 
     // Update is called once per frame
@@ -57,8 +57,8 @@ public class WreckClumpScript : MonoBehaviour
             if (rec) made = Instantiate(recodObj, transform.position, Quaternion.identity);
             else if (photon) made = Instantiate(photonObj, transform.position, Quaternion.identity);
             if (made != null) { made.transform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)); }
-            PlayerPrefs.SetInt(key + "mined", 1);
-            PlayerPrefs.Save();
+            SaveManager.SetInt(key + "mined", 1);
+            
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

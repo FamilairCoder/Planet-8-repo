@@ -31,20 +31,20 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
 
         if (!isBasicLaser && !isLaserBeam && !isLaserRod)
         {
-            image.sprite = part_images[PlayerPrefs.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
+            image.sprite = part_images[SaveManager.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
         }
 
 
 
-        if (PlayerPrefs.GetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0) == 1)
+        if (SaveManager.GetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0) == 1)
         {
             filled = true;
 
         }
 
-        if (isBasicLaser) { PlayerWeapon.basic_lasers++; PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0); }
-        if (isLaserRod) { PlayerWeapon.laser_rods++; PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 1); }
-        if (isLaserBeam) { PlayerWeapon.laser_beams++; PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 2); }
+        if (isBasicLaser) { PlayerWeapon.basic_lasers++; SaveManager.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0); }
+        if (isLaserRod) { PlayerWeapon.laser_rods++; SaveManager.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 1); }
+        if (isLaserBeam) { PlayerWeapon.laser_beams++; SaveManager.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 2); }
 
 
     }
@@ -71,11 +71,11 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
         if (hit.Length == 0)
         {
 
-            image.sprite = part_images[PlayerPrefs.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
+            image.sprite = part_images[SaveManager.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
             
 
 
-            if (PlayerPrefs.GetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) == 1)//, 0) == 1)
+            if (SaveManager.GetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) == 1)//, 0) == 1)
             {
                 filled = true;                
             }
@@ -114,30 +114,30 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
         {
             if (SellButtonScript.sell && filled)
             {
-                HUDmanage.money += PlayerPrefs.GetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) * .7f;
+                HUDmanage.money += SaveManager.GetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) * .7f;
                 filled = false;
                 linked_part = null;
                 picked_up_obj = null;                
                 image.sprite = orig;
                 did = false;
                 GUIAudioplayer.clip = sellSFX;
-                PlayerPrefs.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
-                PlayerPrefs.SetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
-                PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1);
+                SaveManager.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
+                SaveManager.SetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 0);
+                SaveManager.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1);
 
                 var ship = FindObjectOfType<PlayerWeapon>().current_ship.GetComponent<ShipStats>();
-                ship.dmg_bonus -= PlayerPrefs.GetFloat("dmg_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.armor_bonus -= PlayerPrefs.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.firerate_bonus -= PlayerPrefs.GetFloat("firerate_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.thrust_bonus -= PlayerPrefs.GetFloat("thrust_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.turnspd_bonus -= PlayerPrefs.GetFloat("turnspd_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.dmg_bonus -= SaveManager.GetFloat("dmg_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.armor_bonus -= SaveManager.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.firerate_bonus -= SaveManager.GetFloat("firerate_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.thrust_bonus -= SaveManager.GetFloat("thrust_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.turnspd_bonus -= SaveManager.GetFloat("turnspd_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
                 
-                ship.cargo_bonus -= PlayerPrefs.GetFloat("cargo_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.mining_bonus -= PlayerPrefs.GetFloat("mining_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.ore_bonus -= PlayerPrefs.GetFloat("ore_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.cargo_bonus -= SaveManager.GetFloat("cargo_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.mining_bonus -= SaveManager.GetFloat("mining_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.ore_bonus -= SaveManager.GetFloat("ore_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
 
-                ship.energyRegenBonus -= PlayerPrefs.GetFloat("regenBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
-                ship.energyCapacityBonus -= PlayerPrefs.GetFloat("capacityBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.energyRegenBonus -= SaveManager.GetFloat("regenBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                ship.energyCapacityBonus -= SaveManager.GetFloat("capacityBonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
 
                 for (int i = 0; i < ship.transform.childCount; i++)
                 {
@@ -146,14 +146,14 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
                         var healthScript = ship.transform.GetChild(i).GetComponent<Health>();
                         if (healthScript.hp == healthScript.orig_hp || !ship.transform.GetChild(i).gameObject.activeSelf)
                         {
-                            healthScript.hp -= PlayerPrefs.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                            healthScript.hp -= SaveManager.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
                             healthScript.orig_hp = healthScript.hp;
                         }
                         else if (healthScript.hp < healthScript.orig_hp)
                         {
-                            healthScript.orig_hp -= PlayerPrefs.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                            healthScript.orig_hp -= SaveManager.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
                         }
-                        if (ship.transform.GetChild(i).gameObject.activeSelf) ship.origHp -= PlayerPrefs.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
+                        if (ship.transform.GetChild(i).gameObject.activeSelf) ship.origHp -= SaveManager.GetFloat("armor_bonus" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex());
 
                     }
                 }
@@ -175,7 +175,7 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
 
 
 
-                PlayerPrefs.Save();
+                
             }
         }
 
@@ -209,8 +209,8 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
         picked_up_obj.GetComponent<PartScript>().circuit_slot = gameObject;
         filled = true;
         linked_part = picked_up_obj;
-        PlayerPrefs.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), picked_up_obj.GetComponent<PartScript>().cost);
-        PlayerPrefs.Save();
+        SaveManager.SetFloat("cost" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), picked_up_obj.GetComponent<PartScript>().cost);
+        
         if (!did && HUDmanage.money >= picked_up_obj.GetComponent<PartScript>().cost)
         {
             HUDmanage.money -= picked_up_obj.GetComponent<PartScript>().cost;
@@ -264,14 +264,14 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
             SaveBonus("regenBonus", partScript.energyRegenBonus);
             SaveBonus("capacityBonus", partScript.energyCapacityBonus);
 
-            PlayerPrefs.Save();
+            
 
 
 
             var img = picked_up_obj.GetComponent<PartScript>().came_from.GetComponent<PartSlotScript>().part_numb;
             //var key = picked_up_obj.GetComponent<PartScript>().came_from.GetComponent<PartSlotScript>().station.GetComponent<ShipSpawner>().savekey;
-            PlayerPrefs.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), img);
-            PlayerPrefs.SetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 1);
+            SaveManager.SetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), img);
+            SaveManager.SetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), 1);
             
 
             //ship_stats.GetComponent<ShipStats>().images[transform.GetSiblingIndex()] = img;
@@ -304,6 +304,6 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
 
     void SaveBonus(string bonusText, float bonus)
     {
-        PlayerPrefs.SetFloat(bonusText + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), bonus);
+        SaveManager.SetFloat(bonusText + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), bonus);
     }
 }

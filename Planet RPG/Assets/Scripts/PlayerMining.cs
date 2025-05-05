@@ -28,10 +28,10 @@ public class PlayerMining : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cargo_capacity = PlayerPrefs.GetFloat("cargo_capacity", 20);
-        cargo_copper = PlayerPrefs.GetFloat("cargo_copper", 4);
-        cargo_iron = PlayerPrefs.GetFloat("cargo_iron", 2);
-        cargo_gold = PlayerPrefs.GetFloat("cargo_gold", 6);
+        cargo_capacity = SaveManager.GetFloat("cargo_capacity", 20);
+        cargo_copper = SaveManager.GetFloat("cargo_copper", 4);
+        cargo_iron = SaveManager.GetFloat("cargo_iron", 2);
+        cargo_gold = SaveManager.GetFloat("cargo_gold", 6);
     }
 
     // Update is called once per frame
@@ -51,11 +51,11 @@ public class PlayerMining : MonoBehaviour
         
         if (saveTime < 0)
         {
-            PlayerPrefs.SetFloat("cargo_copper", cargo_copper);
-            PlayerPrefs.SetFloat("cargo_gold", cargo_gold);
-            PlayerPrefs.SetFloat("cargo_iron", cargo_iron);
-            PlayerPrefs.SetFloat("cargo_capacity", cargo_capacity);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat("cargo_copper", cargo_copper);
+            SaveManager.SetFloat("cargo_gold", cargo_gold);
+            SaveManager.SetFloat("cargo_iron", cargo_iron);
+            SaveManager.SetFloat("cargo_capacity", cargo_capacity);
+            
             saveTime = 1f;
         }
         

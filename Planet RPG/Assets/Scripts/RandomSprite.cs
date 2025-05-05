@@ -22,9 +22,9 @@ public class RandomSprite : MonoBehaviour
             {
                 var id = GetComponentInParent<PatrolID>().id;
                 int index = 0;
-                if (PlayerPrefs.GetFloat("alive" + id, 1) == 1)
+                if (SaveManager.GetFloat("alive" + id, 1) == 1)
                 {
-                    index = PlayerPrefs.GetInt(id + "sprite" + transform.GetSiblingIndex(), Random.Range(0, sprites.Count));
+                    index = SaveManager.GetInt(id + "sprite" + transform.GetSiblingIndex(), Random.Range(0, sprites.Count));
                 }
                 else
                 {
@@ -32,8 +32,8 @@ public class RandomSprite : MonoBehaviour
                 }
                 if (index >= 0 && index < sprites.Count) GetComponent<SpriteRenderer>().sprite = sprites[index];
 
-                PlayerPrefs.SetInt(id + "sprite" + transform.GetSiblingIndex(), index);
-                PlayerPrefs.Save();
+                SaveManager.SetInt(id + "sprite" + transform.GetSiblingIndex(), index);
+                
             }
             else
             {

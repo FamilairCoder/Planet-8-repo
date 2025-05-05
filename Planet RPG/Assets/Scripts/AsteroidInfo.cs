@@ -22,9 +22,9 @@ public class AsteroidInfo : MonoBehaviour
         setTime -= Time.deltaTime;
         if (setTime < 0 && has_ore)
         {
-            PlayerPrefs.SetFloat(key + "x", transform.localScale.x);
-            PlayerPrefs.SetFloat(key + "y", transform.localScale.y);
-            PlayerPrefs.Save();
+            SaveManager.SetFloat(key + "x", transform.localScale.x);
+            SaveManager.SetFloat(key + "y", transform.localScale.y);
+            
             setTime = 1f;
         }
     }
@@ -39,7 +39,7 @@ public class AsteroidInfo : MonoBehaviour
         // This will only run if the object is destroyed during gameplay, not on application quit
         if (!isQuitting)
         {
-            PlayerPrefs.SetInt(key + "alive", 0);
+            SaveManager.SetInt(key + "alive", 0);
         }
     }
 

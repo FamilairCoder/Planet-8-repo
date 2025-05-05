@@ -20,7 +20,7 @@ public class FleetPosterScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     void Start()
     {
         linkedSpawner = GetComponentInParent<MenuScript>().station.GetComponent<FleetShipSpawner>();
-        if (PlayerPrefs.GetFloat(linkedSpawner.key + "fleetposter picked" + lvl, 0) == 1)
+        if (SaveManager.GetFloat(linkedSpawner.key + "fleetposter picked" + lvl, 0) == 1)
         {
             if (lvl == 1) linkedSpawner.createdLvl1Nav.GetComponent<MapParralax>().on = true;
             if (lvl == 2) linkedSpawner.createdLvl2Nav.GetComponent<MapParralax>().on = true;
@@ -72,7 +72,7 @@ public class FleetPosterScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
                 for (int i = 0; i < shipImages.Count; i++)
                 {
-                    if (ship != null && ship.shipsSpawned[i] != null)
+                    if (ship != null && ship.shipsSpawned.Count > i && ship.shipsSpawned[i] != null)
                     {
                         shipImages[i].GetComponent<Image>().sprite = ship.shipsSpawned[i].GetComponent<SpriteRenderer>().sprite;
                         cost += ship.shipsSpawned[i].GetComponent<NPCmovement>().bounty_cost;
@@ -126,9 +126,9 @@ public class FleetPosterScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             linkedSpawner.linkedStation.GetComponent<MapParralax>().on = true;
         }
-        PlayerPrefs.SetFloat(linkedSpawner.key + "fleetposter picked" + lvl, 1);
-        PlayerPrefs.Save();
-        //Debug.Log(PlayerPrefs.GetInt(key + "taken"));
+        SaveManager.SetFloat(linkedSpawner.key + "fleetposter picked" + lvl, 1);
+        
+        //Debug.Log(SaveManager.GetInt(key + "taken"));
     }
 
     public void OnPointerEnter(PointerEventData eventData)

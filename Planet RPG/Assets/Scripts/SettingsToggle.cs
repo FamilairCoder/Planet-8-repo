@@ -13,7 +13,7 @@ public class SettingsToggle : MonoBehaviour
     void Start()
     {
         indicator = transform.GetChild(0).gameObject;
-        if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1)
+        if (SaveManager.GetInt("ConcreteMovement", 0) == 1)
         {
             concreteMovement = true;
             indicator.GetComponent<SpriteRenderer>().sprite = on;
@@ -34,15 +34,15 @@ public class SettingsToggle : MonoBehaviour
                 {
                     concreteMovement = false;
                     indicator.GetComponent<SpriteRenderer>().sprite = off;
-                    PlayerPrefs.SetInt("ConcreteMovement", 0);
-                    PlayerPrefs.Save();
+                    SaveManager.SetInt("ConcreteMovement", 0);
+                    
                 }
                 else
                 {
                     concreteMovement = true;
                     indicator.GetComponent<SpriteRenderer>().sprite = on;
-                    PlayerPrefs.SetInt("ConcreteMovement", 1);
-                    PlayerPrefs.Save();
+                    SaveManager.SetInt("ConcreteMovement", 1);
+                    
                 }
             }
 

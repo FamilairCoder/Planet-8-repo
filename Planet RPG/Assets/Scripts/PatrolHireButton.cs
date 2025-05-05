@@ -36,6 +36,6 @@ public class PatrolHireButton : MonoBehaviour, IPointerClickHandler
             //Destroy(transform.parent);
         }
 
-        //Debug.Log(PlayerPrefs.GetInt(key + "taken"));
+        //Debug.Log(SaveManager.GetInt(key + "taken"));
     }
 }

@@ -37,7 +37,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
         if (!delayed && delayTime < 0 && station != null)
         {
             key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
-            if (PlayerPrefs.GetInt(key + "taken", 0) == 1 && !clicked)
+            if (SaveManager.GetInt(key + "taken", 0) == 1 && !clicked)
             {
                 //Debug.Log(key);
                 var HUD = FindObjectOfType<HUDmanage>();
@@ -56,7 +56,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
         {
             
             if (on_screen || playerKilled) { HUDmanage.money += cost; HUDmanage.bountySound.Play(); }
-            else PlayerPrefs.SetInt(key + "taken", 0);
+            else SaveManager.SetInt(key + "taken", 0);
             Destroy(gameObject);
         }
         else
@@ -91,7 +91,7 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
             if (!clicked && !on_screen)
             {
                 //key = station.GetComponent<ShipSpawner>().savekey + "taken bounty" + keyString;
-                PlayerPrefs.SetInt(key + "taken", 1);
+                SaveManager.SetInt(key + "taken", 1);
                 clicked = true;
                 HUD.picture = picture;
                 HUD.cost = cost;
@@ -101,21 +101,21 @@ public class BountyPosterScript : MonoBehaviour, IPointerClickHandler, IPointerE
             }
             else if (on_screen)
             {
-                PlayerPrefs.SetInt(tied_poster.GetComponent<BountyPosterScript>().key + "taken", 0);
+                SaveManager.SetInt(tied_poster.GetComponent<BountyPosterScript>().key + "taken", 0);
                 tied_poster.GetComponent<BountyPosterScript>().clicked = false;
                 tied_poster.GetComponent<BountyPosterScript>().target_ind.SetActive(false);
                 Destroy(gameObject);
             }
             else if (clicked && !on_screen)
             {
-                PlayerPrefs.SetInt(key + "taken", 0);
+                SaveManager.SetInt(key + "taken", 0);
                 close = true;
             }
 
-            PlayerPrefs.Save();
+            
         }
 
-        //Debug.Log(PlayerPrefs.GetInt(key + "taken"));
+        //Debug.Log(SaveManager.GetInt(key + "taken"));
     }
 
     public void OnPointerEnter(PointerEventData eventData)

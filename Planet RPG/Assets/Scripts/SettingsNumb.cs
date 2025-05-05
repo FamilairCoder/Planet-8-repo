@@ -46,7 +46,7 @@ public class SettingsNumb : MonoBehaviour
             GetComponentInChildren<TextMeshPro>().text = Mathf.Round(PlayerPrefs.GetFloat("bloom threshold") * 100).ToString() + "%";
         }
 
-        PlayerPrefs.Save();
+        
     }
 
 

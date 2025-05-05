@@ -9,7 +9,7 @@ public class WeatherManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        weatherTime = PlayerPrefs.GetFloat("meteor time", 0);
+        weatherTime = SaveManager.GetFloat("meteor time", 0);
     }
 
     // Update is called once per frame
@@ -25,6 +25,6 @@ public class WeatherManager : MonoBehaviour
             }
             weatherTime = 300;
         }
-        PlayerPrefs.SetFloat("meteor time", weatherTime);
+        SaveManager.SetFloat("meteor time", weatherTime);
     }
 }

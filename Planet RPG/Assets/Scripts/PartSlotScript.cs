@@ -34,7 +34,7 @@ public class PartSlotScript : MonoBehaviour
         {
             part_time += menu.restockAdd;
             var key = station.GetComponent<ShipSpawner>().savekey;
-            if (PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), 0) != parts.Count - 1 && PlayerPrefs.GetInt(key + "empty" + transform.GetSiblingIndex(), 0) == 0)
+            if (SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), 0) != parts.Count - 1 && SaveManager.GetInt(key + "empty" + transform.GetSiblingIndex(), 0) == 0)
                 ChooseNewPart();
 
             did = true;
@@ -50,8 +50,8 @@ public class PartSlotScript : MonoBehaviour
         else
         {
             var key = station.GetComponent<ShipSpawner>().savekey;
-            PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), parts.Count - 1);
-            PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 1);
+            SaveManager.SetInt(key + "part slot" + transform.GetSiblingIndex(), parts.Count - 1);
+            SaveManager.SetInt(key + "empty" + transform.GetSiblingIndex(), 1);
             desc_text.text = "Restocking...";
             cost_text.text = Mathf.Round(part_time).ToString();
             cost_text.color = new Color(.7f, 0, 0);
@@ -59,9 +59,9 @@ public class PartSlotScript : MonoBehaviour
             if (!added) { part_time = 360 + menu.restockAdd; menu.restockAdd += 30; added = true; }
             if (part_time < 0)
             {
-                PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
+                SaveManager.SetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
                 ChooseNewPart();
-                PlayerPrefs.SetInt(key + "empty" + transform.GetSiblingIndex(), 0);
+                SaveManager.SetInt(key + "empty" + transform.GetSiblingIndex(), 0);
                 //part_time = 60 + menu.restockAdd;
             }
         }
@@ -73,9 +73,9 @@ public class PartSlotScript : MonoBehaviour
     private void ChooseNewPart()
     {
         var key = station.GetComponent<ShipSpawner>().savekey;
-        if (!isWeapon) part_numb = PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
-        else part_numb = PlayerPrefs.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, weapon_parts.Count));
-        PlayerPrefs.SetInt(key + "part slot" + transform.GetSiblingIndex(), part_numb);
+        if (!isWeapon) part_numb = SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
+        else part_numb = SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, weapon_parts.Count));
+        SaveManager.SetInt(key + "part slot" + transform.GetSiblingIndex(), part_numb);
         GameObject p = null;
         if (!isWeapon) p = Instantiate(parts[part_numb], transform.position, Quaternion.identity, transform);
         else p = Instantiate(weapon_parts[part_numb], transform.position, Quaternion.identity, transform);

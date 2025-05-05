@@ -33,7 +33,7 @@ public class PostProcessManager : MonoBehaviour
 
 
         //Volume pp = GetComponent<Volume>();
-        //pp.profile.TryGet(out bloom).int = PlayerPrefs.GetFloat("bloom intensity", .4f);
-        //bloomThreshold = PlayerPrefs.GetFloat("bloom threshold", .7f);
+        //pp.profile.TryGet(out bloom).int = SaveManager.GetFloat("bloom intensity", .4f);
+        //bloomThreshold = SaveManager.GetFloat("bloom threshold", .7f);
     }
 }

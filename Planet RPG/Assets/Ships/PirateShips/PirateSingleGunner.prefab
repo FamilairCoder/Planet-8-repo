@@ -53,8 +53,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 3810a4f29c198ae479d3826cb3526ed1, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 2996140771233395999}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &3385556195285656285
 SpriteRenderer:
@@ -516,8 +526,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: f920731cf588e554ab9198e553117225, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &7299382045566289978
 SpriteRenderer:
@@ -670,8 +690,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: ec2d0e2ce4fade04f86471aab181e99d, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!114 &1656291005694693495
 MonoBehaviour:
@@ -884,8 +914,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: f920731cf588e554ab9198e553117225, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &3082508132910117374
 SpriteRenderer:
@@ -1037,8 +1077,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 3810a4f29c198ae479d3826cb3526ed1, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 1
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 1280610076621493197}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &1067789579852217680
 SpriteRenderer:
@@ -1211,8 +1261,18 @@ MonoBehaviour:
   ruin: {fileID: 21300000, guid: 4a8ee1c1f9098814fb2f115cc23d0c57, type: 3}
   orig_sprite: {fileID: 0}
   gets_ruined: 0
+  isShield: 0
+  playerShield: 0
   trail: {fileID: 0}
   linked_diagnosis: {fileID: 0}
+  isStation: 0
+  ruinObj: {fileID: 0}
+  explosion: {fileID: 0}
+  cracks: {fileID: 0}
+  deathParticles: {fileID: 0}
+  bounty: 0
+  largeDeath: 0
+  ripple: {fileID: 0}
   reportDmg: 0
 --- !u!212 &3114821826091697500
 SpriteRenderer:
@@ -1415,6 +1475,8 @@ MonoBehaviour:
   mining_bonus: 0
   ore_bonus: 0
   bounty_bonus: 0
+  energyRegenBonus: 0
+  energyCapacityBonus: 0
   lvl2Parts: []
   lvl2PartsDiagnosis: []
   lvl3Parts: []
@@ -1447,6 +1509,16 @@ MonoBehaviour:
   bounty_cost: 70
   detect_radius: 60
   attackDistance: 1
+  isPellet: 0
+  isRod: 0
+  isBeam: 0
+  accumulateObj: {fileID: 0}
+  empObj: {fileID: 0}
+  torpedoObj: {fileID: 0}
+  gravityWellBullet: {fileID: 0}
+  shieldObj: {fileID: 0}
+  chargeSlow: 1
+  secondaryMat: {fileID: 2100000, guid: 8013adc1db7c8854fa466a371db4f01e, type: 2}
   stay_radius: 0
   has_bounty: 0
   inhibit: 0
@@ -1454,13 +1526,21 @@ MonoBehaviour:
   attackedByPlayer: 0
   retreat: 0
   found_danger: 0
+  inSquad: 0
+  pirateLeader: 0
+  dontRetreat: 0
   stay_around: {fileID: 0}
   squadPoint: {fileID: 0}
   squadLeader: {fileID: 0}
   target: {fileID: 0}
+  empParticle: {fileID: 0}
   rand_time: 0
+  stunTime: 0
   dir: {x: 0, y: 0, z: 0}
   key: 
+  squadKey: 
+  playerPos: {fileID: 0}
+  gravityWellCaught: 0
 --- !u!50 &352871782918491305
 Rigidbody2D:
   serializedVersion: 4
@@ -6392,3 +6472,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 95313aa7e538bfc4dbe957f480749975, type: 3}
+  threatenChance: 0
