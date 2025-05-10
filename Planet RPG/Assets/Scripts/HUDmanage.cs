@@ -34,6 +34,7 @@ public class HUDmanage : MonoBehaviour
     public static float lvl = 1;
 
     public static List<SetDelivery> sd = new List<SetDelivery>();
+    public static List<PartSlotScript> partSlotScripts = new List<PartSlotScript>();
 
     public static AudioSource bountySound;
 
@@ -58,11 +59,12 @@ public class HUDmanage : MonoBehaviour
 
         //get rid of this--------------------------
         PlayerPrefs.DeleteAll();
-        Debug.Log("deleting all playerprefs");
+        //Debug.Log("deleting all playerprefs");
         //get rid of this--------------------------
 
 
         sd = new List<SetDelivery>(FindObjectsOfType<SetDelivery>());
+        partSlotScripts = new List<PartSlotScript>(FindObjectsOfType<PartSlotScript>());
     }
     // Start is called before the first frame update
     void Start()
@@ -73,7 +75,7 @@ public class HUDmanage : MonoBehaviour
 
         //get rid of this--------------------------
         money = 10000;
-        Debug.Log("set money to 10000");
+        //Debug.Log("set money to 10000");
         //get rid of this--------------------------
     }
 
@@ -97,6 +99,11 @@ public class HUDmanage : MonoBehaviour
         {
             
             sds.MyUpdate();
+        }
+        foreach ( PartSlotScript partSlotScripts in partSlotScripts)
+        {
+
+            partSlotScripts.Countdown();
         }
 
 

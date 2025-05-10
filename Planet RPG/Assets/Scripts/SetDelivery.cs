@@ -157,6 +157,7 @@ public class SetDelivery : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (stationTo == null)
         {
             setTime -= Time.deltaTime;
+            Debug.Log("edfe");
            // SaveManager.SetFloat(key + "setTime" + timesClicked, setTime);
             if (setTime < 0 && station.GetComponent<StationStats>().linked_stations.Count > 0)
             {

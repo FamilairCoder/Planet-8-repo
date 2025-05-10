@@ -125,22 +125,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (SaveManager.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
+        if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1) concreteMovement = true;
         else concreteMovement = false;
 
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
         {
             if (concreteMovement)
             {
-                SaveManager.SetInt("ConcreteMovement", 0);
+                PlayerPrefs.SetInt("ConcreteMovement", 0);
                 Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement off";
                 
             }
             else
             {
-                SaveManager.SetInt("ConcreteMovement", 1);
+                PlayerPrefs.SetInt("ConcreteMovement", 1);
                 Instantiate(concreteText).GetComponent<TextMeshPro>().text = "Concrete movement on";
                 
+            }
+        }
+
+
+        var hit = Physics2D.OverlapCircleAll(transform.position, 50f, LayerMask.GetMask("station"));
+        if (hit.Length > 0)
+        {
+            foreach (var a in hit)
+            {
+                if (a.transform.parent != null && a.GetComponentInParent<StationStats>() != null)
+                {
+                    respawnPos = a.GetComponentInParent<StationStats>().spawnPoint;
+
+                }
             }
         }
 
@@ -339,20 +353,7 @@ public class PlayerMovement : MonoBehaviour
             
 
 
-            var hit = Physics2D.OverlapCircleAll(transform.position, 50f, LayerMask.GetMask("station"));
-            if (hit.Length > 0)
-            {
-                foreach(var a in hit)
-                {
-                    if (a.transform.parent != null && a.GetComponentInParent<StationStats>() != null)
-                    {
-                        respawnPos = a.GetComponentInParent<StationStats>().spawnPoint;
-                        SaveManager.SetFloat("respawnX", respawnPos.x);
-                        SaveManager.SetFloat("respawnY", respawnPos.y);
-                        
-                    }
-                }
-            }
+
             yield return new WaitForSeconds(1);
         }
     }

@@ -37,7 +37,7 @@ public class ShipSpawner : MonoBehaviour
                 SpawnNPC();
             }
         }
-
+    
         time_left = spawn_time;
     }
 
@@ -211,12 +211,16 @@ public class ShipSpawner : MonoBehaviour
         var dist = FloatSaveKey("dist" + lvl, Random.Range(min_dist, max_dist), numb);
         var vec = FloatSaveKey("vec" + lvl, Random.Range(0f, 360f), numb);
         var pos = new Vector2(transform.position.x + (dist * Mathf.Sin(Mathf.Deg2Rad * vec)), transform.position.y + (dist * Mathf.Cos(Mathf.Deg2Rad * vec)));
+        
         var rot = Quaternion.Euler(0, 0, FloatSaveKey("rotation" + lvl, Random.Range(0f, 360f), numb));
+
+
+
 
         var a = Instantiate(ship_to_spawn, pos, rot);
         a.GetComponent<NPCmovement>().stay_radius = max_dist;
         a.GetComponent<NPCmovement>().stay_around = gameObject;
-        a.GetComponent<NPCmovement>().key = numb.ToString() + lvl.ToString();
+        a.GetComponent<NPCmovement>().key = savekey + "spawned ship" + numb.ToString() + lvl.ToString();
 
         AssignBonuses(a, lvl, numb);
 

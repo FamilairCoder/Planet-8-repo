@@ -96,12 +96,12 @@ public class Bullet : MonoBehaviour
         }
     }*/
 
-    private void OnTriggerEnter2D(Collider2D collision)
+/*    private void OnTriggerEnter2D(Collider2D collision)
     {
         
 
-        Collision(collision, transform.position);
-    }
+        //Collision(collision, transform.position);
+    }*/
 
     void Collision(Collider2D collision, Vector2 exploPos)
     {
@@ -120,10 +120,6 @@ public class Bullet : MonoBehaviour
                     if (playerMade)
                     {
                         collision.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
-                        if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
-                        {
-                            collision.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
-                        }
                     }
 
                     if (chance < .3f && collision.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent)
@@ -174,15 +170,19 @@ public class Bullet : MonoBehaviour
                                 c.collider.transform.parent.GetComponent<NPCmovement>().target = HUDmanage.playerReference.transform.GetChild(0).transform.GetChild(0).gameObject;
                             }
                         }
-                        else if (patrolMade)
+                        else if (patrolMade && came_from.transform.parent.GetComponent<PatrolID>().taken)
                         {
                             c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
                         }
-                        var chancea = Random.Range(0f, 1f);
-                        if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null)
+                        if (!playerMade)
                         {
-                            c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                            var chancea = Random.Range(0f, 1f);
+                            if (chancea < .3f && c.collider.transform.parent.GetComponent<NPCmovement>() != null && came_from.transform.parent != null)
+                            {
+                                c.collider.transform.parent.GetComponent<NPCmovement>().target = came_from.transform.parent.gameObject;
+                            }
                         }
+
 
                     }
                     Destroy(gameObject);

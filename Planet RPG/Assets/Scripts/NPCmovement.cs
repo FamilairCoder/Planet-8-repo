@@ -100,7 +100,7 @@ public class NPCmovement : MonoBehaviour
                     hasShield = true;
                 }
             }
-            StartCoroutine(UseSecondary());
+            //StartCoroutine(UseSecondary());
             hasSecondary = true;
 
         }

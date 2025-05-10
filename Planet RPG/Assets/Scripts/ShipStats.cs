@@ -202,8 +202,8 @@ public class ShipStats : MonoBehaviour
             if (boosting)
             {
                 spd = slow_spd * boostspd;
-                if (GetComponent<NPCmovement>().lvl == 3 && boostspd > 3) boostspd -= 5 * Time.deltaTime;
-                else if (GetComponent<NPCmovement>().lvl == 2 && boostspd > 3) boostspd -= 5 * Time.deltaTime;
+                if (GetComponent<NPCmovement>().lvl == 3 && boostspd > 5) boostspd -= 5 * Time.deltaTime;
+                else if (GetComponent<NPCmovement>().lvl == 2 && boostspd > 5) boostspd -= 5 * Time.deltaTime;
             }
             else
             {

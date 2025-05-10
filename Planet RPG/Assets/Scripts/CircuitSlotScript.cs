@@ -71,13 +71,19 @@ public class CircuitSlotScript : MonoBehaviour, IPointerDownHandler
         if (hit.Length == 0)
         {
 
-            image.sprite = part_images[SaveManager.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
-            
+
+
+
 
 
             if (SaveManager.GetInt("filled" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex()) == 1)//, 0) == 1)
             {
                 filled = true;                
+            }
+
+            if (!filled)
+            {
+                image.sprite = part_images[SaveManager.GetInt("part number" + transform.GetSiblingIndex() + transform.parent.GetSiblingIndex(), part_images.Count - 1)];
             }
         }
         if (picked_up_obj != null)

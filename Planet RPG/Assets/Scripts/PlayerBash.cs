@@ -8,6 +8,7 @@ public class PlayerBash : MonoBehaviour
     private bool bashing;
     private ParticleSystem bashParticles;
     public ParticleSystem bashExplosion;
+    private float failSafeTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,12 @@ public class PlayerBash : MonoBehaviour
     {
         if (bash)// && Input.GetKeyDown(KeyCode.LeftShift))
         {
-  
+            failSafeTime -= Time.deltaTime;
+            if (failSafeTime < 0)
+            {
+                bash = false;
+                failSafeTime = 10;
+            }
             if (!bashing)
             {
                 bashParticles.Play();

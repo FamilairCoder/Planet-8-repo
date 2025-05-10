@@ -8,7 +8,7 @@ public class PartSlotScript : MonoBehaviour
     public GameObject part, station;
     private MenuScript menu;
     private bool added;
-    public int part_min;
+    public int part_min, partExcludeLower, partExcludeUpper;
     public List<GameObject> parts = new List<GameObject>();
     public List<GameObject> weapon_parts = new List<GameObject>();
     public TextMeshProUGUI desc_text, cost_text;
@@ -55,7 +55,7 @@ public class PartSlotScript : MonoBehaviour
             desc_text.text = "Restocking...";
             cost_text.text = Mathf.Round(part_time).ToString();
             cost_text.color = new Color(.7f, 0, 0);
-            part_time -= Time.deltaTime;
+           
             if (!added) { part_time = 360 + menu.restockAdd; menu.restockAdd += 30; added = true; }
             if (part_time < 0)
             {
@@ -73,7 +73,18 @@ public class PartSlotScript : MonoBehaviour
     private void ChooseNewPart()
     {
         var key = station.GetComponent<ShipSpawner>().savekey;
-        if (!isWeapon) part_numb = SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, parts.Count));
+
+        int randomIndex = Random.Range(part_min, parts.Count);
+        if (partExcludeLower != 0 && partExcludeUpper != 0)
+        {
+            do
+            {
+                randomIndex = Random.Range(part_min, parts.Count);
+            } while (randomIndex >= partExcludeLower && randomIndex <= partExcludeUpper);
+        }
+
+
+        if (!isWeapon) part_numb = SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), randomIndex);
         else part_numb = SaveManager.GetInt(key + "part slot" + transform.GetSiblingIndex(), Random.Range(part_min, weapon_parts.Count));
         SaveManager.SetInt(key + "part slot" + transform.GetSiblingIndex(), part_numb);
         GameObject p = null;
@@ -88,5 +99,13 @@ public class PartSlotScript : MonoBehaviour
         desc = part.GetComponent<PartScript>().description;
         if (part_button != null) { part_button.GetComponent<MenuButton>().show.Add(p); }
 
+    }
+    public void Countdown()
+    {
+        Debug.Log(part_time);
+        if (part == null)
+        {
+            part_time -= Time.deltaTime;
+        }
     }
 }

@@ -29,9 +29,9 @@ public class PlayerMining : MonoBehaviour
     void Start()
     {
         cargo_capacity = SaveManager.GetFloat("cargo_capacity", 20);
-        cargo_copper = SaveManager.GetFloat("cargo_copper", 4);
-        cargo_iron = SaveManager.GetFloat("cargo_iron", 2);
-        cargo_gold = SaveManager.GetFloat("cargo_gold", 6);
+        cargo_copper = SaveManager.GetFloat("cargo_copper", 0);
+        cargo_iron = SaveManager.GetFloat("cargo_iron", 0);
+        cargo_gold = SaveManager.GetFloat("cargo_gold", 0);
     }
 
     // Update is called once per frame
