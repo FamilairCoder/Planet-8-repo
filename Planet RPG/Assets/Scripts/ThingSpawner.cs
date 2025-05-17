@@ -85,8 +85,8 @@ public class ThingSpawner : MonoBehaviour
                     if (totalDeliveries > 0)
                     {
                         var chance = Random.Range(0f, 1f);
-                        pirateChance = Mathf.Lerp(0, .4f, totalDeliveries / 15);
-                        pirateChance = Mathf.Clamp(pirateChance, 0, .4f);
+                        pirateChance = Mathf.Lerp(0, .5f, totalDeliveries / 15);
+                        //pirateChance = Mathf.Clamp(pirateChance, 0, .4f);
                         if (chance < pirateChance)
                         {
                             var pirateAmount = Mathf.Lerp(1, 5, totalDeliveries / 10);

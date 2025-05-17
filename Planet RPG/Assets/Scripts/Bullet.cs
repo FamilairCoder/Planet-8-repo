@@ -172,6 +172,7 @@ public class Bullet : MonoBehaviour
                         }
                         else if (patrolMade && came_from.transform.parent.GetComponent<PatrolID>().taken)
                         {
+
                             c.collider.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
                         }
                         if (!playerMade)

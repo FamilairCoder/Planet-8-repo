@@ -325,7 +325,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (SaveManager.GetFloat("first spawn", 1) == 1)
         {
-            Debug.Log("first spawning");
+            //Debug.Log("first spawning");
             transform.position = stationPoses[Random.Range(0, stationPoses.Count)].spawnPoint;
             SaveManager.SetFloat("first spawn", 0);
             
@@ -341,8 +341,8 @@ public class PlayerMovement : MonoBehaviour
 
 
         //get rid of this
-        transform.position = new(0f, 0f);
-        Debug.Log("pos set to 0, 0");
+        //transform.position = new(0f, 0f);
+        //Debug.Log("pos set to 0, 0");
         //get rid of this
 
 

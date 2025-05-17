@@ -30,12 +30,12 @@ public class NPCmovement : MonoBehaviour
    // public 
     [Header("Dont have to set-------")]
     public float stay_radius;
-    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader, dontRetreat;
+    public bool has_bounty, inhibit, giveBounty, attackedByPlayer, retreat, found_danger, inSquad, pirateLeader, dontRetreat, nearStation;
     private bool basic_laser = true, choseFocus, held;    
     public GameObject stay_around, squadPoint, squadLeader;
     public GameObject target, empParticle;
     private float turning_spd, spd, delay_time = .1f, beam_slow = 1, fleet_slow = 1 , saveTime, origSpd, origHealth, retreatTime, retreatChance = 1f, weaponsBroken, retreatThreshold;
-    private bool did, boost = false;
+    private bool did, boost = false, fallBack;
     public float rand_time, stunTime;
     public Vector3 dir;
     private Vector3 movedir;
@@ -172,7 +172,7 @@ public class NPCmovement : MonoBehaviour
     private void Update()
     {
 
-
+        //if (attackedByPlayer) Debug.Log("attacked by player");
 
 
         if (Input.GetMouseButtonDown(0) && is_pirate && PatrolManager.focusFire && !EventSystem.current.IsPointerOverGameObject() && GetComponent<Collider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && !HUDmanage.on_map)
@@ -272,6 +272,8 @@ public class NPCmovement : MonoBehaviour
                         boost = true;
                     }
                     fleet_slow = Mathf.Lerp(fleet_slow, dist / 5, .2f);
+                    beam_slow = 1;
+                    //if (GetComponent<PatrolID>() != null) { Debug.Log(spd); Debug.Log(beam_slow); Debug.Log(fleet_slow); }
                     //Debug.Log("beam slow is " + beam_slow);
                     //beam_slow = dist / 5;
                     //beam_slow = 100;
@@ -288,6 +290,16 @@ public class NPCmovement : MonoBehaviour
                 }
                 StopLaserbeams();
 
+                var hit = Physics2D.OverlapCircleAll(transform.position, 40, LayerMask.GetMask("station"));
+                if (hit.Length > 0)
+                {
+                    nearStation = true;
+                }
+                else
+                {
+                    nearStation = false;
+                }
+
             }
             else if (target != null)
             {
@@ -296,6 +308,28 @@ public class NPCmovement : MonoBehaviour
                 if (patrolID != null) patrolID.boostParticles.Stop();
                 else if (boostParticles != null) boostParticles.Stop();
             }
+            if (fallBack)
+            {
+                //Debug.Log("falling back");
+                
+                fleet_slow = Mathf.Lerp(fleet_slow, Vector2.Distance(transform.position, playerPos.position) / 2, .4f);
+                dir = (playerPos.position - transform.position).normalized;
+                movedir = (playerPos.position - transform.position).normalized;
+                //Debug.Log(fleet_slow);
+                if (!boost)
+                {
+                    if (patrolID != null) patrolID.boostParticles.Play();
+                    else if (boostParticles != null) boostParticles.Play();
+                    boost = true;
+                }
+
+                if (Vector2.Distance(transform.position, playerPos.position) < PatrolID.stayDist / 2)
+                {
+                    //Debug.Log("no longer falling back");
+                    fallBack = false;
+                }
+
+            }
         }
         
 
@@ -303,7 +337,7 @@ public class NPCmovement : MonoBehaviour
 
 
 
-        if (!retreat)
+        if (!retreat && !fallBack)
         {
 
             ship.boosting = false;
@@ -443,25 +477,33 @@ public class NPCmovement : MonoBehaviour
 
 
 
-/*                if (is_patrol)
+                /*                if (is_patrol)
+                                {
+                                    if (target != null) Debug.Log("target is not null");
+                                    if (target.GetComponent<Health>() != null) Debug.Log("target has health");
+                                    if (Vector2.Distance(target.transform.position, transform.position) > detect_radius) Debug.Log("target is greater than detect radius");
+                                    if (target.GetComponent<Health>().hp <= 0) Debug.Log("target has less than or equal to 0 health");
+                                }*/
+
+                if ((is_patrol && GetComponent<PatrolID>().taken && (PatrolManager.holdFire || Vector2.Distance(playerPos.position, transform.position) > PatrolID.stayDist * 2)) || (target != null && ((target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0)) || Vector2.Distance(target.transform.position, transform.position) > detect_radius)))
                 {
-                    if (target != null) Debug.Log("target is not null");
-                    if (target.GetComponent<Health>() != null) Debug.Log("target has health");
-                    if (Vector2.Distance(target.transform.position, transform.position) > detect_radius) Debug.Log("target is greater than detect radius");
-                    if (target.GetComponent<Health>().hp <= 0) Debug.Log("target has less than or equal to 0 health");
-                }*/
-                if ((is_patrol && GetComponent<PatrolID>().taken && PatrolManager.holdFire) || (target != null && ((target.GetComponent<Health>() != null && (Vector2.Distance(target.transform.position, transform.position) > detect_radius || target.GetComponent<Health>().hp <= 0)) || Vector2.Distance(target.transform.position, transform.position) > detect_radius)))
-                {
+                    if (is_patrol && GetComponent<PatrolID>().taken && Vector2.Distance(playerPos.position, transform.position) > PatrolID.stayDist * 2)
+                    {
+                        //Debug.Log("initiate fallback");
+                        fallBack = true;
+                    }
                     //if (is_patrol) Debug.Log("AAAAAAAAA");
                     target = null;
                     rand_time = 0;
                     //Debug.Log("AAAAAAA");
                     StopLaserbeams();
-                    StartCoroutine(FindTarget());
+                    //StartCoroutine(FindTarget());
                 }
+
+
             }
         }
-        else
+        else if (retreat)
         {
             if (boost)
             {
@@ -481,7 +523,7 @@ public class NPCmovement : MonoBehaviour
                 PlayerBash.bash = false;
                 retreat = false;
                 target = null;
-                StartCoroutine(FindTarget());
+                //StartCoroutine(FindTarget());
             }
 
         }
@@ -496,6 +538,9 @@ public class NPCmovement : MonoBehaviour
         {
             StopLaserbeams();
         }
+
+
+
 
     }
 

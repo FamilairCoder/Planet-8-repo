@@ -26,7 +26,7 @@ public class MouseSignal : MonoBehaviour
             var hit = Physics2D.OverlapCircleAll(transform.position, 10);
             for (int i = 0; i < hit.Length; i++)
             {
-                if (hit[i].GetComponent<OpenMenu>() != null && hit[i].GetComponent<OpenMenu>().tiedIndicated == null)
+                if (hit[i].GetComponent<OpenMenu>() != null && hit[i].GetComponent<OpenMenu>().tiedIndicated == null && (hit[i].GetComponent<PatrolID>() == null || !hit[i].GetComponent<PatrolID>().taken))
                 {
                     menus.Add(hit[i].GetComponent<OpenMenu>());
                     var x = 0;
@@ -45,7 +45,7 @@ public class MouseSignal : MonoBehaviour
             }
             for (int i = 0; i < menus.Count; i++)
             {
-                if (Vector2.Distance(menus[i].transform.position, transform.position) > 10)
+                if (Vector2.Distance(menus[i].transform.position, transform.position) > 10 || (menus[i].gameObject.GetComponent<PatrolID>() != null && menus[i].gameObject.GetComponent<PatrolID>().taken))
                 {
                     Destroy(menus[i].GetComponent<OpenMenu>().tiedIndicated);
                     menus.RemoveAt(i);

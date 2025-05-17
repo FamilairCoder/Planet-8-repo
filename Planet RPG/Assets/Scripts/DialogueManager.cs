@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
 
     public List<string> weakSpinDialogues = new List<string>();
     public List<string> strongSpinDialogues = new List<string>();
+    public List<string> cargoSpin = new List<string>();
     public List<string> pirateFear = new List<string>();
     public List<string> pirateThreat = new List<string>();
     public List<string> pirateRetreat = new List<string>();

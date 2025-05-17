@@ -102,7 +102,7 @@ public class PartSlotScript : MonoBehaviour
     }
     public void Countdown()
     {
-        Debug.Log(part_time);
+        //Debug.Log(part_time);
         if (part == null)
         {
             part_time -= Time.deltaTime;

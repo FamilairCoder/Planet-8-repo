@@ -139,6 +139,20 @@ public class NPCweapon : MonoBehaviour
                 {
                     Instantiate(beam_explosion, hit, Quaternion.identity, obj.transform);
                     obj.GetComponent<Health>().hp -= beam_dmg;
+                    if (obj.transform.parent != null && obj.transform.parent.GetComponent<NPCmovement>() != null)
+                    {
+                        if (GetComponentInParent<PatrolID>() != null && GetComponentInParent<PatrolID>().taken)
+                        {
+                            obj.transform.parent.GetComponent<NPCmovement>().attackedByPlayer = true;
+                        }
+
+                        if (Random.Range(0f, 1f) < .3f)
+                        {
+                            obj.transform.parent.GetComponent<NPCmovement>().target = transform.parent.gameObject;
+                        }
+                    }
+                    
+  
                     dmg_time = .25f;
                 }
             }

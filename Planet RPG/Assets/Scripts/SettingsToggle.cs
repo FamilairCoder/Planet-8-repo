@@ -13,7 +13,7 @@ public class SettingsToggle : MonoBehaviour
     void Start()
     {
         indicator = transform.GetChild(0).gameObject;
-        if (PlayerPrefs.GetInt("ConcreteMovement", 0) == 1)
+        if (PlayerPrefs.GetInt("ConcreteMovement", 1) == 1)
         {
             concreteMovement = true;
             indicator.GetComponent<SpriteRenderer>().sprite = on;

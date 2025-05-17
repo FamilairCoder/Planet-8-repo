@@ -113,6 +113,11 @@ public class AudioScript : MonoBehaviour
                         playNext = pirateStation;
                         time = pirateStationTime;
                     }
+                    else if (stationNumb.Length > 0)
+                    {
+                        playNext = civilSpace;
+                        time = civilSpaceTime;
+                    }
                     else if (ThingSpawner.totalDeliveries > 0)
                     {
                         playNext = delivery;
@@ -133,11 +138,7 @@ public class AudioScript : MonoBehaviour
                         playNext = shipGraveyard;
                         time = shipGraveyardTime;
                     }
-                    else if (stationNumb.Length > 0)
-                    {
-                        playNext = civilSpace;
-                        time = civilSpaceTime;
-                    }
+
 
                     else
                     {

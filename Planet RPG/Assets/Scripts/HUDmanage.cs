@@ -49,6 +49,7 @@ public class HUDmanage : MonoBehaviour
     public static float DONT;
 
     private float secondDelay = .5f, saveFileTime;
+    private float prevZoom, prevMapZoom = 1500;
     //public GameObject pauseMenuObj;
     private void Awake()
     {
@@ -74,8 +75,8 @@ public class HUDmanage : MonoBehaviour
 
 
         //get rid of this--------------------------
-        money = 10000;
-        //Debug.Log("set money to 10000");
+        money = 10000;        
+        Debug.Log("set money to 10000");
         //get rid of this--------------------------
     }
 
@@ -118,7 +119,8 @@ public class HUDmanage : MonoBehaviour
             {
                 if (!did_zoom)
                 {
-                    Camera.main.orthographicSize = 1500;
+                    prevZoom = Camera.main.orthographicSize;
+                    Camera.main.orthographicSize = prevMapZoom;
                     did_zoom = true;
                 }
                 map.SetActive(true);
@@ -128,8 +130,9 @@ public class HUDmanage : MonoBehaviour
             {
                 if (did_zoom)
                 {
+                    prevMapZoom = Camera.main.orthographicSize;
                     Camera.main.orthographicSize = 80;
-                    PlayerMovement.target_zoom = 10;
+                    PlayerMovement.target_zoom = prevZoom;                    
                     pm.zoomspd = 4;
                     did_zoom = false;
                 }

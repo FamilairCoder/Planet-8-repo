@@ -59,12 +59,12 @@ public class ShipSpawner : MonoBehaviour
             check_ship_time = .5f; // Reset the timer
         }
 
-        time_left -= Time.deltaTime;
-        if (time_left <= 0 && did)
-        {
-            SpawnMoreShips();
-            time_left = spawn_time; // Reset the timer
-        }
+        //time_left -= Time.deltaTime;
+        //if (time_left <= 0 && did)
+        //{
+        //    SpawnMoreShips();
+        //    time_left = spawn_time; // Reset the timer
+        //}
         check_dist_time -= Time.deltaTime;
         //Debug.Log(check_dist_time);
         if (check_dist_time <= 0)

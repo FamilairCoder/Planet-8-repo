@@ -5,6 +5,7 @@ using UnityEngine;
 public class NPCDialogue : MonoBehaviour
 {
     public AudioClip clip;
+    public bool cargoNPC;
     private DialogueManager manager;
     private GameObject createdDialogue;
     private bool spinning, inDanger, threatening, retreating;
@@ -128,14 +129,22 @@ public class NPCDialogue : MonoBehaviour
             script.stayOn = gameObject;
             if (npcM.is_npc && (tag == "player" || tag == "npc"))
             {
-                if (ang < 200)
+                if (!cargoNPC)
                 {
-                    script.text = manager.weakSpinDialogues[Random.Range(0, manager.weakSpinDialogues.Count)];
+                    if (ang < 200)
+                    {
+                        script.text = manager.weakSpinDialogues[Random.Range(0, manager.weakSpinDialogues.Count)];
+                    }
+                    else
+                    {
+                        script.text = manager.strongSpinDialogues[Random.Range(0, manager.strongSpinDialogues.Count)];
+                    }
                 }
                 else
                 {
-                    script.text = manager.strongSpinDialogues[Random.Range(0, manager.strongSpinDialogues.Count)];
+                    script.text = manager.cargoSpin[Random.Range(0, manager.cargoSpin.Count)];
                 }
+
             }
             else if (npcM.is_npc && tag == "patrol")
             {
@@ -151,12 +160,12 @@ public class NPCDialogue : MonoBehaviour
                 {
                     if (tag == "player")
                     {
-                        Debug.Log("hit player");
+                        //Debug.Log("hit player");
                         script.text = manager.patrolTakenSpinDialogue[Random.Range(0, manager.patrolTakenSpinDialogue.Count)];
                     }
                     else if (tag == "npc")
                     {
-                        Debug.Log("hit npc");
+                        //Debug.Log("hit npc");
                         script.text = manager.patrolNpcTakenSpin[Random.Range(0, manager.patrolNpcTakenSpin.Count)];
                     }
                     

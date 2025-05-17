@@ -16,6 +16,7 @@ public class Health : MonoBehaviour
     public GameObject trail, linked_diagnosis;
     private float saveTime;
     private SpriteRenderer spr;
+    private NPCmovement npcMove;
     [Header("For Stations and Outposts----------------")]
     public bool isStation;
     public GameObject ruinObj, explosion;
@@ -305,10 +306,14 @@ public class Health : MonoBehaviour
         {
             yield break;
         }
+        else
+        {
+            npcMove = GetComponentInParent<NPCmovement>();
+        }
         while (true)
         {
 
-            if (hp < orig_hp && GetComponentInParent<NPCmovement>().target == null)
+            if (hp < orig_hp && npcMove.target == null && (!npcMove.is_patrol || npcMove.nearStation))
             {
                 hp += Random.Range(0f, 1f);
                 Instantiate(HUDmanage.playerReference.GetComponent<PlayerMovement>().healingParticle, transform.position, Quaternion.identity).GetComponent<ObjectDisappear>().offsetPos = transform;

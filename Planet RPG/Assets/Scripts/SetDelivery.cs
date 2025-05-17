@@ -25,7 +25,7 @@ public class SetDelivery : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
         if (transform.parent.transform.parent.GetComponent<MenuScript>().isOutpost) HUDmanage.sd.Add(GetComponent<SetDelivery>());
 
-        setTime = 60;
+        setTime = 100f;
         
 
 
@@ -157,7 +157,7 @@ public class SetDelivery : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (stationTo == null)
         {
             setTime -= Time.deltaTime;
-            Debug.Log("edfe");
+            //Debug.Log("edfe");
            // SaveManager.SetFloat(key + "setTime" + timesClicked, setTime);
             if (setTime < 0 && station.GetComponent<StationStats>().linked_stations.Count > 0)
             {
@@ -179,7 +179,7 @@ public class SetDelivery : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
                 GetComponent<Image>().enabled = true;
                 SaveManager.SetInt(key + "exists" + timesClicked, 1);
-                setTime = Random.Range(60f, 180f);
+                setTime = Random.Range(300f, 500f);
                 //SaveManager.SetFloat(key + "setTime" + timesClicked, setTime);
                 
             }
